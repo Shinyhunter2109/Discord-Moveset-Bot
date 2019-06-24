@@ -19,7 +19,7 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Super Smash Bros Ultimate', 'GTS Giveaway'])
+status = cycle(['Games', 'Moveset-Builder'])
 
 
 @client.event
@@ -58,7 +58,6 @@ async def help(ctx):
 
     embed.set_author(name='help')
     embed.add_field(name='.ping', value='Returns Pong!', inline=False)
-
     await client.send_message(author, embed=embed)
 
 
