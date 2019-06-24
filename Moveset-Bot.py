@@ -1,6 +1,7 @@
 import discord
 import random
 import logging
+import traceback
 from discord.ext import commands, tasks
 from discord.utils import get
 import youtube_dl
@@ -18,21 +19,22 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Game 1', 'Game 2'])
+status = cycle(['Super Smash Bros Ultimate', 'GTS Giveaway'])
 
 
 @client.event
 async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
+    print('This Bot is Made by twitch.tv/shinyhunter2109')
+    print('//Bot version: 1.2//')
 
 
 @client.event
-async def on_commands(message):
-    if 'discord.gg' in message.content.lower():
-        await message.delete()
-        await message.channel.send('Please do not advertise here use #advertisement on my Server!')
-        await client.process_commands(message)
+async def on_error(event, *args, kwargs):
+    message = args[0]
+    logging.warning(traceback.format_exc())
+    await client.send_message(message.channel, "You caused an error!")
 
 
 class Slapper(commands.Converter):
@@ -358,14 +360,14 @@ async def _8Ball(ctx, *, question):
 
 
 @client.command()
-async def clear(ctx, amount=5):
+async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount)
 
 
 @client.event
 async def on_member_join(member):
-    role = discord.utils.get(member.server.roles, name='insert Role Name here!')
-    await client.add_roles(member, role)
+    role = discord.utils.get(member.guild.roles, name='INSERT ROLE HERE!')
+    await client.add_roles(member.name, role)
     print(f'{member} has joined a server.')
 
 
