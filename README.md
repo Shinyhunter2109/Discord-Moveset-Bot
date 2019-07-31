@@ -10,8 +10,8 @@ Also download and install the FFmpeg on the Official Website.
 - Minigames (Coinflip, Slap, 8Ball)
 - Spotify Integration
 - Autorole Feature
-- Game_Status-Change
-- Music Bot Function
+- Game_Status_Change
+- All Pokedex Movesets (Avaiable Soon)
 
 ## SETUP:
 
