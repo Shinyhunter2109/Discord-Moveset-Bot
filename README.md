@@ -1,6 +1,6 @@
 ## Welcome to the Discord-Moveset-Bot wiki!
 
-## To get started install Discord.py and youtube_dl.
+## To get started install Discord.py, youtube_dl and PyNaCl. 
 
 Also download and install the FFmpeg on the Official Website.
 
