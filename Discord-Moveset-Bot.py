@@ -1,6 +1,7 @@
 import discord
 import random
 import logging
+import typing
 import traceback
 from discord.ext import commands, tasks
 from discord.utils import get
@@ -9,7 +10,7 @@ import os
 from discord import Spotify
 from itertools import cycle
 
-TOKEN = 'INSERT TOKEN HERE'
+TOKEN = 'Insert Token here...'
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -27,8 +28,9 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('//Bot version: 1.3//')
-    print('//Check Github if you need Help!//')
+    print('// Bot version: 1.3 //')
+    print('// Checking for Updates... //')
+    print('// You are on the Latest Version //')
 
 
 @client.event
@@ -37,6 +39,46 @@ async def on_error(event, *args, kwargs):
     logging.warning(traceback.format_exc())
     await client.send_message(message.channel, "You caused an error!")
     print ('AN ERROR HAS APPEARED...! ')
+
+
+class JoinDistance:
+    def __init__(self, joined, created):
+        self.joined = joined
+        self.created = created
+
+    @classmethod
+    async def convert(cls, ctx, argument):
+        member = await commands.MemberConverter().convert(ctx, argument)
+        return cls(member.joined_at, member.created_at)
+
+    @property
+    def delta(self):
+        return self.joined - self.created
+
+@client.command()
+async def delta(ctx, *, member: JoinDistance):
+    is_new = member.delta.days < 100
+    if is_new:
+        await ctx.send("Hey you're pretty new!")
+    else:
+        await ctx.send("Hm you're not so new.")
+
+
+class MemberRoles(commands.MemberConverter):
+    async def convert(self, ctx, argument):
+        member = await super().convert(ctx, argument)
+        return [role.name for role in member.roles[1:]] # Remove everyone role!
+
+
+@client.command()
+async def roles(ctx, *, member: MemberRoles):
+    """Tells you a member's roles."""
+    await ctx.send('I see the following roles: ' + ', '.join(member))
+
+
+@client.command()
+async def joined(ctx, *, member: discord.Member):
+    await ctx.send('{0} joined on {0.joined_at}'.format(member))
 
 
 class Slapper(commands.Converter):
@@ -61,7 +103,7 @@ async def help(ctx):
     embed.set_author(name='help')
     embed.add_field(name='.ping', value='Returns Pong!', inline=False)
 
-    await client.send_message(author, embed=embed)
+    await ctx.send_message(author, embed=embed)
 
 
 @client.command()
@@ -156,14 +198,14 @@ async def coinflip(ctx):
     choices = ['Heads', 'Tails']
     rancoin = random.choice(choices)
     await ctx.send(rancoin)
-    print ('COINFLIP STARTS ...')
+    print ('Coinflip started ...')
 
 
 @client.command()
 async def info(ctx, *, member: discord.Member):
     fmt = '{0} joined on {0.joined_at} and has {1} roles.'
     await ctx.send(fmt.format(member, len(member.roles)))
-    print ('USER WAS FOUND ...!')
+    print ('The User was found in the Database...!')
 
 
 @info.error
@@ -175,7 +217,6 @@ async def info_error(ctx, error):
 @tasks.loop(seconds=60)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
-    print ('NEW GAME STATUS WILL APPEAR IN 60 SECONDS...! ')
 
 
 @client.command()
@@ -206,8 +247,80 @@ async def unban(ctx, *, member):
 
 
 @client.command()
+async def Switch(ctx):
+    guild = ctx.message.guild
+    await guild.create_text_channel('switch-talk')
+
+
+@client.command()
+async def SSBU(ctx):
+    guild = ctx.message.guild
+    await guild.create_text_channel('smash-battles ')
+
+
+@client.command()
 async def ping(ctx):
     await ctx.send(f'Pong!')
+
+
+@client.command()
+async def Discord(ctx):
+    await ctx.send(f'https://discord.gg/z9QDUUp')
+    print ('Invite was send...')
+
+
+@client.command()
+async def Prime(ctx):
+    await ctx.send(f'https://twitch.amazon.com/tp')
+    print ('Check out Twitch Prime and Sub for Free...')
+
+
+@client.command()
+async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
+    await ctx.send('{} bottles of {} on the wall!'.format(amount, liquid))
+
+
+@client.command()
+async def Steam(ctx):
+    await ctx.send(f'https://steamcommunity.com/id/Shinyhunter2109/')
+    print ('Link was created Add me if you want...')
+
+
+@client.command()
+async def dc(ctx):
+    await client.logout()
+    print ('Disconnecting Bot...')
+
+
+@client.command()
+async def connect(ctx):
+    await client.connect(reconnect=True)
+    await client.reconnect()
+    print ('Bot started again...')
+
+
+@client.command()
+async def Twitter(ctx):
+    await ctx.send(f'https://twitter.com/shinyhunter2109?lang=de')
+    print ('Link was sent ...')
+
+
+@client.command()
+async def Sub(ctx):
+    await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
+    print ('Here you can subscribe the Channel for 4,99$ a Month.')
+
+
+@client.command()
+async def Chat(ctx):
+    await ctx.send(f'https://www.twitch.tv/popout/shinyhunter2109/chat?popout=')
+    print ('Watch Wondertrade Countdown or Chat with others...')
+
+
+@client.command()
+async def Update(ctx):
+    await ctx.send(f'Checking for Updates...')
+    await ctx.send(f'You are on the Latest Version of the Bot')
 
 
 @client.command()
@@ -218,6 +331,7 @@ async def pokedex(ctx):
 @client.command()
 async def abomasnow(ctx):
     await ctx.send(f'Ability: Soundproof  EVs: 92 HP / 252 SpA / 164 Spe  Nature: Mild  Moves: Blizzard  Giga Drain  Focus Blast  Ice Shard  Item: Abomasite')
+    await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
 
 
 @client.command()
@@ -238,101 +352,121 @@ async def accelgor(ctx):
 @client.command()
 async def aegislash(ctx):
     await ctx.send(f'Ability: Stance Change  EVS: 252 HP / 252 SpA / 4 SpD  Nature: Quit  Moves: Shadow Ball  Flash Cannon  Shadow Sneak  Kings Shield  Item: Leftovers')
+    await ctx.send(f'https://www.pokewiki.de/images/6/67/Pok%C3%A9monsprite_681_Schillernd_XY.gif')
 
 
 @client.command()
 async def aerodactyl(ctx):
     await ctx.send(f'Ability: Unnerve  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Stone Edge  Earthquake  Pursuit  Roost  Item: Aerodactylite')
+    await ctx.send(f'https://www.pokewiki.de/images/a/a0/Pok%C3%A9monsprite_142_Schillernd_XY.gif')
 
 
 @client.command()
 async def aggron(ctx):
     await ctx.send(f'Ability: Sturdy  EVS: 252 HP / 4 Def / 252 SpD  Nature: Careful  Moves: Stealth Rock  Heavy Slam  Earthquake  Toxic  Item: Aggronite')
+    await ctx.send(f'https://www.pokewiki.de/images/7/79/Pok%C3%A9monsprite_306_Schillernd_XY.gif')
 
 
 @client.command()
-async def aimpom(ctx):
+async def aipom(ctx):
     await ctx.send(f'Ability: Skill Link  EVS: 76 HP / 116 Atk / 76 Def / 236 Spe  Nature: Jolly  Level: 5    Moves: Fury Swipes  Knock Off  Brick Break  Fake Out  Item: Life Orb')
+    await ctx.send(f'https://www.pokewiki.de/images/c/ce/Pok%C3%A9monsprite_190_Schillernd_XY.gif')
 
 
 @client.command()
 async def alakazam(ctx):
     await ctx.send(f'Ability: Magic Guard  EVS: 4 Def / 252 SpA / 252 Spe  Nature: Timid  Moves: Psychic  Focus Blast  Recover  Shadow Ball  Item: Alakazite')
+    await ctx.send(f'https://www.pokewiki.de/images/f/f2/Pok%C3%A9monsprite_065_Schillernd_XY.gif')
 
 
 @client.command()
 async def alomomola(ctx):
     await ctx.send(f'Ability: Regenerator  EVS: 40 HP / 252 Def / 216 SpD  Nature: Bold  Moves: Wish  Protect  Toxic  Scald  Item: Leftovers')
+    await ctx.send(f'https://www.pokewiki.de/images/2/21/Pok%C3%A9monsprite_594_Schillernd_XY.gif')
 
 
 @client.command()
 async def altaria(ctx):
     await ctx.send(f'Ability: Natural Cure  EVS: 72 HP / 252 Atk / 184 Spe  Nature: Adamant  Moves: Dragon Dance  Return  Refresh  Roost  Item: Altarianite')
+    await ctx.send(f'https://www.pokewiki.de/images/a/a5/Pok%C3%A9monsprite_334_Schillernd_XY.gif')
 
 
 @client.command()
 async def amaura(ctx):
     await ctx.send(f'Ability: Snow Warning  EVS: 60 HP / 220 SpA / 228 Spe  Nature: Modest  Level: 5    Moves: Blizzard  Earth Power  Thunderbolt  Ancient  Item: Choice Scarf')
+    await ctx.send(f'https://www.pokewiki.de/images/e/e8/Pok%C3%A9monsprite_698_Schillernd_XY.gif')
 
 
 @client.command()
 async def ambipom(ctx):
     await ctx.send(f'Ability: Technican  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Fake Out  Return  Low Kick  U-turn  Item: Life Orb')
+    await ctx.send(f'https://www.pokewiki.de/images/1/13/Pok%C3%A9monsprite_424_Schillernd_XY.gif')
 
 
 @client.command()
 async def amoonguss(ctx):
     await ctx.send(f'Ability: Regenerator  EVS: 252 HP / 176 Def / 80 SpD  Nature: Bold  Moves: Spore  Giga Drain  Hidden Power Fire  Clear Smog  Item: Rocky Helmet')
+    await ctx.send(f'https://www.pokewiki.de/images/6/64/Pok%C3%A9monsprite_591_Schillernd_XY.gif')
 
 
 @client.command()
 async def ampharos(ctx):
     await ctx.send(f'Ability: Static  EVS: 4 HP / 252 SpA / 252 Spe  Nature: Modest  Moves: Volt Switch  Dragon Pulse  Focus Blast  Thunderbolt  Item: Ampharosite')
+    await ctx.send(f'https://www.pokewiki.de/images/0/0a/Pok%C3%A9monsprite_181_Schillernd_XY.gif')
 
 
 @client.command()
 async def anorith(ctx):
     await ctx.send(f'Ability: Battle Armor  EVS: 236 Atk / 36 Def / 236 Spe  Nature: Jolly  Level: 5  Moves: Stealth Rock  Rapid Spin  Knock Off  Rock Blast  Item: Berry Juice')
+    await ctx.send(f'https://www.pokewiki.de/images/3/39/Pok%C3%A9monsprite_347_Schillernd_XY.gif')
 
 
 @client.command()
 async def araquanid(ctx):
     await ctx.send(f'Ability: Water Bubble  EVS: 96 HP / 220 Atk / 192 Spe  Nature: Adamant  Moves: Liquidation  Spider Web  Toxic  Rest  Item: Splash Plate')
+    await ctx.send(f'https://www.pokewiki.de/images/6/66/Pok%C3%A9monsprite_752_Schillernd_SoMo.gif')
 
 
 @client.command()
 async def arbok(ctx):
     await ctx.send(f'Ability: Intimidate  EVS: 252 Atk / 4 SpD / 252 Spe  Nature: Adamant  Moves: Coil  Gunk Shot  Earthquake  Sucker Punch  item: Black Sludge')
+    await ctx.send(f'https://www.pokewiki.de/images/7/78/Pok%C3%A9monsprite_024_Schillernd_XY.gif')
 
 
 @client.command()
 async def arcanine(ctx):
     await ctx.send(f'Ability: Flash Fire  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Flare Blitz  Wild Charge  Extreme Speed  Morning Sun  Item: Life Orb')
+    await ctx.send(f'https://www.pokewiki.de/images/7/72/Pok%C3%A9monsprite_059_Schillernd_XY.gif')
 
 
 @client.command()
 async def arceus(ctx):
     await ctx.send(f'Ability: Multitype  EVS: 240 HP / 252 Atk / 16 Spe  Nature: Adamant  Moves: Swords Dance  Extreme Speed  Shadow Claw  Recover  Item: Chople Berry')
+    await ctx.send(f'https://www.pokewiki.de/images/9/94/Pok%C3%A9monsprite_493_Schillernd_XY.gif')
 
 
 @client.command()
 async def archen(ctx):
     await ctx.send(f'Ability: Defeatist  EVS: 76 HP / 180 Atk / 196 Spe  Nature: Jolly  Level: 5  Moves: Acrobatics  Rock Slide  Heat Wave  Hidden Power Grass Item: Berry Juice')
+    await ctx.send(f'https://www.pokewiki.de/images/e/e6/Pok%C3%A9monsprite_566_Schillernd_XY.gif')
 
 
 @client.command()
 async def archeops(ctx):
     await ctx.send(f'Ability: Defeatist  EVS: 252 Atk / 252 Spe / 0 HP / 0 Def / 0 SpD  Nature: Naive  Moves: Head Smash  Stealth Rock  Endeavor  Taunt  Item: Focus Sash')
+    await ctx.send(f'https://www.pokewiki.de/images/e/e0/Pok%C3%A9monsprite_567_Schillernd_XY.gif')
 
 
 @client.command()
 async def ariados(ctx):
     await ctx.send(f'Ability: Swarm  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Sticky Web  Toxic Spikes  Megahorn  Toxic Thread  Item: Focus Sash')
+    await ctx.send(f'https://www.pokewiki.de/images/7/75/Pok%C3%A9monsprite_168_Schillernd_XY.gif')
 
 
 @client.command()
 async def armaldo(ctx):
     await ctx.send(f'Ability: Battle Armor  EVS: 252 HP / 92 Atk / 164 Spe  Nature: Adamant  Moves: Rapid Spin  Stone Edge  Knock Off  Earthquake  Item: Leftovers')
+    await ctx.send(f'https://www.pokewiki.de/images/7/74/Pok%C3%A9monsprite_348_Schillernd_XY.gif')
 
 
 @client.command()
@@ -399,12 +533,12 @@ async def _8Ball(ctx, *, question):
 @client.command()
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount)
-    print ('THE CHANNEL WAS CLEARED SUCCESSFULLY...!')
+    print ('The Channel was cleared Successfully...!')
 
 
 @client.event
 async def on_member_join(member):
-    role = discord.utils.get(member.guild.roles, name='INSERT ROLE HERE!')
+    role = discord.utils.get(member.guild.roles, name='Insert role here...')
     await client.add_roles(member.name, role)
     print(f'{member} has joined the server.')
 
