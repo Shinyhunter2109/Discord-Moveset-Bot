@@ -1,7 +1,6 @@
 ## Welcome to the Discord-Moveset-Bot wiki!
 
-## To get started install Discord.py, youtube_dl and PyNaCl. 
-
+## To get started go to the Installation folder and open the start.bat File it will install the needed modules.
 Also download and install the FFmpeg on the Official Website.
 
 ## Features:
@@ -15,9 +14,9 @@ Also download and install the FFmpeg on the Official Website.
 
 ## SETUP:
 
-Download PyCharm
+Download Visual Studio Code
 
-Open the Moveset-Bot.py in Pycharm
+Open the Moveset-Bot.py in Visual Studio Code
 
 Fill in your Discord Bot Token you can get it from: https://discordapp.com/developers
 
