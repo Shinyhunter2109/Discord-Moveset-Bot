@@ -1,0 +1,22 @@
+			23.10.19 Changelog:
+_______________________________________________________________
+
+Hotfixes:
+_______________________________________________________________
+
+- fixed Join Command (No Errors anymore :D)
+- fixed Help Command (Typo in line was the Issue)
+- fixed Leave Command (It works but gives errors in CMD)
+- fixed Music Command (IDK if it works now cannot test it atm)
+
+Changes:
+_______________________________________________________________
+
+- added asyncio + async_timeout (-_-)
+- added Threading (For Future Features)
+- added FFmpegPCAudio (Audio Source Player)
+- added new Gif Pitures to some commands
+- added Sleep Method to some Commands
+- added Reconnect.batch File (Open the Batch File and let it open it will restart automatically if INet fails)
+- added Start.batch File (to get every Libary that is needed directly downloaded and you can skip the wiki)
+_______________________________________________________________
