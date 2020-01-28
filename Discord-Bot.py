@@ -2,8 +2,10 @@ import discord
 import random
 import asyncio
 import async_timeout
+import asyncore
 import threading
 import logging
+import time
 import typing
 import traceback
 from discord.voice_client import VoiceClient
@@ -11,12 +13,13 @@ from discord.ext import commands, tasks
 from discord.utils import get
 from discord import FFmpegPCMAudio
 import youtube_dl
+from youtube_dl import YoutubeDL
 import os
 from os import system
 from discord import Spotify
 from itertools import cycle
 
-TOKEN = 'Enter your Token here...'
+TOKEN = 'INSERT YOUR TOKEN HERE...'
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -26,15 +29,15 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Pokémon Trading Card Game Online', 'Grand Theft Auto V'])
-
+status = cycle(['Pokémon Trading Card Game Online', 'GTS Moveset Help'])
+ROLE = 'INSERT ROLE HERE...'
 
 @client.event
 async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('// Bot version: 1.6 //')
+    print('// Bot version: 2.0 //')
     print('// Checking for Updates... //')
     print('// You are on the Latest Version //')
 
@@ -44,7 +47,7 @@ async def on_error(event, *args, kwargs):
     message = args[0]
     logging.warning(traceback.format_exc())
     await client.send_message(message.channel, "You caused an error!")
-    print ('AN ERROR HAS APPEARED...! ')
+    print ('an error has occurred..! ')
 
 
 class JoinDistance:
@@ -60,6 +63,7 @@ class JoinDistance:
     @property
     def delta(self):
         return self.joined - self.created
+
 
 @client.command()
 async def delta(ctx, *, member: JoinDistance):
@@ -111,12 +115,51 @@ async def help(ctx):
     await ctx.send(author, embed=embed)
 
 
+@client.command(pass_context=True)
+async def coinhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='coinhelp')
+    embed.add_field(name='.coinflip', value='Return Heads/Tails', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def pokehelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='pokehelp')
+    embed.add_field(name='.pokemonname', value='Returns Info & Picture', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def bottlehelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='bottlehelp')
+    embed.add_field(name='.bottles', value='Returns [Value of Beer]', inline=False)
+    await ctx.send(author, embed=embed)
+
+
 @client.command()
 async def spotify(ctx, user: discord.Member=None):
     user = user or ctx.author
     for activity in user.activities:
         if isinstance(activity, Spotify):
-            await ctx.send(f'{user} is listening to {activity.title} by {activity.artist}')
+            await ctx.send(f'{user} is listening to {activity.title} by {activity.artist}') # Tells you to what someone is listening
 
 
 @client.command(pass_context=True, aliases=['j', 'joi'])
@@ -144,8 +187,6 @@ async def leave(ctx):
         await voice.disconnect()
         print(f'The bot has left {channel}')
         await ctx.send(f'Left {channel}')
-    else:
-        print('Bot was told to leave voice channel, but was not in one')
 
 
 @client.command(pass_context=True, aliases=['p', 'pla'])
@@ -161,7 +202,7 @@ async def play(ctx, url: str):
     
     await ctx.send("Getting everything ready, playing audio soon")
     print("Someone wants to play music let me get that ready for them...")
-    voice = get(bot.voice_clients, guild=ctx.guild)
+    voice = get(client.voice_clients, guild=ctx.guild)
     ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -184,8 +225,9 @@ async def play(ctx, url: str):
 async def coinflip(ctx):
     choices = ['Heads', 'Tails']
     rancoin = random.choice(choices)
+    await ctx.send(f'Coinflip has started...')
+    await asyncio.sleep(5)
     await ctx.send(rancoin)
-    print ('Coinflip started ...')
 
 
 @client.command()
@@ -201,7 +243,7 @@ async def info_error(ctx, error):
         await ctx.send('I could not find that member...')
 
 
-@tasks.loop(seconds=60)
+@tasks.loop(seconds=360)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
@@ -351,9 +393,10 @@ async def Steam(ctx):
 
 
 @client.command()
-async def dc(ctx):
+async def dco(ctx):
+    await ctx.send(f'Disconnecting Bot...')
+    await asyncio.sleep(5)
     await client.logout()
-    print ('Disconnecting Bot...')
 
 
 @client.command()
@@ -533,50 +576,61 @@ async def armaldo(ctx):
 @client.command()
 async def aromatisse(ctx):
     await ctx.send(f'Ability: Aroma Veil  EVS: 248 HP / 252 SpA / 8 SpD  Nature: Quit  Moves: Trick Room  Nasty Plot  Moonblast  Psychic  Item: Fairium Z')
+    await ctx.send(f'https://www.pokewiki.de/images/a/a1/Pok%C3%A9monsprite_683_Schillernd_XY.gif')
 
 
 @client.command()
 async def aron(ctx):
     await ctx.send(f'Ability: Rock Head  EVS: 196 Atk / 116 SpD / 196 Spe  Nature: Jolly  Level: 5  Moves: Rock Polish  Head Smash  Heavy Slam  Earthquake  Item: Eviolite')
+    await ctx.send(f'https://www.pokewiki.de/images/7/7a/Pok%C3%A9monsprite_304_Schillernd_XY.gif')
 
 
 @client.command()
 async def articuno(ctx):
     await ctx.send(f'Ability: Pressure  EVS: 252 SpA / 4 SpD / 252 Spe  Nature: Timid  Moves: Substitute  Roost  Freeze-Dry  Hurricane  Item: Leftovers')
+    await ctx.send(f'https://www.pokewiki.de/images/a/a9/Pok%C3%A9monsprite_144_Schillernd_XY.gif')
 
 
 @client.command()
 async def audino(ctx):
     await ctx.send(f'Ability: Regenerator  EVS: 252 HP / 4 Def / 252 SpD  Nature: Calm  Moves: Wish  Protect  Heal Bell  Knock Off  Item: Audinite')
+    await ctx.send(f'https://www.pokewiki.de/images/a/a4/Pok%C3%A9monsprite_531_Schillernd_XY.gif')
 
 
 @client.command()
 async def aurorus(ctx):
     await ctx.send(f'Ability: Snow Warning  EVS: 252 SpA / 4 SpD / 252 Spe  Nature: Modest  Moves: Blizzard  Freeze-Dry  Earth Power  Hidden Power Rock  Item: Choice Specs')
+    await ctx.send(f'https://www.pokewiki.de/images/0/01/Pok%C3%A9monsprite_699_Schillernd_XY.gif')
 
 
 @client.command()
 async def avalugg(ctx):
     await ctx.send(f'Ability: Sturdy  EVS: 252 HP / 88 Atk / 168 Def  Nature: Impish  Moves: Avalanche  Recover  Rapid Spin  Earthquake  Item: Rocky Helmet')
+    await ctx.send(f'https://www.pokewiki.de/images/a/a5/Pok%C3%A9monsprite_713_Schillernd_XY.gif')
 
 
 @client.command()
 async def axew(ctx):
     await ctx.send(f'Ability: Mold Breaker  EVS: 68 HP / 220 Atk / 220 Spe  Nature: Jolly  Moves: Dragon Dance  Outrage  Superpower  Iron Tail  Item: Eviolite')
+    await ctx.send(f'https://www.pokewiki.de/images/a/af/Pok%C3%A9monsprite_610_Schillernd_XY.gif')
 
 
 @client.command()
 async def azelf(ctx):
     await ctx.send(f'Ability: Levitate  EVS: 252 Atk / 4 SpA / 252 Spe  Nature: Jolly  Moves: Stealth Rock  Explosion  Taunt  Knock Off  Item: Focus Sash')
+    await ctx.send(f'https://www.pokewiki.de/images/c/c8/Pok%C3%A9monsprite_482_Schillernd_XY.gif')
 
 
 @client.command()
 async def azumarill(ctx):
     await ctx.send(f'Ability: Huge Power  EVS: 252 Atk / 4 HP / 252 Spe  Nature: Adamant  Moves: Belly Drum  Aqua Jet  Play Rough  Knock Off  Item: Sitrus Berry')
+    await ctx.send(f'https://www.pokewiki.de/images/5/59/Pok%C3%A9monsprite_184_Schillernd_XY.gif')
+
 
 @client.command()
 async def azurill(ctx):
     await ctx.send(f'Ability: Huge Power  EVS: 196 HP / 196 Atk / 116 Def  Nature: Brave  Level: 5  Moves: Double-Edge  Waterfall  Return  Knock Off  Item: Life Orb')
+    await ctx.send(f'https://www.pokewiki.de/images/6/63/Pok%C3%A9monsprite_298_Schillernd_XY.gif')
 
 
 @client.command(aliases=['8ball', 'test'])
@@ -599,9 +653,9 @@ async def clear(ctx, amount=100):
 
 @client.event
 async def on_member_join(member):
-    role = discord.utils.get(member.guild.roles, name='Enter Role here...')
-    await client.add_roles(member.name, role)
-    print(f'{member} has joined the server.')
+    role = get(member.guild.roles, name=ROLE)
+    await member.add_roles(role)
+    print(f'{member} was given {role}')
 
 
 @client.event
