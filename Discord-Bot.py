@@ -8,6 +8,7 @@ import logging
 import time
 import typing
 import traceback
+from github import Github
 from discord.voice_client import VoiceClient
 from discord.ext import commands, tasks
 from discord.utils import get
