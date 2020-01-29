@@ -1,22 +1,24 @@
-			23.10.19 Changelog:
+			28.01.20 Changelog:
+_______________________________________________________________
+Changelog 
+_______________________________________________________________
+Hotfixes
 _______________________________________________________________
 
-Hotfixes:
+- another round of small adjustments for better user experience 💯
+- QoL Updates
+- Small Fix for the Voice Support is now implemented
+- Some bugfixes
+_______________________________________________________________
+Changes
 _______________________________________________________________
 
-- fixed Join Command (No Errors anymore :D)
-- fixed Help Command (Typo in line was the Issue)
-- fixed Leave Command (It works but gives errors in CMD)
-- fixed Music Command (IDK if it works now cannot test it atm)
-
-Changes:
-_______________________________________________________________
-
-- added asyncio + async_timeout (-_-)
-- added Threading (For Future Features)
-- added FFmpegPCAudio (Audio Source Player)
-- added new Gif Pitures to some commands
 - added Sleep Method to some Commands
-- added Reconnect.batch File (Open the Batch File and let it open it will restart automatically if INet fails)
-- added Start.batch File (to get every Libary that is needed directly downloaded and you can skip the wiki)
+- Added some Folders for Future Releases
+- Updated Bot from Version 1.6 to Version 2.0
+_______________________________________________________________
+Bot Version
+_______________________________________________________________
+
+The latest Version is 2.0 if you are still on Version 1.6 or lower its really Important for you to Update to get some weird bugs fixed!
 _______________________________________________________________
