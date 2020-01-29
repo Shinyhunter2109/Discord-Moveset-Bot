@@ -382,6 +382,21 @@ async def Prime(ctx):
 
 
 @client.command()
+async def timer(ctx):
+    await ctx.send(f'Starting Countdown in less than 15 seconds')
+    await asyncio.sleep(15)
+    await ctx.send(f'Starting Countdown now...')
+    await asyncio.sleep(1)
+    await ctx.send(f'3...')
+    await asyncio.sleep(1)
+    await ctx.send(f'2...')
+    await asyncio.sleep(1)
+    await ctx.send(f'1...')
+    await asyncio.sleep(1)
+    await ctx.send(f'GO Wondertrade')
+
+
+@client.command()
 async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
     await ctx.send('{} bottles of {} on the wall!'.format(amount, liquid))
 
@@ -421,7 +436,8 @@ async def Chat(ctx):
 async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
-    await ctx.send(f'You are on the Latest Version of the Bot')
+    await ctx.send(f'Latest Version detected...')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.0/Discord-Moveset-Bot.7z')
 
 
 @client.command()
