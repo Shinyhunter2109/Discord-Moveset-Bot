@@ -30,15 +30,16 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Pokémon Trading Card Game Online', 'GTS Moveset Help'])
+status = cycle(['Shiny Pokémon Wondertrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLE HERE...'
+
 
 @client.event
 async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('// Bot version: 2.0 //')
+    print('// Bot version: 2.1 //')
     print('// Checking for Updates... //')
     print('// You are on the Latest Version //')
 
@@ -235,7 +236,6 @@ async def coinflip(ctx):
 async def info(ctx, *, member: discord.Member):
     fmt = '{0} joined on {0.joined_at} and has {1} roles.'
     await ctx.send(fmt.format(member, len(member.roles)))
-    print ('The User was found in the Database...!')
 
 
 @info.error
@@ -252,13 +252,11 @@ async def change_status():
 @client.command()
 async def kick(ctx, member : discord.Member, *, reason=None):
     await member.kick(reason=reason)
-    print ('THE USER GOT KICKED!')
 
 
 @client.command()
 async def ban(ctx, member : discord.Member, *, reason=None):
     await member.ban(reason=reason)
-    print ('THE USER GOT BANNED!')
 
 
 @client.command()
@@ -373,13 +371,11 @@ async def ping(ctx):
 @client.command()
 async def Discord(ctx):
     await ctx.send(f'https://discord.gg/z9QDUUp')
-    print ('Invite was send...')
 
 
 @client.command()
 async def Prime(ctx):
     await ctx.send(f'https://twitch.amazon.com/tp')
-    print ('Check out Twitch Prime and Sub for Free...')
 
 
 @client.command()
@@ -395,6 +391,8 @@ async def timer(ctx):
     await ctx.send(f'1...')
     await asyncio.sleep(1)
     await ctx.send(f'GO Wondertrade')
+    await asyncio.sleep(90)
+    await ctx.send(f'Trades finished succesfully | Thanks for Trading')
 
 
 @client.command()
@@ -405,7 +403,6 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 @client.command()
 async def Steam(ctx):
     await ctx.send(f'https://steamcommunity.com/id/Shinyhunter2109/')
-    print ('Link was created Add me if you want...')
 
 
 @client.command()
@@ -418,19 +415,11 @@ async def dco(ctx):
 @client.command()
 async def Twitter(ctx):
     await ctx.send(f'https://twitter.com/shinyhunter2109')
-    print ('Link was sent ...')
 
 
 @client.command()
 async def Sub(ctx):
     await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
-    print ('Here you can subscribe the Channel for 4,99$ a Month.')
-
-
-@client.command()
-async def Chat(ctx):
-    await ctx.send(f'https://www.twitch.tv/popout/shinyhunter2109/chat?popout=')
-    print ('Watch Wondertrade Countdown or Chat with others...')
 
 
 @client.command()
