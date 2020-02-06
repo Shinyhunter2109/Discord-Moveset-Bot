@@ -8,6 +8,7 @@
 - Autorole Feature
 - Wondertrade Countdown
 - Auto-Role/Command Creating Feature
+- Auto-Update Feature
 - Game_Status_Change
 - All Pokedex Movesets (Comming Soon)
 
