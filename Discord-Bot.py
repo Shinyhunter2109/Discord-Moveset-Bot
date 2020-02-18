@@ -39,7 +39,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('// Bot version: 2.1 //')
+    print('// Bot version: 2.3 //')
     print('// Checking for Updates... //')
     print('// You are on the Latest Version //')
 
@@ -390,11 +390,20 @@ async def timer(ctx):
     await asyncio.sleep(1)
     await ctx.send(f'1...')
     await asyncio.sleep(1)
-    await ctx.send(f'GO...')
-    await asyncio.sleep(5)
-    await ctx.send(f'Searching for a Trade Partner...')
+    await ctx.send(f'GO Wondertrade')
     await asyncio.sleep(90)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
+
+
+@client.command()
+async def blackjack(ctx):
+    choices = ['You Won the Blackjack', 'You Lost the Blackjack']
+    rancoin = random.choice(choices)
+    await ctx.send(f'Shuffleling Cards [20 seconds]')
+    await asyncio.sleep(20)
+    await ctx.send('Making Choice Now [5 seconds]')
+    await asyncio.sleep(5)
+    await ctx.send(rancoin)
 
 
 @client.command()
@@ -408,10 +417,10 @@ async def Steam(ctx):
 
 
 @client.command()
-async def dc(ctx):
+async def dco(ctx):
+    await ctx.send(f'Disconnecting Bot...')
     await asyncio.sleep(5)
     await client.logout()
-print(f'Bot Closed')
 
 
 @client.command()
@@ -427,25 +436,9 @@ async def Sub(ctx):
 @client.command()
 async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
-    await asyncio.sleep(20)
-    await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.3/Discord-Moveset-Bot.7z')
-    await asyncio.sleep(15)
-    await ctx.send(f'Downloading New Content...')
-    await asyncio.sleep(35)
-    await ctx.send(f'New Content has been Downloaded Sucessfully...')
-    await asyncio.sleep(20)
-    await ctx.send(f'Verifying Cache...')
-    await asyncio.sleep(15)
-    await ctx.send(f'Cache updated sucessfully')
-    await asyncio.sleep(5)
-    await ctx.send(f'Downloading Sysbase...')
-    await asyncio.sleep(20)
-    await ctx.send(f'Sysbase Update Complete')
     await asyncio.sleep(10)
-    await ctx.send(f'Closing Application... ')
-    await asyncio.sleep(5)
-    await client.logout()
+    await ctx.send(f'Latest Version detected...')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.0/Discord-Moveset-Bot.7z')
 
 
 @client.command()
@@ -455,15 +448,7 @@ async def pokedex(ctx):
 
 @client.command()
 async def abomasnow(ctx):
-    await ctx.send(f'Abomasnow (M) @ Life Orb
-    EVs: 4 Atk / 252 SpA / 252 Spe
-    Ability: Snow Warning
-    Shiny: Yes
-    Hasty Nature
-    - Blizzard
-    - Giga Drain
-    - Earthquake
-    - Ice Shard')
+    await ctx.send(f'Ability: Soundproof  EVs: 92 HP / 252 SpA / 164 Spe  Nature: Mild  Moves: Blizzard  Giga Drain  Focus Blast  Ice Shard  Item: Abomasite')
     await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
 
 
@@ -481,29 +466,13 @@ async def absol(ctx):
 
 @client.command()
 async def accelgor(ctx):
-    await ctx.send(f'Accelgor (M) @ Choice Specs
-    EVs: 252 SpA / 4 SpD / 252 Spe
-    Ability: Sticky Hold
-    Shiny: Yes
-    Timid Nature
-    - Bug Buzz
-    - Focus Blast
-    - Energy Ball
-    - Spikes')
+    await ctx.send(f'Ability: Sticky Hold  EVS: 4 Def / 252 SpA / 252 Spe  Nature: Timid  Moves: Bug Buzz  Focus Blast  Energy Ball  Spikes  Item: Choice Specs')
     await ctx.send(f'https://www.pokewiki.de/images/9/9d/Pok%C3%A9monsprite_617_Schillernd_XY.gif')
 
 
 @client.command()
 async def aegislash(ctx):
-    await ctx.send(f'Aegislash (M) @ Leftovers
-    EVs: 212 HP / 252 SpA / 44 Spe
-    Ability: Stance Change
-    Shiny: Yes
-    Modest Nature
-    - Shadow Ball
-    - Flash Cannon
-    - Substitute
-    - King’s Shield')
+    await ctx.send(f'Ability: Stance Change  EVS: 252 HP / 252 SpA / 4 SpD  Nature: Quit  Moves: Shadow Ball  Flash Cannon  Shadow Sneak  Kings Shield  Item: Leftovers')
     await ctx.send(f'https://www.pokewiki.de/images/6/67/Pok%C3%A9monsprite_681_Schillernd_XY.gif')
 
 
@@ -575,15 +544,7 @@ async def anorith(ctx):
 
 @client.command()
 async def araquanid(ctx):
-    await ctx.send(f'Araquanid (M) @ Figy Berry
-    EVs: 252 HP / 168 Atk / 88 Def
-    Ability: Water Bubble
-    Shiny: Yes
-    Brave Nature
-    - Liquidation
-    - Bug Bite
-    - Sticky Web
-    - Protect')
+    await ctx.send(f'Ability: Water Bubble  EVS: 96 HP / 220 Atk / 192 Spe  Nature: Adamant  Moves: Liquidation  Spider Web  Toxic  Rest  Item: Splash Plate')
     await ctx.send(f'https://www.pokewiki.de/images/6/66/Pok%C3%A9monsprite_752_Schillernd_SoMo.gif')
 
 
@@ -595,15 +556,7 @@ async def arbok(ctx):
 
 @client.command()
 async def arcanine(ctx):
-    await ctx.send(f'Arcanine (M) @ Life Orb
-    EVs: 252 Atk / 4 Def / 252 Spe
-    Ability: Flash Fire
-    Shiny: Yes
-    Jolly Nature
-    - Flare Blitz
-    - Wild Charge
-    - Extreme Speed
-    - Morning Sun')
+    await ctx.send(f'Ability: Flash Fire  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Flare Blitz  Wild Charge  Extreme Speed  Morning Sun  Item: Life Orb')
     await ctx.send(f'https://www.pokewiki.de/images/7/72/Pok%C3%A9monsprite_059_Schillernd_XY.gif')
 
 
