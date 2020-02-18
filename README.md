@@ -3,7 +3,7 @@
 ## Features:
 
 - Music Feature
-- Minigames (Coinflip, Slap, 8Ball, etc..)
+- Minigames (Coinflip, Slap, 8Ball, Blackjack...)
 - Spotify Integration
 - Autorole Feature
 - Wondertrade Countdown
