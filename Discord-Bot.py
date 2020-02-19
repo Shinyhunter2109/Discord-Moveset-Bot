@@ -28,7 +28,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix = '!')
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Wondertrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLE HERE...'
@@ -39,9 +39,9 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('// Bot version: 2.3 //')
-    print('// Checking for Updates... //')
-    print('// You are on the Latest Version //')
+    print('Bot version: 2.3')
+    print('Checking for Updates...')
+    print('You are on the Latest Version')
 
 
 @client.event
@@ -49,7 +49,7 @@ async def on_error(event, *args, kwargs):
     message = args[0]
     logging.warning(traceback.format_exc())
     await client.send_message(message.channel, "You caused an error!")
-    print ('an error has occurred..! ')
+    print ('an error has occurred..!')
 
 
 class JoinDistance:
@@ -397,12 +397,14 @@ async def timer(ctx):
 
 @client.command()
 async def blackjack(ctx):
-    choices = ['You Won the Blackjack', 'You Lost the Blackjack']
+    choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied']
     rancoin = random.choice(choices)
     await ctx.send(f'Shuffleling Cards [20 seconds]')
     await asyncio.sleep(20)
-    await ctx.send('Making Choice Now [5 seconds]')
-    await asyncio.sleep(5)
+    await ctx.send(f'Making Choice Now [10 seconds]')
+    await asyncio.sleep(10)
+    await ctx.send(f'I choose this One...')
+    await asyncio.sleep(2)
     await ctx.send(rancoin)
 
 
@@ -417,7 +419,7 @@ async def Steam(ctx):
 
 
 @client.command()
-async def dco(ctx):
+async def close(ctx):
     await ctx.send(f'Disconnecting Bot...')
     await asyncio.sleep(5)
     await client.logout()
@@ -438,12 +440,23 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.0/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.4/Discord-Moveset-Bot.7z')
+    await asyncio.sleep(20)
+    await ctx.send(f'Downloading New Version Now!')
+    await asyncio.sleep(60)
+    await ctx.send(f'Verify New Content')
+    await asyncio.sleep(20)
+    await ctx.send(f'Update Complete')
+    await asyncio.sleep(10)
+    await ctx.send(f'Please restart Bot now or wait 30 seconds')
+    await asyncio.sleep(30)
+    await ctx.send(f'No User Input recognized, restarting Bot now...')
+    await client.logout()
 
 
 @client.command()
 async def pokedex(ctx):
-    await ctx.send(f'There are 807 Pokemon on the Pokedex!')
+    await ctx.send(f'There are 900 Pokemon on the Pokedex!')
 
 
 @client.command()
