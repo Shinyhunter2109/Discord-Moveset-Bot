@@ -1,0 +1,1 @@
+pip install discord.py[Voice] youtube_dl PyGithub PyNaCL twitch-python --upgrade
