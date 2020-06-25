@@ -156,6 +156,32 @@ async def bottlehelp(ctx):
     await ctx.send(author, embed=embed)
 
 
+@client.command(pass_context=True)
+async def spotifyhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='spotifyhelp')
+    embed.add_field(name='.spotify', value='Returns listening Activity from the User', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def musichelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='musichelp')
+    embed.add_field(name='.play', value='Returns the music that user has requested', inline=False)
+    await ctx.send(author, embed=embed)
+
+
 @client.command()
 async def spotify(ctx, user: discord.Member=None):
     user = user or ctx.author
@@ -281,6 +307,12 @@ async def Switch(ctx):
 
 
 @client.command()
+async def Community(ctx):
+    guild = ctx.message.guild
+    await guild.create_text_channel('community-couch')
+
+
+@client.command()
 async def SSBU(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('smash-battles ')
@@ -370,12 +402,13 @@ async def ping(ctx):
 
 @client.command()
 async def Discord(ctx):
-    await ctx.send(f'https://discord.gg/z9QDUUp')
+    await ctx.send('Come and checkout the Development of this Project')
+    await ctx.send(f'https://discord.gg/T2deZV8')
 
 
 @client.command()
 async def Prime(ctx):
-    await ctx.send(f'https://twitch.amazon.com/tp')
+    await ctx.send(f'Use Amazon Prime on Twitch: https://twitch.amazon.com/tp')
 
 
 @client.command()
@@ -414,11 +447,6 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 
 
 @client.command()
-async def Steam(ctx):
-    await ctx.send(f'https://steamcommunity.com/id/Shinyhunter2109/')
-
-
-@client.command()
 async def close(ctx):
     await ctx.send(f'Disconnecting Bot...')
     await asyncio.sleep(5)
@@ -440,7 +468,7 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.4/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.6/Discord-Moveset-Bot.7z')
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
@@ -456,7 +484,7 @@ async def Update(ctx):
 
 @client.command()
 async def pokedex(ctx):
-    await ctx.send(f'There are 900 Pokemon on the Pokedex!')
+    await ctx.send(f'There are over 900 Pokemon on the Pokedex!')
 
 
 @client.command()
