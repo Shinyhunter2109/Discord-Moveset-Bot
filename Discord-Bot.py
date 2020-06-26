@@ -131,6 +131,19 @@ async def coinhelp(ctx):
 
 
 @client.command(pass_context=True)
+async def joinhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='joinhelp')
+    embed.add_field(name='.join', value='Tells if joining from Bot was Successful', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
 async def pokehelp(ctx):
     author = ctx.message.author
 
@@ -297,7 +310,6 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             await ctx.send(f'Unbanned {user.mention}')
             return
-        print ('THE USER IS NO LONGER BANNED!')
 
 
 @client.command()
@@ -451,11 +463,6 @@ async def close(ctx):
     await ctx.send(f'Disconnecting Bot...')
     await asyncio.sleep(5)
     await client.logout()
-
-
-@client.command()
-async def Twitter(ctx):
-    await ctx.send(f'https://twitter.com/shinyhunter2109')
 
 
 @client.command()
@@ -706,7 +713,7 @@ async def _8Ball(ctx, *, question):
 @client.command()
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount)
-    print ('The Channel was cleared Successfully...!')
+    await ctx.send(f'Channel Clear Successfully done!')
 
 
 @client.event
