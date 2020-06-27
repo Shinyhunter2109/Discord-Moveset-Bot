@@ -195,6 +195,45 @@ async def musichelp(ctx):
     await ctx.send(author, embed=embed)
 
 
+@client.command(pass_context=True)
+async def kickhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='kickhelp')
+    embed.add_field(name='.kick', value='Kicks the User from the Discord-Server', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def banhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='banhelp')
+    embed.add_field(name='.ban', value='Bans the User from the Discord-Server', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def blackjackhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='blackjackhelp')
+    embed.add_field(name='.blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
+    await ctx.send(author, embed=embed)
+
+
 @client.command()
 async def spotify(ctx, user: discord.Member=None):
     user = user or ctx.author
@@ -460,7 +499,7 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 
 @client.command()
 async def close(ctx):
-    await ctx.send(f'Disconnecting Bot...')
+    await ctx.send(f'Disconnecting Bot in 5 seconds...')
     await asyncio.sleep(5)
     await client.logout()
 
