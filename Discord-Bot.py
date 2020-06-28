@@ -183,6 +183,19 @@ async def spotifyhelp(ctx):
 
 
 @client.command(pass_context=True)
+async def eightballhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='eightballhelp')
+    embed.add_field(name='.8ball', value='Returns one of the pre Messages for your Question', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
 async def musichelp(ctx):
     author = ctx.message.author
 
@@ -231,6 +244,19 @@ async def blackjackhelp(ctx):
 
     embed.set_author(name='blackjackhelp')
     embed.add_field(name='.blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def unbanhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='unbanhelp')
+    embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
 
