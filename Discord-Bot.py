@@ -85,7 +85,13 @@ class MemberRoles(commands.MemberConverter):
 @client.command()
 async def roles(ctx, *, member: MemberRoles):
     """Tells you a member's roles."""
-    await ctx.send('I see the following roles: ' + ', '.join(member))  
+    await ctx.send('I see the following roles: ' + ', '.join(member))
+
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send('**Invalid command used.**')  
 
 
 @client.command()
