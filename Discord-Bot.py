@@ -337,6 +337,21 @@ async def coinflip(ctx):
 
 
 @client.command()
+async def guessinggame(ctx):
+    number = random.randint(0, 100)
+    for i in range(0, 5):
+        await ctx.send('guess')
+        response = await client.wait_for('message')
+        guess = int(response.content)
+        if guess > number:
+            await ctx.send('bigger')
+        elif guess < number:
+            await ctx.send('smaller')
+        else:
+            await ctx.send('true')
+
+
+@client.command()
 async def info(ctx, *, member: discord.Member):
     fmt = '{0} joined on {0.joined_at} and has {1} roles.'
     await ctx.send(fmt.format(member, len(member.roles)))
