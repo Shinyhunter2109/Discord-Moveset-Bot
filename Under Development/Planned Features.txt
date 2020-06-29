@@ -12,8 +12,6 @@
 
 - Twitch/Youtube Integration
 
-- More Music Commands
-
 - Also Coin System for Discord
 
 
@@ -21,11 +19,9 @@
 							Version Updates
 =====================================================================================================================
 
-- Final Version 2019 will be Version [1.9]
-
 - Final Version 2020 [N.A.]
 
 
 =====================================================================================================================
 
-© 2019 twitch.tv/shinyhunter2109
+© 2020 twitch.tv/shinyhunter2109

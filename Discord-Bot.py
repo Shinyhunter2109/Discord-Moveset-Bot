@@ -39,7 +39,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 2.3')
+    print('Bot version: 2.6')
     print('Checking for Updates...')
     print('You are on the Latest Version')
 
@@ -85,7 +85,13 @@ class MemberRoles(commands.MemberConverter):
 @client.command()
 async def roles(ctx, *, member: MemberRoles):
     """Tells you a member's roles."""
-    await ctx.send('I see the following roles: ' + ', '.join(member))  
+    await ctx.send('I see the following roles: ' + ', '.join(member))
+
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send('**Invalid command used.**')  
 
 
 @client.command()
@@ -131,6 +137,19 @@ async def coinhelp(ctx):
 
 
 @client.command(pass_context=True)
+async def joinhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='joinhelp')
+    embed.add_field(name='.join', value='Tells if joining from Bot was Successful', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
 async def pokehelp(ctx):
     author = ctx.message.author
 
@@ -153,6 +172,97 @@ async def bottlehelp(ctx):
 
     embed.set_author(name='bottlehelp')
     embed.add_field(name='.bottles', value='Returns [Value of Beer]', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def spotifyhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='spotifyhelp')
+    embed.add_field(name='.spotify', value='Returns listening Activity from the User', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def eightballhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='eightballhelp')
+    embed.add_field(name='.8ball', value='Returns one of the pre Messages for your Question', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def musichelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='musichelp')
+    embed.add_field(name='.play', value='Returns the music that user has requested', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def kickhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='kickhelp')
+    embed.add_field(name='.kick', value='Kicks the User from the Discord-Server', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def banhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='banhelp')
+    embed.add_field(name='.ban', value='Bans the User from the Discord-Server', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def blackjackhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='blackjackhelp')
+    embed.add_field(name='.blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
+    await ctx.send(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def unbanhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='unbanhelp')
+    embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -233,6 +343,21 @@ async def coinflip(ctx):
 
 
 @client.command()
+async def guessinggame(ctx):
+    number = random.randint(0, 100)
+    for i in range(0, 5):
+        await ctx.send('guess')
+        response = await client.wait_for('message')
+        guess = int(response.content)
+        if guess > number:
+            await ctx.send('bigger')
+        elif guess < number:
+            await ctx.send('smaller')
+        else:
+            await ctx.send('true')
+
+
+@client.command()
 async def info(ctx, *, member: discord.Member):
     fmt = '{0} joined on {0.joined_at} and has {1} roles.'
     await ctx.send(fmt.format(member, len(member.roles)))
@@ -271,13 +396,18 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             await ctx.send(f'Unbanned {user.mention}')
             return
-        print ('THE USER IS NO LONGER BANNED!')
 
 
 @client.command()
 async def Switch(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('switch-talk')
+
+
+@client.command()
+async def Community(ctx):
+    guild = ctx.message.guild
+    await guild.create_text_channel('community-couch')
 
 
 @client.command()
@@ -370,12 +500,13 @@ async def ping(ctx):
 
 @client.command()
 async def Discord(ctx):
-    await ctx.send(f'https://discord.gg/z9QDUUp')
+    await ctx.send('Come and checkout the Development of this Project')
+    await ctx.send(f'https://discord.gg/T2deZV8')
 
 
 @client.command()
 async def Prime(ctx):
-    await ctx.send(f'https://twitch.amazon.com/tp')
+    await ctx.send(f'Use Amazon Prime on Twitch: https://twitch.amazon.com/tp')
 
 
 @client.command()
@@ -414,20 +545,10 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 
 
 @client.command()
-async def Steam(ctx):
-    await ctx.send(f'https://steamcommunity.com/id/Shinyhunter2109/')
-
-
-@client.command()
 async def close(ctx):
-    await ctx.send(f'Disconnecting Bot...')
+    await ctx.send(f'Disconnecting Bot in 5 seconds...')
     await asyncio.sleep(5)
     await client.logout()
-
-
-@client.command()
-async def Twitter(ctx):
-    await ctx.send(f'https://twitter.com/shinyhunter2109')
 
 
 @client.command()
@@ -440,7 +561,7 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.4/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/2.6/Discord-Moveset-Bot.7z')
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
@@ -456,7 +577,7 @@ async def Update(ctx):
 
 @client.command()
 async def pokedex(ctx):
-    await ctx.send(f'There are 900 Pokemon on the Pokedex!')
+    await ctx.send(f'There are over 900 Pokemon on the Pokedex!')
 
 
 @client.command()
@@ -678,7 +799,7 @@ async def _8Ball(ctx, *, question):
 @client.command()
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount)
-    print ('The Channel was cleared Successfully...!')
+    await ctx.send(f'Channel Clear Successfully done!')
 
 
 @client.event

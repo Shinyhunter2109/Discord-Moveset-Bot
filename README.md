@@ -30,7 +30,7 @@
 
 - Fill in your Discord Bot Token you can get it from here: https://discordapp.com/developers
 
-- Edit the Token and the User Role in the File and save it as a new file or overwrite it.
+- Edit the Token and the User Role in the File and save it and overwrite the existing File.
 
 - If you done everything correctly you should see a Connection Message at the Console!
 
