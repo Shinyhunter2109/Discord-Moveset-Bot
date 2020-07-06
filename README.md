@@ -12,7 +12,7 @@
 - Game_Status_Change
 - All Pokedex Movesets (Comming Soon)
 
-## SETUP:
+## Setup:
 
 - Install the latest Python Version [Make sure you enable PIP Connection otherwise it won´t work]
 
