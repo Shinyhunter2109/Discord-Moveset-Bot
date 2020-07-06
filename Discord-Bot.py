@@ -39,7 +39,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 2.6')
+    print('Bot version: 2.7')
     print('Checking for Updates...')
     print('You are on the Latest Version')
 
@@ -119,7 +119,7 @@ async def help(ctx):
     )
 
     embed.set_author(name='help')
-    embed.add_field(name='.ping', value='Returns Pong!', inline=False)
+    embed.add_field(name='!help', value='Returns Help arrived!', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -132,7 +132,7 @@ async def coinhelp(ctx):
     )
 
     embed.set_author(name='coinhelp')
-    embed.add_field(name='.coinflip', value='Return Heads/Tails', inline=False)
+    embed.add_field(name='!coinflip', value='Return Heads/Tails', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -145,7 +145,7 @@ async def joinhelp(ctx):
     )
 
     embed.set_author(name='joinhelp')
-    embed.add_field(name='.join', value='Tells if joining from Bot was Successful', inline=False)
+    embed.add_field(name='!join', value='Tells if joining from Bot was Successful', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -158,7 +158,7 @@ async def pokehelp(ctx):
     )
 
     embed.set_author(name='pokehelp')
-    embed.add_field(name='.pokemonname', value='Returns Info & Picture', inline=False)
+    embed.add_field(name='!pokemonname', value='Returns Info & Picture', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -171,7 +171,7 @@ async def bottlehelp(ctx):
     )
 
     embed.set_author(name='bottlehelp')
-    embed.add_field(name='.bottles', value='Returns [Value of Beer]', inline=False)
+    embed.add_field(name='!bottles', value='Returns [Value of Beer]', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -184,20 +184,20 @@ async def spotifyhelp(ctx):
     )
 
     embed.set_author(name='spotifyhelp')
-    embed.add_field(name='.spotify', value='Returns listening Activity from the User', inline=False)
+    embed.add_field(name='!spotify', value='Returns listening Activity from the User', inline=False)
     await ctx.send(author, embed=embed)
 
 
 @client.command(pass_context=True)
-async def eightballhelp(ctx):
+async def _8Ballhelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
         colour = discord.Colour.orange()
     )
 
-    embed.set_author(name='eightballhelp')
-    embed.add_field(name='.8ball', value='Returns one of the pre Messages for your Question', inline=False)
+    embed.set_author(name='_8Ballhelp')
+    embed.add_field(name='!_8ball', value='Returns one of the pre Messages for your Question', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -210,7 +210,7 @@ async def musichelp(ctx):
     )
 
     embed.set_author(name='musichelp')
-    embed.add_field(name='.play', value='Returns the music that user has requested', inline=False)
+    embed.add_field(name='!play', value='Returns the music that user has requested', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -223,7 +223,7 @@ async def kickhelp(ctx):
     )
 
     embed.set_author(name='kickhelp')
-    embed.add_field(name='.kick', value='Kicks the User from the Discord-Server', inline=False)
+    embed.add_field(name='!kick', value='Kicks the User from the Discord-Server', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -236,7 +236,7 @@ async def banhelp(ctx):
     )
 
     embed.set_author(name='banhelp')
-    embed.add_field(name='.ban', value='Bans the User from the Discord-Server', inline=False)
+    embed.add_field(name='!ban', value='Bans the User from the Discord-Server', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -249,7 +249,7 @@ async def blackjackhelp(ctx):
     )
 
     embed.set_author(name='blackjackhelp')
-    embed.add_field(name='.blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
+    embed.add_field(name='!blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -262,7 +262,20 @@ async def unbanhelp(ctx):
     )
 
     embed.set_author(name='unbanhelp')
-    embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
+    embed.add_field(name='!unban', value='unbans a specific user that got banned recently', inline=False)
+    await ctx.send(author, embed=embed)
+    
+    
+@client.command(pass_context=True)
+async def shinycoinhelp(ctx):
+    author = ctx.message.author
+
+    embed = discord.Embed(
+        colour = discord.Colour.orange()
+    )
+
+    embed.set_author(name='shinycoinhelp')
+    embed.add_field(name='!shinycoins', value='Returns [Amount of Shinycoins]', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -340,6 +353,16 @@ async def coinflip(ctx):
     await ctx.send(f'Coinflip has started...')
     await asyncio.sleep(5)
     await ctx.send(rancoin)
+    
+    
+@client.command()
+async def maintenance_mode(ctx):
+    await ctx.send('**Maintenance Mode turned on**')
+
+
+@client.command()
+async def Maintenance_offline(ctx):
+    await ctx.send('**Maintenance Mode now Offline**')
 
 
 @client.command()
