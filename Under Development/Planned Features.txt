@@ -1,27 +1,33 @@
 =====================================================================================================================					
-						Planned Features for 2020
+						💠 Planned Features for 2020 💠
 =====================================================================================================================
 
-- More Minigames for Discord/Twitch [Roulette/Trivia/Bankheist]
+- More Minigames for Discord/Twitch [Roulette/Trivia/Bankheist] ❌
 
-- New Pokemon Movesets from Sword and Shield
+- New Pokemon Movesets from Sword and Shield ❌
 
-- QoL Updates for better User Experience
+- QoL Updates for better User Experience ✔️
 
-- Getting Complete Dex working with the Bot
+- Getting Complete Dex working with the Bot ❌
 
-- Twitch/Youtube Integration
+- Twitch/Youtube Integration ❌
 
-- Also Coin System for Discord
+- More Music Commands ✔️
 
-
-=====================================================================================================================
-							Version Updates
-=====================================================================================================================
-
-- Final Version 2020 [N.A.]
+- Also Coin System for Discord ❌
 
 
 =====================================================================================================================
+							💠 Version Updates 💠
+=====================================================================================================================
 
-© 2020 twitch.tv/shinyhunter2109
+- Final Version 2019 [1.9] ✔️
+
+- Final Version 2020 [N.A]
+
+- Final Version 2021 [N.A]
+
+
+=====================================================================================================================
+
+© 2020 Copyright by twitch.tv/shinyhunter2109
