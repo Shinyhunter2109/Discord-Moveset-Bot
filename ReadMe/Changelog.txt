@@ -1,24 +1,19 @@
-			28.01.20 Changelog:
-_______________________________________________________________
-Changelog 
-_______________________________________________________________
-Hotfixes
-_______________________________________________________________
+Changelog from 07/28/2020
 
+What's New
+
+- added Check Function for Server Owners
+- You can now add more Roles when new user joins a Guild/Server
+- added New Minigame
 - another round of small adjustments for better user experience 💯
-- QoL Updates
-- Small Fix for the Voice Support is now implemented
-- Some bugfixes
-_______________________________________________________________
+
 Changes
-_______________________________________________________________
 
-- added Sleep Method to some Commands
-- Added some Folders for Future Releases
-- Updated Bot from Version 1.6 to Version 2.0
-_______________________________________________________________
+- changed Value from recent added Minigame up to 50
+- changed Version number from 2.7 to latest 3.0
+- updated the Planned Features Folder (Copyright usw.)
+
 Bot Version
-_______________________________________________________________
 
-The latest Version is 2.0 if you are still on Version 1.6 or lower its really Important for you to Update to get some weird bugs fixed!
-_______________________________________________________________
+The latest Version is 3.0 if you are still on Version 2.7 or lower its really Important for you to Update to get some weird bugs fixed!
+Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
