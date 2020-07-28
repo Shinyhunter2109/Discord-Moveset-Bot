@@ -28,7 +28,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '!')
+client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Wondertrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLE HERE...'
@@ -794,9 +794,14 @@ async def _8Ball(ctx, *, question):
                  'Outlook not so good.',
                  'Very doubtful.']
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+    
+    
+def is_it_me(ctx):
+    return ctx.author.id ==Insert Your Discord-ID Here
 
 
 @client.command()
+@commands.check(is_it_me)
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount)
     await ctx.send(f'Channel Clear Successfully done!')
