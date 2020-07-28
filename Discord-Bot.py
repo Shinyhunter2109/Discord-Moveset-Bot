@@ -31,7 +31,7 @@ logger.addHandler(handler)
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Wondertrades', 'GTS Moveset Help'])
-ROLE = 'INSERT ROLE HERE...'
+ROLE = 'INSERT ROLES HERE...'
 
 
 @client.event
@@ -556,7 +556,12 @@ async def Sub(ctx):
     await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
 
 
+def is_it_me(ctx):
+    return ctx.author.id =='Insert Your Discord-ID here!'
+
+
 @client.command()
+@commands.check(is_it_me)
 async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
@@ -794,10 +799,10 @@ async def _8Ball(ctx, *, question):
                  'Outlook not so good.',
                  'Very doubtful.']
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
-    
-    
+
+
 def is_it_me(ctx):
-    return ctx.author.id ==Insert Your Discord-ID Here
+    return ctx.author.id =='Insert Your Discord ID here!'
 
 
 @client.command()
