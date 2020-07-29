@@ -372,14 +372,24 @@ async def info_error(ctx, error):
 @tasks.loop(seconds=360)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
+    
+    
+def is_it_me(ctx):
+    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
+@commands.check(is_it_me)
 async def kick(ctx, member : discord.Member, *, reason=None):
     await member.kick(reason=reason)
+    
+    
+def is_it_me(ctx):
+    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
+@commands.check(is_it_me)
 async def ban(ctx, member : discord.Member, *, reason=None):
     await member.ban(reason=reason)
 
@@ -507,9 +517,14 @@ async def Discord(ctx):
 @client.command()
 async def Prime(ctx):
     await ctx.send(f'Use Amazon Prime on Twitch: https://twitch.amazon.com/tp')
+    
+    
+def is_it_me(ctx):
+    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
+@commands.check(is_it_me)
 async def timer(ctx):
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
@@ -530,9 +545,9 @@ async def timer(ctx):
 async def blackjack(ctx):
     choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied']
     rancoin = random.choice(choices)
-    await ctx.send(f'Shuffleling Cards [20 seconds]')
+    await ctx.send(f'shuffling Cards [20 seconds]')
     await asyncio.sleep(20)
-    await ctx.send(f'Making Choice Now [10 seconds]')
+    await ctx.send(f'making Decision now [10 seconds]')
     await asyncio.sleep(10)
     await ctx.send(f'I choose this One...')
     await asyncio.sleep(2)
