@@ -412,6 +412,20 @@ async def unban(ctx, *, member):
 async def Switch(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('switch-talk')
+    
+    
+@client.command()
+async def TradeON(ctx):
+    await ctx.send(f'**Trading Bot is currently Online | use !Trade + Moveset or File to get your own Pokémon quick and fast!**')
+    await asyncio.sleep(10)
+    await ctx.send(f'**If you need help use !help and help will arrive soon!**')
+
+
+@client.command()
+async def TradeOFF(ctx):
+    await ctx.send(f'**Trading Bot is currently Offline | use !Trade + Moveset or File when Bot is Online again!**')
+    await asyncio.sleep(10)
+    await ctx.send(f'**If you need help use !help and help will arrive soon!**')
 
 
 @client.command()
@@ -579,18 +593,18 @@ def is_it_me(ctx):
 @commands.check(is_it_me)
 async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
-    await asyncio.sleep(10)
+    await asyncio.sleep(8)
     await ctx.send(f'Latest Version detected...')
     await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.0/Discord-Moveset-Bot.7z')
-    await asyncio.sleep(20)
+    await asyncio.sleep(22)
     await ctx.send(f'Downloading New Version Now!')
-    await asyncio.sleep(60)
+    await asyncio.sleep(90)
     await ctx.send(f'Verify New Content')
-    await asyncio.sleep(20)
+    await asyncio.sleep(25)
     await ctx.send(f'Update Complete')
-    await asyncio.sleep(10)
-    await ctx.send(f'Please restart Bot now or wait 30 seconds')
-    await asyncio.sleep(30)
+    await asyncio.sleep(8)
+    await ctx.send(f'Please restart Bot now or wait 60 seconds')
+    await asyncio.sleep(60)
     await ctx.send(f'No User Input recognized, restarting Bot now...')
     await client.logout()
 
