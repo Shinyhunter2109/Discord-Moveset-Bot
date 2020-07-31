@@ -1,3 +1,3 @@
-pip install discord.py[Voice] youtube_dl PyNaCL asyncio pandas PyGithub
+pip install discord.py[Voice] youtube_dl PyNaCL asyncio pandas PyGithub twitch-python
 
 pause
