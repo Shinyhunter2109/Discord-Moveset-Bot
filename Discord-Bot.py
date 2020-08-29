@@ -13,6 +13,7 @@ from discord.voice_client import VoiceClient
 from discord.ext import commands, tasks
 from discord.utils import get
 from discord import FFmpegPCMAudio
+from pytube import YouTube
 import youtube_dl
 from youtube_dl import YoutubeDL
 import os
@@ -30,7 +31,7 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Shiny Pokémon Wondertrades', 'GTS Moveset Help'])
+status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLES HERE...'
 
 
@@ -39,7 +40,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 3.0')
+    print('Bot version: 3.1')
     print('Checking for Updates...')
     print('You are on the Latest Version')
 
