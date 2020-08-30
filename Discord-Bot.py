@@ -13,7 +13,6 @@ from discord.voice_client import VoiceClient
 from discord.ext import commands, tasks
 from discord.utils import get
 from discord import FFmpegPCMAudio
-from pytube import YouTube
 import youtube_dl
 from youtube_dl import YoutubeDL
 import os
