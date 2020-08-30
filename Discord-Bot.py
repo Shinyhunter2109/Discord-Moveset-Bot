@@ -492,12 +492,6 @@ async def STrade(ctx):
 
 
 @client.command()
-async def Mixer(ctx):
-    guild = ctx.guild
-    await guild.create_role(name="Mixer")
-
-
-@client.command()
 async def Stream(ctx):
     role = discord.utils.get(ctx.guild.roles, name="Mixer")
     user = ctx.message.author
@@ -575,8 +569,8 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 
 @client.command()
 async def close(ctx):
-    await ctx.send(f'Disconnecting Bot in 5 seconds...')
-    await asyncio.sleep(5)
+    await ctx.send(f'Disconnecting Bot in 15 seconds...')
+    await asyncio.sleep(15)
     await client.logout()
 
 
@@ -593,16 +587,16 @@ def is_it_me(ctx):
 @commands.check(is_it_me)
 async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
-    await asyncio.sleep(8)
+    await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.0/Discord-Moveset-Bot.7z')
-    await asyncio.sleep(22)
-    await ctx.send(f'Downloading New Version Now!')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.1/Discord-Moveset-Bot.7z')
+    await asyncio.sleep(25)
+    await ctx.send(f'Download the new Version now!')
     await asyncio.sleep(90)
     await ctx.send(f'Verify New Content')
     await asyncio.sleep(25)
     await ctx.send(f'Update Complete')
-    await asyncio.sleep(8)
+    await asyncio.sleep(10)
     await ctx.send(f'Please restart Bot now or wait 60 seconds')
     await asyncio.sleep(60)
     await ctx.send(f'No User Input recognized, restarting Bot now...')
