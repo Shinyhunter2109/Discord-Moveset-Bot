@@ -249,7 +249,7 @@ async def blackjackhelp(ctx):
     )
 
     embed.set_author(name='blackjackhelp')
-    embed.add_field(name='.blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
+    embed.add_field(name='.blackjack', value='Returns either [You Won | You Lost | Tied]', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -262,7 +262,7 @@ async def unbanhelp(ctx):
     )
 
     embed.set_author(name='unbanhelp')
-    embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
+    embed.add_field(name='.unban', value='unban a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -392,9 +392,14 @@ def is_it_me(ctx):
 @commands.check(is_it_me)
 async def ban(ctx, member : discord.Member, *, reason=None):
     await member.ban(reason=reason)
+    
+    
+def is_it_me(ctx):
+    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
+@commands.check(is_it_me)
 async def unban(ctx, *, member):
     banned_users = await ctx.guild.bans()
     member_name, member_discriminator = member.split('#')
