@@ -1,19 +1,21 @@
-Changelog from 07/28/2020
+Changelog from 09/01/2020
 
 What's New
 
-- added Check Function for Server Owners
-- You can now add more Roles when new user joins a Guild/Server
-- added New Minigame
+- added Check Function for Servers
+- added new Roles to create / add (Battle.Net , WoW , Facebook)
+- added Support for Json Files
+- added pytube Support for Youtube
+- added new Folders to certain Functions
 - another round of small adjustments for better user experience 💯
 
 Changes
 
-- changed Value from recent added Minigame up to 50
-- changed Version number from 2.7 to latest 3.0
-- updated the Planned Features Folder (Copyright usw.)
+- changed some Values for better user Experience
+- changed Version number from 3.0 to latest 3.1
+- changed some Code Stuff inside that is no longer needed
 
 Bot Version
 
-The latest Version is 3.0 if you are still on Version 2.7 or lower its really Important for you to Update to get some weird bugs fixed!
+The latest Version is 3.1 if you are still on Version 3.0 or lower its really Important for you to Update to get some weird bugs fixed!
 Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
