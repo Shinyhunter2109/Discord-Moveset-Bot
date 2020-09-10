@@ -4,7 +4,7 @@
 
 - More Minigames for Discord/Twitch [Roulette/Trivia/Bankheist] ❌
 
-- New Pokemon Movesets from Sword and Shield ❌
+- New Pokemon Movesets from Sword and Shield ✔️
 
 - QoL Updates for better User Experience ✔️
 
@@ -14,7 +14,13 @@
 
 - More Music Commands ✔️
 
-- Also Coin System for Discord ❌
+- Coin System for Discord ❌
+
+- 24/7 Online Support ❌
+
+- Server Support ❌
+
+- Auto Function Feature ✔️
 
 
 =====================================================================================================================
@@ -23,11 +29,14 @@
 
 - Final Version 2019 [1.9] ✔️
 
-- Final Version 2020 [N.A]
+- Final Version 2020 [4.0]
 
 - Final Version 2021 [N.A]
 
+- Final Version 2022 [N.A]
+
 
 =====================================================================================================================
-
+						      💠 Copyright 💠	
+=====================================================================================================================
 © 2020 Copyright by twitch.tv/shinyhunter2109
