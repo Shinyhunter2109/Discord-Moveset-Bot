@@ -31,7 +31,7 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
+status = cycle(['Shiny Pokémon Linktrades', 'Moveset Help'])
 ROLE = 'INSERT ROLES HERE...'
 
 
@@ -547,7 +547,7 @@ def is_it_me(ctx):
 
 @client.command()
 @commands.check(is_it_me)
-async def timer(ctx):
+async def timer(ctx): # later also Admin Only!
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
     await ctx.send(f'Starting Countdown now...')
@@ -559,18 +559,24 @@ async def timer(ctx):
     await ctx.send(f'1...')
     await asyncio.sleep(1)
     await ctx.send(f'GO Wondertrade')
-    await asyncio.sleep(90)
+    await asyncio.sleep(2)
+    await ctx.send(f'Searching for a Trade Partner...')
+    await asyncio.sleep(45)
+    await ctx.send(f'Found Trade Partner | Initalizing Trade now...')
+    await asyncio.sleep(45)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
+    await asyncio.sleep(20)
+    await ctx.send('.tf') # Should create a Bot command with this example to get a loop
 
 
 @client.command()
 async def blackjack(ctx):
-    choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied']
+    choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied'] # Blackjack Game
     rancoin = random.choice(choices)
-    await ctx.send(f'shuffling Cards [20 seconds]')
-    await asyncio.sleep(20)
-    await ctx.send(f'making Decision now [10 seconds]')
-    await asyncio.sleep(10)
+    await ctx.send(f'shuffling Cards [30 seconds]')
+    await asyncio.sleep(30)
+    await ctx.send(f'making Decision now [15 seconds]')
+    await asyncio.sleep(15)
     await ctx.send(f'I choose this One...')
     await asyncio.sleep(2)
     await ctx.send(rancoin)
@@ -582,7 +588,7 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 
 
 @client.command()
-async def close(ctx):
+async def close(ctx): #Disconnect Command should later Admin Only!
     await ctx.send(f'Disconnecting Bot in 15 seconds...')
     await asyncio.sleep(15)
     await client.logout()
@@ -599,11 +605,11 @@ def is_it_me(ctx):
 
 @client.command()
 @commands.check(is_it_me)
-async def Update(ctx):
+async def Update(ctx): # Admin Only
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.1/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.2/Discord-Moveset-Bot.7z')
     await asyncio.sleep(25)
     await ctx.send(f'Download the new Version now!')
     await asyncio.sleep(90)
