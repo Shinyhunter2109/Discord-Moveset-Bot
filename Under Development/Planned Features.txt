@@ -8,9 +8,19 @@
 
 - QoL Updates for better User Experience ✔️
 
+- Uptime Function ✔️
+
+- Direct Message Function ✔️
+
+- Spotify Integration ✔️
+
 - Getting Complete Dex working with the Bot ❌
 
-- Twitch/Youtube Integration ❌
+- Youtube Integration ✔️
+
+- Twitch Integration ❌
+
+- Github Integration ❌
 
 - More Music Commands ✔️
 
@@ -18,27 +28,28 @@
 
 - 24/7 Online Support ❌
 
-- Server Support ❌
-
 - Auto Function Feature ✔️
+
+- Auto-error Handler ✔️
 
 
 =====================================================================================================================
-							💠 Version Updates 💠
+						      💠 Version Updates 💠
 =====================================================================================================================
 
 - Final Version 2019 [1.9] ✔️
 
-- Final Version 2020 [4.0]
+- Final Version 2020 [4.0] ❌
 
-- Final Version 2021 [N.A]
+- Final Version 2021 [N.A] ❌
 
-- Final Version 2022 [N.A]
+- Final Version 2022 [N.A] ❌
 
 =====================================================================================================================
-							💠 Progress Bar 💠
+						      💠 Progress Bar 💠
 =====================================================================================================================
-===  2 % Complete ==
+		
+							10 % Complete 
 
 =====================================================================================================================
 						      💠 Copyright 💠	
