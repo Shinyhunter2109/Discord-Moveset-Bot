@@ -2,9 +2,7 @@
 						💠 Planned Features for 2020 💠
 =====================================================================================================================
 
-- More Minigames for Discord/Twitch [Roulette/Trivia/Bankheist] ❌
-
-- New Pokemon Movesets from Sword and Shield ✔️
+- More Minigames for Discord/Twitch [Roulette/Trivia/Bankheist] ✔️
 
 - QoL Updates for better User Experience ✔️
 
@@ -14,8 +12,6 @@
 
 - Spotify Integration ✔️
 
-- Getting Complete Dex working with the Bot ❌
-
 - Youtube Integration ✔️
 
 - Twitch Integration ❌
@@ -24,32 +20,29 @@
 
 - More Music Commands ✔️
 
-- Coin System for Discord ❌
-
 - 24/7 Online Support ❌
 
 - Auto Function Feature ✔️
 
 - Auto-error Handler ✔️
 
+- Auto Slowmode Feature ✔️
+
+- Search Function ✔️
 
 =====================================================================================================================
 						      💠 Version Updates 💠
 =====================================================================================================================
 
-- Final Version 2019 [1.9] ✔️
+- Final Version 2019 [2.0] ✔️
 
 - Final Version 2020 [4.0] ❌
-
-- Final Version 2021 [N.A] ❌
-
-- Final Version 2022 [N.A] ❌
 
 =====================================================================================================================
 						      💠 Progress Bar 💠
 =====================================================================================================================
 		
-							10 % Complete 
+							50 % Complete 
 
 =====================================================================================================================
 						      💠 Copyright 💠	
