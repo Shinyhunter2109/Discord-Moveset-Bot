@@ -9,7 +9,6 @@
 - Auto-Role/Command Creating Feature ✔️
 - Auto-Update Feature (still BETA) ✔️
 - Game_Status_Change ✔️
-- All Pokedex Movesets (Comming Soon)
 
 ## Setup:
 
