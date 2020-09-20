@@ -2,37 +2,23 @@
 						💠 Planned Features for 2020 💠
 =====================================================================================================================
 
-- More Minigames for Discord/Twitch [Roulette/Trivia/Bankheist] ✔️
-
-- QoL Updates for better User Experience ✔️
-
-- Uptime Function ✔️
-
-- Direct Message Function ✔️
-
-- Spotify Integration ✔️
-
-- Youtube Integration ✔️
-
 - Twitch Integration ❌
 
-- More Music Commands ✔️
+- Github Support ❌
 
 - 24/7 Online Support ❌
 
-- Auto Function Feature ✔️
-
-- Auto-error Handler ✔️
-
-- Auto Slowmode Feature ✔️
-
-- Search Function ✔️
-
-- Guild Join Event ✔️
-
-- Better Quality of UI ✔️
-
 - Complete Command List ❌
+
+- Youtube Bot Connection ❌
+
+- Runtime Error Handler ❌
+
+- Full Command List ✔️
+
+- Auto-Move Feature ❌
+
+- Coin System ❌
 
 =====================================================================================================================
 						      💠 Version Updates 💠
@@ -46,7 +32,7 @@
 						      💠 Progress Bar 💠
 =====================================================================================================================
 		
-							100 % Complete 
+							2 % Complete 
 
 =====================================================================================================================
 						      💠 Copyright 💠	
