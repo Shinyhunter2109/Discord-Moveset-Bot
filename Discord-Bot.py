@@ -321,7 +321,6 @@ async def backup(ctx):
 
 
 @client.command()
-@commands.check(is_it_me)
 async def sendembed(ctx):
     e = discord.Embed(title="Stack Overflow - Where Developers Learn, Share, & Build Careers",
                       url="https://stackoverflow.com",
