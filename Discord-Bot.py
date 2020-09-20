@@ -1,7 +1,8 @@
 import discord
 import random
-import json
 import asyncio
+import json
+import numpy
 import async_timeout
 import asyncore
 import threading
@@ -9,6 +10,7 @@ import logging
 import time
 import typing
 import traceback
+from datetime import datetime
 from github import Github
 from discord.voice_client import VoiceClient
 from discord.ext import commands, tasks
@@ -31,7 +33,7 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Shiny Pokémon Linktrades', 'Moveset Help'])
+status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLES HERE...'
 
 
@@ -40,8 +42,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 3.2')
-    print('Checking for Updates...')
+    print('Bot version: 3.5')
     print('You are on the Latest Version')
 
 
@@ -92,7 +93,13 @@ async def roles(ctx, *, member: MemberRoles):
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send('**Invalid command used.**')  
+        await ctx.send('**Invalid command used.**')
+
+
+@client.event
+async def on_permission_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('**You dont have the right Permissions to execute this command.**')
 
 
 @client.command()
@@ -109,6 +116,20 @@ class Slapper(commands.Converter):
 @client.command()
 async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
+
+
+def is_it_me(ctx):
+    return ctx.author.id == 'INSERT ID HERE'
+
+
+@client.command()
+@commands.check(is_it_me)
+async def uptime(ctx):
+    delta_uptime = datetime.utcnow() - client.launch_time
+    hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    days, hours = divmod(hours, 24)
+    await ctx.send(f'**{days}d, {hours}h, {minutes}m**')
 
 
 @client.command(pass_context=True)
@@ -250,7 +271,7 @@ async def blackjackhelp(ctx):
     )
 
     embed.set_author(name='blackjackhelp')
-    embed.add_field(name='.blackjack', value='Returns either [You Won | You Lost | Tied]', inline=False)
+    embed.add_field(name='.blackjack', value='Return either [You Won | You Lost | Tied]', inline=False)
     await ctx.send(author, embed=embed)
 
 
@@ -263,16 +284,50 @@ async def unbanhelp(ctx):
     )
 
     embed.set_author(name='unbanhelp')
-    embed.add_field(name='.unban', value='unban a specific user that got banned recently', inline=False)
+    embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
 
 @client.command()
+@commands.cooldown(1, 60, commands.BucketType.user)
 async def spotify(ctx, user: discord.Member=None):
     user = user or ctx.author
     for activity in user.activities:
         if isinstance(activity, Spotify):
             await ctx.send(f'{user} is listening to {activity.title} by {activity.artist}') # Tells you to what someone is listening
+
+
+@spotify.error
+async def spotify_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+async def emoji(ctx, emoji: discord.PartialEmoji = None):
+    if not emoji:
+        await ctx.send('**You need to provide an emoji!**')
+    else:
+        await ctx.send(emoji.url)
+
+
+@client.command()
+async def backup(ctx):
+    await ctx.send('**Currently In Development! | Error Code: 0830-5219-8607 |**')
+    await ctx.send('**https://open.spotify.com/track/6R6on0ldJcSDfi2whJziJ1?si=NcphntXxRN67ht26nMYIjQ**')
+
+
+@client.command()
+@commands.check(is_it_me)
+async def sendembed(ctx):
+    e = discord.Embed(title="Stack Overflow - Where Developers Learn, Share, & Build Careers",
+                      url="https://stackoverflow.com",
+                      description="Stack Overflow | The World’s Largest Online Community for Developers")
+    e.set_thumbnail(url="https://i.imgur.com/ddx8Bpg.png")
+    await ctx.send(embed=e)
 
 
 @client.command(pass_context=True, aliases=['j', 'joi'])
@@ -344,9 +399,17 @@ async def coinflip(ctx):
 
 
 @client.command()
+async def Ads(ctx, member : discord.Member, *, reason=None):
+    await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
+    await asyncio.sleep(10)
+    await member.kick(reason=reason)
+    await ctx.send('**Press F to pay respect**')
+
+
+@client.command()
 async def guessinggame(ctx):
-    number = random.randint(0,150)
-    for i in range(0, 5):
+    number = random.randint(1,150)
+    for i in range(1, 150):
         await ctx.send('**guess a number**')
         response = await client.wait_for('message')
         guess = int(response.content)
@@ -370,37 +433,22 @@ async def info_error(ctx, error):
         await ctx.send('I could not find that member...')
 
 
-@tasks.loop(seconds=360)
+@tasks.loop(seconds=320)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
-    
-    
-def is_it_me(ctx):
-    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
-@commands.check(is_it_me)
 async def kick(ctx, member : discord.Member, *, reason=None):
     await member.kick(reason=reason)
-    
-    
-def is_it_me(ctx):
-    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
-@commands.check(is_it_me)
 async def ban(ctx, member : discord.Member, *, reason=None):
     await member.ban(reason=reason)
-    
-    
-def is_it_me(ctx):
-    return ctx.author.id =='Insert Your Discord-ID here!'
 
 
 @client.command()
-@commands.check(is_it_me)
 async def unban(ctx, *, member):
     banned_users = await ctx.guild.bans()
     member_name, member_discriminator = member.split('#')
@@ -418,20 +466,6 @@ async def unban(ctx, *, member):
 async def Switch(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('switch-talk')
-    
-    
-@client.command()
-async def TradeON(ctx):
-    await ctx.send(f'**Trading Bot is currently Online | use !Trade + Moveset or File to get your own Pokémon quick and fast!**')
-    await asyncio.sleep(10)
-    await ctx.send(f'**If you need help use !help and help will arrive soon!**')
-
-
-@client.command()
-async def TradeOFF(ctx):
-    await ctx.send(f'**Trading Bot is currently Offline | use !Trade + Moveset or File when Bot is Online again!**')
-    await asyncio.sleep(10)
-    await ctx.send(f'**If you need help use !help and help will arrive soon!**')
 
 
 @client.command()
@@ -472,6 +506,19 @@ async def YT(ctx):
 
 
 @client.command()
+async def FB(ctx):
+    role = discord.utils.get(ctx.guild.roles, name="Facebook")
+    user = ctx.message.author
+    await user.add_roles(role)
+
+
+@client.command()
+async def Facebook(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Facebook")
+
+
+@client.command()
 async def DB(ctx):
     guild = ctx.guild
     await guild.create_role(name="Discord-Bot")
@@ -498,6 +545,12 @@ async def STrade(ctx):
 
 
 @client.command()
+async def Mixer(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Mixer")
+
+
+@client.command()
 async def Stream(ctx):
     role = discord.utils.get(ctx.guild.roles, name="Mixer")
     user = ctx.message.author
@@ -515,14 +568,6 @@ async def Chef(ctx):
     role = discord.utils.get(ctx.guild.roles, name="Administrator")
     user = ctx.message.author
     await user.add_roles(role)
-    
-    
-@client.command()
-async def viprole(ctx):
-    if get(ctx.guild.roles, name="VIP Member"):
-        await ctx.send("**Role already exists**")
-    else:
-        await ctx.guild.create_role(name="VIP Member", colour=discord.Colour(0x1b491b))
 
 
 @client.command()
@@ -537,17 +582,77 @@ async def Discord(ctx):
 
 
 @client.command()
-async def Prime(ctx):
-    await ctx.send(f'Use Amazon Prime on Twitch: https://twitch.amazon.com/tp')
-    
-    
-def is_it_me(ctx):
-    return ctx.author.id =='Insert Your Discord-ID here!'
+async def dm(ctx):
+    rand_num = (randint(1, 3))
+    win_num = 1
+    pm_channel = await ctx.author.create_dm()
+    if win_num == rand_num:
+        await pm_channel.send("You won!")
+    else:
+        await pm_channel.send("You lost")
 
 
 @client.command()
-@commands.check(is_it_me)
-async def timer(ctx): # later also Admin Only!
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def vip_dm(ctx):
+    guild = client.get_guild(id=0000000000000)
+    role = discord.utils.get(guild.roles, id=00000000000000)
+    member = guild.get_member(ctx.message.author.id)
+    await member.add_roles(role)
+
+
+@vip_dm.error
+async def vip_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+@commands.has_permissions(administrator=True)
+async def keyword(ctx, *, word: str):
+    channel = client.get_channel(00000000000)
+    messages = await ctx.channel.history(limit=200).flatten()
+
+    for msg in messages:
+        if word in msg.content:
+            await ctx.send(msg.jump_url)
+
+
+@keyword.error
+async def kw_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+@commands.has_permissions(administrator=True)
+async def setdelay(ctx, seconds: int):
+    await ctx.channel.edit(slowmode_delay=seconds)
+    await ctx.send(f'**Removed the slowmode delay in this channel from {seconds} seconds!**')
+
+
+@setdelay.error
+async def sd_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+async def Prime(ctx):
+    await ctx.send(f'Use Amazon Prime on Twitch: https://twitch.amazon.com/tp')
+
+
+@client.command()
+async def timer(ctx):
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
     await ctx.send(f'Starting Countdown now...')
@@ -559,27 +664,31 @@ async def timer(ctx): # later also Admin Only!
     await ctx.send(f'1...')
     await asyncio.sleep(1)
     await ctx.send(f'GO Wondertrade')
-    await asyncio.sleep(2)
-    await ctx.send(f'Searching for a Trade Partner...')
-    await asyncio.sleep(45)
-    await ctx.send(f'Found Trade Partner | Initalizing Trade now...')
-    await asyncio.sleep(45)
+    await asyncio.sleep(90)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
-    await asyncio.sleep(20)
-    await ctx.send('.tf') # Should create a Bot command with this example to get a loop
 
 
 @client.command()
+@commands.cooldown(1, 90, commands.BucketType.user)
 async def blackjack(ctx):
-    choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied'] # Blackjack Game
+    choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied']
     rancoin = random.choice(choices)
-    await ctx.send(f'shuffling Cards [30 seconds]')
-    await asyncio.sleep(30)
-    await ctx.send(f'making Decision now [15 seconds]')
-    await asyncio.sleep(15)
+    await ctx.send(f'Shuffleling Cards [20 seconds]')
+    await asyncio.sleep(20)
+    await ctx.send(f'Making Choice Now [10 seconds]')
+    await asyncio.sleep(10)
     await ctx.send(f'I choose this One...')
     await asyncio.sleep(2)
     await ctx.send(rancoin)
+
+
+@blackjack.error
+async def blj_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command()
@@ -588,7 +697,7 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 
 
 @client.command()
-async def close(ctx): #Disconnect Command should later Admin Only!
+async def close(ctx):
     await ctx.send(f'Disconnecting Bot in 15 seconds...')
     await asyncio.sleep(15)
     await client.logout()
@@ -605,16 +714,16 @@ def is_it_me(ctx):
 
 @client.command()
 @commands.check(is_it_me)
-async def Update(ctx): # Admin Only
+async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.2/Discord-Moveset-Bot.7z')
-    await asyncio.sleep(25)
-    await ctx.send(f'Download the new Version now!')
-    await asyncio.sleep(90)
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.1/Discord-Moveset-Bot.7z')
+    await asyncio.sleep(20)
+    await ctx.send(f'Downloading New Version Now!')
+    await asyncio.sleep(60)
     await ctx.send(f'Verify New Content')
-    await asyncio.sleep(25)
+    await asyncio.sleep(20)
     await ctx.send(f'Update Complete')
     await asyncio.sleep(10)
     await ctx.send(f'Please restart Bot now or wait 60 seconds')
@@ -624,8 +733,20 @@ async def Update(ctx): # Admin Only
 
 
 @client.command()
+async def BN(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Battle.net")
+
+
+@client.command()
+async def Battle_net(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Battle.net")
+
+
+@client.command()
 async def pokedex(ctx):
-    await ctx.send(f'There are over 900 Pokemon on the Pokedex!')
+    await ctx.send(f'There are over 910 Pokemon on the Pokedex!')
 
 
 @client.command()
@@ -844,15 +965,27 @@ async def _8Ball(ctx, *, question):
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
 
 
-def is_it_me(ctx):
-    return ctx.author.id =='Insert Your Discord ID here!'
-
-
 @client.command()
-@commands.check(is_it_me)
+@commands.has_permissions(manage_channels=True)
 async def clear(ctx, amount=100):
     await ctx.channel.purge(limit=amount)
     await ctx.send(f'Channel Clear Successfully done!')
+
+
+@clear.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.event
+async def on_guild_join(guild):
+    channel = guild.text_channels[0]
+    embed = discord.Embed(title=guild.name, description="Hello, how can I help your Server?")
+    await channel.send(embed=embed)
 
 
 @client.event
