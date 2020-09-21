@@ -717,7 +717,7 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.1/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.5/Discord-Moveset-Bot.7z')
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
