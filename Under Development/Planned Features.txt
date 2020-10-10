@@ -10,6 +10,8 @@
 
 - Complete Command List ❌
 
+- Reddit Feature ❌
+
 - Youtube Bot Connection ❌
 
 - Runtime Error Handler ❌
