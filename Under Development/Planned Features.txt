@@ -10,7 +10,7 @@
 
 - Reddit Feature ❌
 
-- Youtube Bot Connection ❌
+- Youtube Bot Connection ✔️
 
 - Runtime Error Handler ✔️
 
@@ -18,9 +18,9 @@
 
 - Auto-Move Feature ❌
 
-- Coin System ❌
+- Ticket System ❌
 
-- Multiple Language Support ❌
+- Multiple Language Support ✔️
 
 - Connection to Deepbot ❌
 
@@ -36,7 +36,7 @@
 						      💠 Progress Bar 💠
 =====================================================================================================================
 		
-							13 % Complete 
+							50 % Complete 
 
 =====================================================================================================================
 						      💠 Copyright 💠	
