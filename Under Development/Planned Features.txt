@@ -8,13 +8,11 @@
 
 - 24/7 Online Support ✔️
 
-- Complete Command List ❌
-
 - Reddit Feature ❌
 
 - Youtube Bot Connection ❌
 
-- Runtime Error Handler ❌
+- Runtime Error Handler ✔️
 
 - Full Command List ✔️
 
@@ -38,7 +36,7 @@
 						      💠 Progress Bar 💠
 =====================================================================================================================
 		
-							7 % Complete 
+							13 % Complete 
 
 =====================================================================================================================
 						      💠 Copyright 💠	
