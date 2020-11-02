@@ -42,7 +42,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 3.7')
+    print('Bot version: 4.0')
     print('You are on the Latest Version')
 
 
@@ -717,7 +717,7 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/3.7/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.0/Discord-Moveset-Bot.7z')
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
