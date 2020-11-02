@@ -11,12 +11,6 @@
 - Game_Status_Change ✔️
 
 
-## 24/7 Online- Feature:
-
-- You can also invite this Bot to your Discord Server: https://discord.com/api/oauth2/authorize?client_id=681597377861386326&permissions=0&scope=bot
-- This Bot is from now 24/7 Online |
-
-
 ## Setup for Own Usage:
 
 - Install the latest Python Version [Make sure you enable PIP Connection otherwise it won´t work]
