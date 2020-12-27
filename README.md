@@ -2,17 +2,16 @@
 
 ## Features:
 
-- Music Feature
-- Minigames (Coinflip, Slap, 8Ball, Blackjack...)
-- Spotify Integration
-- Autorole Feature
-- Wondertrade Countdown
-- Auto-Role/Command Creating Feature
-- Auto-Update Feature
-- Game_Status_Change
-- All Pokedex Movesets (Comming Soon)
+- Music Feature + local Music MP3 File ✔️
+- Minigames (Coinflip, Slap, 8Ball, Blackjack...) ✔️
+- Spotify Integration ✔️
+- Wondertrade/Linktrade Countdown ✔️
+- Auto-Role/Command Creating Feature ✔️
+- Auto-Update Feature (still BETA) ✔️
+- Game_Status_Change ✔️
 
-## SETUP:
+
+## Setup for Own Usage:
 
 - Install the latest Python Version [Make sure you enable PIP Connection otherwise it won´t work]
 
@@ -20,7 +19,7 @@
 
 - After extracting the Bot to your Desktop, go to the "Getting Started" Folder
 
-- Run the start.bat File [It will install all the needed Requirements]
+- Run the start.bat File [It will install all the needed Requirements] [Works aswell on Linux]
 
 - After that download Visual Studio Code from here: https://code.visualstudio.com/
 
@@ -30,7 +29,7 @@
 
 - Fill in your Discord Bot Token you can get it from here: https://discordapp.com/developers
 
-- Edit the Token and the User Role in the File and save it and overwrite the existing File.
+- Edit the Token and the User Role and any other Information that is needed in the File and save it and overwrite the existing File.
 
 - If you done everything correctly you should see a Connection Message at the Console!
 

@@ -1,5 +1,5 @@
 @echo off
-echo Starting..
+echo Starting Bot...
 :main
 Discord-Bot.py
 echo Bot crashed reconnecting... ;3
