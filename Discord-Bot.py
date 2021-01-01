@@ -1,10 +1,14 @@
 import discord
+intents = discord.Intents.default()
+intents.members = True
+intents.reactions = True
 import random
 import asyncio
 import json
 import numpy
 import async_timeout
 import asyncore
+import math
 import threading
 import logging
 import time
@@ -31,7 +35,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix = '.', intents=intents)
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLES HERE...'
@@ -42,7 +46,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.1')
+    print('Bot version: 4.1.1')
     print('You are on the Latest Version')
 
 
@@ -304,6 +308,27 @@ async def spotify_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
+        
+        
+@client.command() 
+async def add(ctx, *nums):
+    operation = " + ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+@client.command() 
+async def sub(ctx, *nums): 
+    operation = " - ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+@client.command() 
+async def multiply(ctx, *nums): 
+    operation = " * ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+@client.command() 
+async def divide(ctx, *nums): 
+    operation = " / ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
 
 
 @client.command()
@@ -594,8 +619,8 @@ async def dm(ctx):
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def vip_dm(ctx):
-    guild = client.get_guild(id=0000000000000)
-    role = discord.utils.get(guild.roles, id=00000000000000)
+    guild = client.get_guild(id=434343434343434)
+    role = discord.utils.get(guild.roles, id=34343434343434)
     member = guild.get_member(ctx.message.author.id)
     await member.add_roles(role)
 
@@ -717,7 +742,11 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.1/Discord-Moveset-Bot.7z')
+    embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.1.1/Discord-Moveset-Bot.7z )', inline=False)
+    await ctx.send(embed=embed)
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
@@ -985,6 +1014,14 @@ async def on_guild_join(guild):
     channel = guild.text_channels[0]
     embed = discord.Embed(title=guild.name, description="Hello, how can I help your Server?")
     await channel.send(embed=embed)
+    
+   
+@client.event
+async def on_member_update(before, after):
+    if before.status is discord.Status.offline and after.status is discord.Status.online:
+        print('was offline then online')
+        channel = client.get_channel(3333333333333333)  # notification channel
+        await channel.send(f'{after.name} is now {after.status}')
 
 
 @client.event
