@@ -5,9 +5,13 @@
 - Music Feature + local Music MP3 File ✔️
 - Minigames (Coinflip, Slap, 8Ball, Blackjack...) ✔️
 - Spotify Integration ✔️
+- Github Support (Alpha) ✔️
+- Twitch Support (Alpha) ✔️
+- Backup Feaute (Alpha) ✔️
 - Wondertrade/Linktrade Countdown ✔️
 - Auto-Role/Command Creating Feature ✔️
-- Auto-Update Feature (still BETA) ✔️
+- Auto-Role/Command adding Feature ✔️
+- Auto-Update Feature ✔️
 - Game_Status_Change ✔️
 
 
