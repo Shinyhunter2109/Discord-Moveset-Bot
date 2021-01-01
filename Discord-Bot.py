@@ -5,7 +5,6 @@ intents.reactions = True
 import random
 import asyncio
 import json
-import numpy
 import async_timeout
 import asyncore
 import math
