@@ -7,7 +7,7 @@
 - Spotify Integration ✔️
 - Github Support (Alpha) ✔️
 - Twitch Support (Alpha) ✔️
-- Backup Feaute (Alpha) ✔️
+- Backup Feature (Alpha) ✔️
 - Wondertrade/Linktrade Countdown ✔️
 - Auto-Role/Command Creating Feature ✔️
 - Auto-Role/Command adding Feature ✔️
