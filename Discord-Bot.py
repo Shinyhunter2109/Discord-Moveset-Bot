@@ -10,6 +10,12 @@ import asyncore
 import math
 import threading
 import logging
+import idlelib
+import xml
+import plistlib
+import html
+import easy_install
+import calendar
 import time
 import typing
 import traceback
