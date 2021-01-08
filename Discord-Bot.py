@@ -1,7 +1,4 @@
 import discord
-intents = discord.Intents.default()
-intents.members = True
-intents.reactions = True
 import random
 import asyncio
 import json
@@ -40,7 +37,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '.', intents=intents)
+client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLES HERE...'
