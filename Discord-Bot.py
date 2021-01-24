@@ -4,18 +4,14 @@ import asyncio
 import json
 import async_timeout
 import asyncore
-import math
 import threading
 import logging
-import idlelib
-import xml
-import plistlib
-import html
-import easy_install
-import calendar
 import time
 import typing
 import traceback
+import os
+from os import system
+from itertools import cycle
 from datetime import datetime
 from github import Github
 from discord.voice_client import VoiceClient
@@ -25,9 +21,8 @@ from discord import FFmpegPCMAudio
 from discord import Spotify
 import youtube_dl
 from youtube_dl import YoutubeDL
-import os
-from os import system
-from itertools import cycle
+
+
 
 TOKEN = 'INSERT YOUR TOKEN HERE...'
 
@@ -37,10 +32,10 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
+client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
-ROLE = 'INSERT ROLES HERE...'
+ROLE = 'INSERT ROLE HERE'
 
 
 @client.event
@@ -48,7 +43,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.1.1')
+    print('Bot version: 4.2')
     print('You are on the Latest Version')
 
 
@@ -87,7 +82,7 @@ async def delta(ctx, *, member: JoinDistance):
 class MemberRoles(commands.MemberConverter):
     async def convert(self, ctx, argument):
         member = await super().convert(ctx, argument)
-        return [role.name for role in member.roles[1:]] # Remove everyone role!
+        return [role.name for role in member.roles[1:]]
 
 
 @client.command()
@@ -124,18 +119,29 @@ async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
 
 
-def is_it_me(ctx):
-    return ctx.author.id == 'INSERT ID HERE'
-
-
 @client.command()
-@commands.check(is_it_me)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - client.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
     await ctx.send(f'**{days}d, {hours}h, {minutes}m**')
+
+
+@client.command()
+async def local_play(ctx):
+    voice_channel = ctx.author.channel
+    channel = None
+    if voice_channel != None:
+        channel = voice_channel.name
+        vc = await voice_channel.connect()
+        vc.play(discord.FFmpegPCMAudio(executable="C:/FFMPEG/ffmpeg.exe", source="<file directory goes here>"))
+        await ctx.send("Connected to " + channel)
+        while vc.is_playing():
+            await asyncio.sleep(.1)
+        await vc.disconnect()
+    else:
+        await ctx.send(str(ctx.author.name) + "is not in a channel.")
 
 
 @client.command(pass_context=True)
@@ -296,41 +302,20 @@ async def unbanhelp(ctx):
 
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.user)
-async def spotify(ctx, user: discord.Member=None):
-    user = user or ctx.author
-    for activity in user.activities:
-        if isinstance(activity, Spotify):
-            await ctx.send(f'{user} is listening to {activity.title} by {activity.artist}') # Tells you to what someone is listening
+async def spotify(self, ctx, user: discord.Member = None):
+    user = user or ctx.author  
+    spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
+    if spot is None:
+        await ctx.send(f"{user.name} is not listening to Spotify")
+        return
+    embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
+    embed.add_field(name="Song", value=spot.title)
+    embed.add_field(name="Artist", value=spot.artist)
+    embed.add_field(name="Album", value=spot.album)
+    embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
+    embed.set_thumbnail(url=spot.album_cover_url)
+    await ctx.send(embed=embed)
 
-
-@spotify.error
-async def spotify_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
-        
-        
-@client.command() 
-async def add(ctx, *nums):
-    operation = " + ".join(nums)
-    await ctx.send(f'{operation} = {eval(operation)}')
-
-@client.command() 
-async def sub(ctx, *nums): 
-    operation = " - ".join(nums)
-    await ctx.send(f'{operation} = {eval(operation)}')
-
-@client.command() 
-async def multiply(ctx, *nums): 
-    operation = " * ".join(nums)
-    await ctx.send(f'{operation} = {eval(operation)}')
-
-@client.command() 
-async def divide(ctx, *nums): 
-    operation = " / ".join(nums)
-    await ctx.send(f'{operation} = {eval(operation)}')
 
 
 @client.command()
@@ -343,7 +328,7 @@ async def emoji(ctx, emoji: discord.PartialEmoji = None):
 
 @client.command()
 async def backup(ctx):
-    await ctx.send('**Currently In Development! | Error Code: 0830-5219-8607 |**')
+    await ctx.send('**Currently In Development! | Error Code: 0737-5019-8627 |**')
     await ctx.send('**https://open.spotify.com/track/6R6on0ldJcSDfi2whJziJ1?si=NcphntXxRN67ht26nMYIjQ**')
 
 
@@ -420,20 +405,20 @@ async def coinflip(ctx):
     choices = ['Heads', 'Tails']
     rancoin = random.choice(choices)
     await ctx.send(f'Coinflip has started...')
-    await asyncio.sleep(5)
+    await asyncio.sleep(15)
     await ctx.send(rancoin)
 
 
 @client.command()
 async def Ads(ctx, member : discord.Member, *, reason=None):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
-    await asyncio.sleep(10)
+    await asyncio.sleep(18)
     await member.kick(reason=reason)
     await ctx.send('**Press F to pay respect**')
 
 
 @client.command()
-async def guessinggame(ctx):
+async def gg(ctx):
     number = random.randint(1,150)
     for i in range(1, 150):
         await ctx.send('**guess a number**')
@@ -459,7 +444,7 @@ async def info_error(ctx, error):
         await ctx.send('I could not find that member...')
 
 
-@tasks.loop(seconds=320)
+@tasks.loop(seconds=300)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
@@ -607,6 +592,28 @@ async def Discord(ctx):
     await ctx.send(f'https://discord.gg/T2deZV8')
 
 
+# Math Module
+@client.command() 
+async def add(ctx, *nums):
+    operation = " + ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+@client.command() 
+async def sub(ctx, *nums): 
+    operation = " - ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+@client.command() 
+async def multiply(ctx, *nums): 
+    operation = " * ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+@client.command() 
+async def divide(ctx, *nums): 
+    operation = " / ".join(nums)
+    await ctx.send(f'{operation} = {eval(operation)}')
+
+
 @client.command()
 async def dm(ctx):
     rand_num = (randint(1, 3))
@@ -621,8 +628,8 @@ async def dm(ctx):
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def vip_dm(ctx):
-    guild = client.get_guild(id=434343434343434)
-    role = discord.utils.get(guild.roles, id=34343434343434)
+    guild = client.get_guild(id=0000000000000)
+    role = discord.utils.get(guild.roles, id=00000000000000)
     member = guild.get_member(ctx.message.author.id)
     await member.add_roles(role)
 
@@ -729,6 +736,43 @@ async def close(ctx):
     await client.logout()
 
 
+@client.command(help="Play with .rps [your choice]")
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def rps(ctx):
+    rpsGame = ['rock', 'paper', 'scissors']
+    await ctx.send(f"Rock, paper, or scissors? Choose wisely...")
+
+    def check(msg):
+        return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
+
+    user_choice = (await client.wait_for('message', check=check)).content
+
+    comp_choice = random.choice(rpsGame)
+    if user_choice == 'rock':
+        if comp_choice == 'rock':
+            await ctx.send(f'Well, that was weird. We tied.\nYour choice: {user_choice}\nMy choice: {comp_choice}')
+        elif comp_choice == 'paper':
+            await ctx.send(f'Nice try, but I won that time!!\nYour choice: {user_choice}\nMy choice: {comp_choice}')
+        elif comp_choice == 'scissors':
+            await ctx.send(f"Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}")
+
+    elif user_choice == 'paper':
+        if comp_choice == 'rock':
+            await ctx.send(f'The pen beats the sword? More like the paper beats the rock!!\nYour choice: {user_choice}\nMy choice: {comp_choice}')
+        elif comp_choice == 'paper':
+            await ctx.send(f'Oh, wacky. We just tied. I call a rematch!!\nYour choice: {user_choice}\nMy choice: {comp_choice}')
+        elif comp_choice == 'scissors':
+            await ctx.send(f"Aw man, you actually managed to beat me.\nYour choice: {user_choice}\nMy choice: {comp_choice}")
+
+    elif user_choice == 'scissors':
+        if comp_choice == 'rock':
+            await ctx.send(f'HAHA!! I JUST CRUSHED YOU!! I rock!!\nYour choice: {user_choice}\nMy choice: {comp_choice}')
+        elif comp_choice == 'paper':
+            await ctx.send(f'Bruh. >: |\nYour choice: {user_choice}\nMy choice: {comp_choice}')
+        elif comp_choice == 'scissors':
+            await ctx.send(f"Oh well, we tied.\nYour choice: {user_choice}\nMy choice: {comp_choice}")
+
+
 @client.command()
 async def Sub(ctx):
     await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
@@ -744,11 +788,7 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    embed = discord.Embed(
-            color= discord.Colour.dark_teal()
-        )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.1.1/Discord-Moveset-Bot.7z )', inline=False)
-    await ctx.send(embed=embed)
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.2/Discord-Moveset-Bot.7z')
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
@@ -1012,18 +1052,58 @@ async def clear_error(ctx, error):
 
 
 @client.event
-async def on_guild_join(guild):
-    channel = guild.text_channels[0]
-    embed = discord.Embed(title=guild.name, description="Hello, how can I help your Server?")
-    await channel.send(embed=embed)
-    
-   
+async def on_message_delete(message):
+    if len(message.mentions) == 0:
+        return
+    else:
+        print(message.author.name)
+        ghostping = discord.Embed(title=f'GHOSTPING', color=0xFF0000, timestamp=message.created_at)
+        ghostping.add_field(name='**Name:**', value=f'{message.author} ({message.author.id})')
+        ghostping.add_field(name='**Message:**', value=f'{message.content}')
+        ghostping.set_thumbnail(
+            url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtzZMvleC8FG1ExS4PyhFUm9kS4BGVlsTYw&usqp=CAU')
+        try:
+            await message.channel.send(embed=ghostping)
+        except discord.Forbidden:
+            try:
+                await message.author.send(embed=ghostping)
+            except discord.Forbidden:
+                return
+
+
+@client.event
+async def on_raw_reaction_add(payload):
+    #You forgot to await the bot.get_channel
+    channel = (payload.channel_id)
+    message = await channel.fetch_message(payload.message_id)
+    guild = client.get_guild(payload.guild_id)
+    #Put the following Line
+    member = guild.get_member(payload.user_id)
+    reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
+
+    # only work if it is the client
+    if payload.user_id == client.user.id:
+        return
+
+    if payload.message_id == 792058195714899998 and reaction.emoji == '✅':
+        roles = discord.utils.get(guild.roles, name='Verify')
+        await member.add_roles(roles)
+        await reaction.remove(payload.member)
+
+
 @client.event
 async def on_member_update(before, after):
     if before.status is discord.Status.offline and after.status is discord.Status.online:
         print('was offline then online')
-        channel = client.get_channel(3333333333333333)  # notification channel
+        channel = client.get_channel(000000000000)  # notification channel
         await channel.send(f'{after.name} is now {after.status}')
+
+
+@client.event
+async def on_guild_join(guild):
+    channel = guild.text_channels[0]
+    embed = discord.Embed(title=guild.name, description="Hello, how can I help your Server?")
+    await channel.send(embed=embed)
 
 
 @client.event
