@@ -776,6 +776,30 @@ async def rps(ctx):
 @client.command()
 async def Sub(ctx):
     await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
+    
+    
+@client.command()
+async def dice(ctx):
+    message = await ctx.send("Choose a number:\n**4**, **6**, **8**, **10**, **12**, **20** ")
+    
+    def check(m):
+        return m.author == ctx.author
+
+    try:
+        message = await client.wait_for("message", check = check, timeout = 30.0)
+        m = message.content
+
+        if m != "4" and m != "6" and m != "8" and m != "10" and m != "12" and m != "20":
+            await ctx.send("Sorry, invalid choice.")
+            return
+        
+        coming = await ctx.send("Here it comes...")
+        time.sleep(1)
+        await coming.delete()
+        await ctx.send(f"**{random.randint(1, int(m))}**")
+    except asyncio.TimeoutError:
+        await message.delete()
+        await ctx.send("Procces has been canceled because you didn't respond in **30** seconds.")
 
 
 def is_it_me(ctx):
@@ -1089,14 +1113,6 @@ async def on_raw_reaction_add(payload):
         roles = discord.utils.get(guild.roles, name='Verify')
         await member.add_roles(roles)
         await reaction.remove(payload.member)
-
-
-@client.event
-async def on_member_update(before, after):
-    if before.status is discord.Status.offline and after.status is discord.Status.online:
-        print('was offline then online')
-        channel = client.get_channel(000000000000)  # notification channel
-        await channel.send(f'{after.name} is now {after.status}')
 
 
 @client.event
