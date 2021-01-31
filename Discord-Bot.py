@@ -824,6 +824,48 @@ async def Update(ctx):
     await asyncio.sleep(60)
     await ctx.send(f'No User Input recognized, restarting Bot now...')
     await client.logout()
+    
+    
+@client.command(help="Play with !Coinflip [your choice]")
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Coinflip(ctx):
+    rpsGame = ['head', 'tails']
+    await ctx.send(f"**head or tails? Choose wisely...**")
+
+    def check(msg):
+        return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
+
+    user_choice = (await client.wait_for('message', check=check)).content
+
+    comp_choice = random.choice(rpsGame)
+    if user_choice == 'head':
+        if comp_choice == 'head':
+            await ctx.send(f'**Well, that was weird. We tied.\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'tails':
+            await ctx.send(f'**Nice try, but I won that time!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'head':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+        elif comp_choice == 'tails':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+
+    elif user_choice == 'tails':
+        if comp_choice == 'head':
+            await ctx.send(f'**The head beats the tails? More like the tails beats the head!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'tails':
+            await ctx.send(f'**Oh, wacky. We just tied. I call a rematch!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'head':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+        elif comp_choice == 'tails':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+
+
+@Coinflip.error
+async def coinflip_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command()
