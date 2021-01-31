@@ -2,8 +2,8 @@
 
 ## Features:
 
-- Music Feature + local Music MP3 File ✔️
-- Minigames (Coinflip, Slap, 8Ball, Blackjack...) ✔️
+- Music Feature ✔️
+- Minigames (Coinflip, Slap, 8Ball, Blackjack, Dice, Rock-Paper-Scissors) ✔️
 - Spotify Integration ✔️
 - Github Support (Alpha) ✔️
 - Twitch Support (Alpha) ✔️
@@ -13,6 +13,7 @@
 - Auto-Role/Command adding Feature ✔️
 - Auto-Update Feature ✔️
 - Game_Status_Change ✔️
+- Error Handler ✔️
 
 
 ## Setup for Own Usage:
