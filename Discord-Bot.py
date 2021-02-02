@@ -531,6 +531,14 @@ async def unban(ctx, *, member):
 async def Switch(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('switch-talk')
+    
+@client.command()   
+async def reset_cooldown(self, ctx, member: discord.Member):
+    ctx.author = member
+    ctx.message.author = member
+    
+    self.start.reset_cooldown(ctx)
+    await ctx.send(f"Resetted cooldown for {member.mention}")
 
 
 @client.command()
