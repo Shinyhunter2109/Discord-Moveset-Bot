@@ -7,6 +7,7 @@ import asyncore
 import threading
 import logging
 import time
+import pytz
 import typing
 import traceback
 import os
@@ -117,6 +118,14 @@ class Slapper(commands.Converter):
 @client.command()
 async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
+    
+    
+if message.content.startswith('!time'):
+    timestamp = datetime.now()
+    pst = timezone('US/Pacific')
+    est = pytz.timezone('US/Eastern')
+    msg = f"PST Time: {timestamp.astimezone(pst).strftime("%I:%M %p")}, EST Time: {timestamp.astimezone(est).strftime("%I:%M %p")}"
+    await message.channel.send(msg)
 
 
 @client.command()
