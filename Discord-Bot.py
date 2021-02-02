@@ -471,6 +471,51 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             await ctx.send(f'Unbanned {user.mention}')
             return
+        
+        
+@commands.command()
+@commands.guild_only()
+    async def gstart(self, ctx, duration, *, prize):
+        time = self.convert(duration)
+        if time == -1:
+            await ctx.send(f'Answer Time With A Proper Unit (s, m, h, d)')
+            return
+        elif time == -2:
+            await ctx.send(f'Time Must Be A Integer!')
+            return
+        giveawayembed = discord.Embed(
+            title="🎉 New Giveaway! 🎉",
+            description=f"**Prize:** {prize}\n"
+                        f"**Hosted By:** {ctx.author.mention}\n"
+                        f"**Ends In:** {time} Seconds",
+            colour=discord.Color.green()
+        )
+
+        msg = await ctx.send(embed=giveawayembed)
+
+        reactions = await msg.add_reaction("🎉")
+
+        while time > 0:
+            await asyncio.sleep(10)
+            time -= 10
+            giveawayembed.description= f"**Prize:** {prize}\n**Hosted By:** {ctx.author.mention}\n**Ends In:** {time} Seconds"
+            await msg.edit(embed=giveawayembed)
+
+        await asyncio.sleep(time)
+
+        new_msg = await ctx.fetch_message(msg.id)
+
+        users = await new_msg.reactions[0].users().flatten()
+        users.pop(users.index(self.client.user))
+
+        winner = random.choice(users)
+
+        endembed = discord.Embed(
+            title="Giveaway ended!",
+            description=f"Prize: {prize}\nWinner: {winner.mention}")
+
+        await msg.edit(embed=endembed)
+        await ctx.send(f"🎉 Giveaway Winner: {winner.mention} | Prize: {prize}")
 
 
 @client.command()
