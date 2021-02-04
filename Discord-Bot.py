@@ -482,8 +482,7 @@ async def unban(ctx, *, member):
             return
         
         
-@commands.command()
-@commands.guild_only()
+@client.command()
     async def gstart(self, ctx, duration, *, prize):
         time = self.convert(duration)
         if time == -1:
@@ -521,10 +520,10 @@ async def unban(ctx, *, member):
 
         endembed = discord.Embed(
             title="Giveaway ended!",
-            description=f"Prize: {prize}\nWinner: {winner.mention}")
+    description=f"Prize: {prize}\nWinner: {winner.mention}")
 
-        await msg.edit(embed=endembed)
-        await ctx.send(f"🎉 Giveaway Winner: {winner.mention} | Prize: {prize}")
+    await msg.edit(embed=endembed)
+    await ctx.send(f"🎉 Giveaway Winner: {winner.mention} | Prize: {prize}")
 
 
 @client.command()
