@@ -137,7 +137,7 @@ async def uptime(ctx):
     await ctx.send(f'**{days}d, {hours}h, {minutes}m**')
 
 
-@client.command()
+@client.command() # ONLY TESTING NOT WORKING !
 async def local_play(ctx):
     voice_channel = ctx.author.channel
     channel = None
