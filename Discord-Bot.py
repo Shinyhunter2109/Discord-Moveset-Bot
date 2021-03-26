@@ -7,7 +7,6 @@ import asyncore
 import threading
 import logging
 import time
-import pytz
 import typing
 import traceback
 import os
@@ -44,7 +43,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.2')
+    print('Bot version: 4.5')
     print('You are on the Latest Version')
 
 
@@ -118,14 +117,6 @@ class Slapper(commands.Converter):
 @client.command()
 async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
-    
-    
-if message.content.startswith('!time'):
-    timestamp = datetime.now()
-    pst = timezone('US/Pacific')
-    est = pytz.timezone('US/Eastern')
-    msg = f"PST Time: {timestamp.astimezone(pst).strftime("%I:%M %p")}, EST Time: {timestamp.astimezone(est).strftime("%I:%M %p")}"
-    await message.channel.send(msg)
 
 
 @client.command()
@@ -137,8 +128,8 @@ async def uptime(ctx):
     await ctx.send(f'**{days}d, {hours}h, {minutes}m**')
 
 
-@client.command() # ONLY TESTING NOT WORKING !
-async def local_play(ctx):
+@client.command() # Experimental can work !
+async def lcp(ctx):
     voice_channel = ctx.author.channel
     channel = None
     if voice_channel != None:
@@ -337,7 +328,7 @@ async def emoji(ctx, emoji: discord.PartialEmoji = None):
 
 @client.command()
 async def backup(ctx):
-    await ctx.send('**Currently In Development! | Error Code: 0737-5019-8627 |**')
+    await ctx.send('**Currently In Development! | Error Code: 0737-5878-8627 |**')
     await ctx.send('**https://open.spotify.com/track/6R6on0ldJcSDfi2whJziJ1?si=NcphntXxRN67ht26nMYIjQ**')
 
 
@@ -409,13 +400,46 @@ async def play(ctx, url: str):
     voice.is_playing()
 
 
-@client.command()
-async def coinflip(ctx):
-    choices = ['Heads', 'Tails']
-    rancoin = random.choice(choices)
-    await ctx.send(f'Coinflip has started...')
-    await asyncio.sleep(15)
-    await ctx.send(rancoin)
+@client.command(help="Play with !Coinflip [your choice]")
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def Coinflip(ctx):
+    rpsGame = ['head', 'tails']
+    await ctx.send(f"**head or tails? Choose wisely...**")
+
+    def check(msg):
+        return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
+
+    user_choice = (await client.wait_for('message', check=check)).content
+
+    comp_choice = random.choice(rpsGame)
+    if user_choice == 'head':
+        if comp_choice == 'head':
+            await ctx.send(f'**Well, that was weird. We tied.\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'tails':
+            await ctx.send(f'**Nice try, but I won that time!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'head':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+        elif comp_choice == 'tails':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+
+    elif user_choice == 'tails':
+        if comp_choice == 'head':
+            await ctx.send(f'**The head beats the tails? More like the tails beats the head!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'tails':
+            await ctx.send(f'**Oh, wacky. We just tied. I call a rematch!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
+        elif comp_choice == 'head':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+        elif comp_choice == 'tails':
+            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
+
+
+@Coinflip.error
+async def coinflip_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command()
@@ -424,6 +448,20 @@ async def Ads(ctx, member : discord.Member, *, reason=None):
     await asyncio.sleep(18)
     await member.kick(reason=reason)
     await ctx.send('**Press F to pay respect**')
+
+
+password = '593734'
+
+@client.command()
+async def offline(ctx, *, password_check=None):
+    if password_check and password_check == password:
+        await ctx.message.channel.purge(limit=1)
+        await ctx.send('Shutting down bot...')
+        await ctx.bot.logout()
+    elif not password_check:
+        await ctx.send('Please enter the password!')
+    else:
+        await ctx.send('You got the password wrong.')
 
 
 @client.command()
@@ -480,64 +518,12 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             await ctx.send(f'Unbanned {user.mention}')
             return
-        
-        
-@client.command()
-    async def gstart(self, ctx, duration, *, prize):
-        time = self.convert(duration)
-        if time == -1:
-            await ctx.send(f'Answer Time With A Proper Unit (s, m, h, d)')
-            return
-        elif time == -2:
-            await ctx.send(f'Time Must Be A Integer!')
-            return
-        giveawayembed = discord.Embed(
-            title="🎉 New Giveaway! 🎉",
-            description=f"**Prize:** {prize}\n"
-                        f"**Hosted By:** {ctx.author.mention}\n"
-                        f"**Ends In:** {time} Seconds",
-            colour=discord.Color.green()
-        )
-
-        msg = await ctx.send(embed=giveawayembed)
-
-        reactions = await msg.add_reaction("🎉")
-
-        while time > 0:
-            await asyncio.sleep(10)
-            time -= 10
-            giveawayembed.description= f"**Prize:** {prize}\n**Hosted By:** {ctx.author.mention}\n**Ends In:** {time} Seconds"
-            await msg.edit(embed=giveawayembed)
-
-        await asyncio.sleep(time)
-
-        new_msg = await ctx.fetch_message(msg.id)
-
-        users = await new_msg.reactions[0].users().flatten()
-        users.pop(users.index(self.client.user))
-
-        winner = random.choice(users)
-
-        endembed = discord.Embed(
-            title="Giveaway ended!",
-    description=f"Prize: {prize}\nWinner: {winner.mention}")
-
-    await msg.edit(embed=endembed)
-    await ctx.send(f"🎉 Giveaway Winner: {winner.mention} | Prize: {prize}")
 
 
 @client.command()
 async def Switch(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('switch-talk')
-    
-@client.command()   
-async def reset_cooldown(self, ctx, member: discord.Member):
-    ctx.author = member
-    ctx.message.author = member
-    
-    self.start.reset_cooldown(ctx)
-    await ctx.send(f"Resetted cooldown for {member.mention}")
 
 
 @client.command()
@@ -676,7 +662,7 @@ async def divide(ctx, *nums):
 
 
 @client.command()
-async def dm(ctx):
+async def dma(ctx):
     rand_num = (randint(1, 3))
     win_num = 1
     pm_channel = await ctx.author.create_dm()
@@ -790,13 +776,6 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
     await ctx.send('{} bottles of {} on the wall!'.format(amount, liquid))
 
 
-@client.command()
-async def close(ctx):
-    await ctx.send(f'Disconnecting Bot in 15 seconds...')
-    await asyncio.sleep(15)
-    await client.logout()
-
-
 @client.command(help="Play with .rps [your choice]")
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def rps(ctx):
@@ -837,30 +816,6 @@ async def rps(ctx):
 @client.command()
 async def Sub(ctx):
     await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
-    
-    
-@client.command()
-async def dice(ctx):
-    message = await ctx.send("Choose a number:\n**4**, **6**, **8**, **10**, **12**, **20** ")
-    
-    def check(m):
-        return m.author == ctx.author
-
-    try:
-        message = await client.wait_for("message", check = check, timeout = 30.0)
-        m = message.content
-
-        if m != "4" and m != "6" and m != "8" and m != "10" and m != "12" and m != "20":
-            await ctx.send("Sorry, invalid choice.")
-            return
-        
-        coming = await ctx.send("Here it comes...")
-        time.sleep(1)
-        await coming.delete()
-        await ctx.send(f"**{random.randint(1, int(m))}**")
-    except asyncio.TimeoutError:
-        await message.delete()
-        await ctx.send("Procces has been canceled because you didn't respond in **30** seconds.")
 
 
 def is_it_me(ctx):
@@ -873,7 +828,7 @@ async def Update(ctx):
     await ctx.send(f'Checking for Updates...')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.2/Discord-Moveset-Bot.7z')
+    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.5/Discord-Moveset-Bot.7z')
     await asyncio.sleep(20)
     await ctx.send(f'Downloading New Version Now!')
     await asyncio.sleep(60)
@@ -885,48 +840,6 @@ async def Update(ctx):
     await asyncio.sleep(60)
     await ctx.send(f'No User Input recognized, restarting Bot now...')
     await client.logout()
-    
-    
-@client.command(help="Play with !Coinflip [your choice]")
-@commands.cooldown(1, 60, commands.BucketType.user)
-async def Coinflip(ctx):
-    rpsGame = ['head', 'tails']
-    await ctx.send(f"**head or tails? Choose wisely...**")
-
-    def check(msg):
-        return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
-
-    user_choice = (await client.wait_for('message', check=check)).content
-
-    comp_choice = random.choice(rpsGame)
-    if user_choice == 'head':
-        if comp_choice == 'head':
-            await ctx.send(f'**Well, that was weird. We tied.\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
-        elif comp_choice == 'tails':
-            await ctx.send(f'**Nice try, but I won that time!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
-        elif comp_choice == 'head':
-            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
-        elif comp_choice == 'tails':
-            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
-
-    elif user_choice == 'tails':
-        if comp_choice == 'head':
-            await ctx.send(f'**The head beats the tails? More like the tails beats the head!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
-        elif comp_choice == 'tails':
-            await ctx.send(f'**Oh, wacky. We just tied. I call a rematch!!\nYour choice: {user_choice}\nMy choice: {comp_choice}**')
-        elif comp_choice == 'head':
-            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
-        elif comp_choice == 'tails':
-            await ctx.send(f"**Aw, you beat me. It won't happen again!\nYour choice: {user_choice}\nMy choice: {comp_choice}**")
-
-
-@Coinflip.error
-async def coinflip_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
 
 
 @client.command()
@@ -1216,6 +1129,14 @@ async def on_raw_reaction_add(payload):
         roles = discord.utils.get(guild.roles, name='Verify')
         await member.add_roles(roles)
         await reaction.remove(payload.member)
+
+
+@client.event
+async def on_member_update(before, after):
+    if before.status is discord.Status.offline and after.status is discord.Status.online:
+        print('was offline then online')
+        channel = client.get_channel(000000000000)  # notification channel
+        await channel.send(f'{after.name} is now {after.status}')
 
 
 @client.event
