@@ -43,7 +43,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.5')
+    print('Bot version: 4.6')
     print('You are on the Latest Version')
 
 
@@ -74,9 +74,9 @@ class JoinDistance:
 async def delta(ctx, *, member: JoinDistance):
     is_new = member.delta.days < 100
     if is_new:
-        await ctx.send("Hey you're pretty new!")
+        await ctx.send("You're pretty new!")
     else:
-        await ctx.send("Hm you're not so new.")
+        await ctx.send("You're not so new.")
 
 
 class MemberRoles(commands.MemberConverter):
@@ -307,7 +307,7 @@ async def spotify(self, ctx, user: discord.Member = None):
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
         await ctx.send(f"{user.name} is not listening to Spotify")
-        return
+    return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
     embed.add_field(name="Artist", value=spot.artist)
@@ -328,8 +328,8 @@ async def emoji(ctx, emoji: discord.PartialEmoji = None):
 
 @client.command()
 async def backup(ctx):
-    await ctx.send('**Currently In Development! | Error Code: 0737-5878-8627 |**')
-    await ctx.send('**https://open.spotify.com/track/6R6on0ldJcSDfi2whJziJ1?si=NcphntXxRN67ht26nMYIjQ**')
+    await ctx.send('**Currently In Development! | Error Code: 9711-3878-8327 |**')
+    await ctx.send('**https://open.spotify.com/track/5gqH38uFh40KxHJgrDDBwD?si=0kNN10c-QwG2xITas3E26A**')
 
 
 @client.command()
@@ -443,10 +443,10 @@ async def coinflip_error(ctx, error):
 
 
 @client.command()
-async def Ads(ctx, member : discord.Member, *, reason=None):
+async def Ads(ctx, member : discord.Member):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
     await asyncio.sleep(18)
-    await member.kick(reason=reason)
+    await member.kick()
     await ctx.send('**Press F to pay respect**')
 
 
@@ -491,18 +491,38 @@ async def info_error(ctx, error):
         await ctx.send('I could not find that member...')
 
 
-@tasks.loop(seconds=300)
+@tasks.loop(seconds=320)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
+password = '94535412'
+
+
 @client.command()
-async def kick(ctx, member : discord.Member, *, reason=None):
+async def kick(ctx, member : discord.Member, *,password_check=None, reason=None):
+    if password_check and password_check == password:
+        await ctx.message.channel.purge(limit=1)
+        await ctx.send('Password correct!')
+    elif not password_check:
+        await ctx.send('Please enter the password!')
+    else:
+        await ctx.send('You got the password wrong.')
     await member.kick(reason=reason)
 
 
+password = '7376894'
+
+
 @client.command()
-async def ban(ctx, member : discord.Member, *, reason=None):
+async def ban(ctx, member : discord.Member, *, password_check=None, reason=None):
+    if password_check and password_check == password:
+        await ctx.message.channel.purge(limit=1)
+        await ctx.send('Password correct!')
+    elif not password_check:
+        await ctx.send('Please enter the password!')
+    else:
+        await ctx.send('You got the password wrong.')
     await member.ban(reason=reason)
 
 
@@ -728,7 +748,11 @@ async def sd_error(ctx, error):
 
 @client.command()
 async def Prime(ctx):
-    await ctx.send(f'Use Amazon Prime on Twitch: https://twitch.amazon.com/tp')
+    embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+    embed.add_field(name='Use Amazon Prime on Twitch:' ,value='[Click here to view]( https://twitch.amazon.com/tp )', inline=False)
+    await ctx.send(embed=embed)
 
 
 @client.command()
@@ -780,7 +804,7 @@ async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def rps(ctx):
     rpsGame = ['rock', 'paper', 'scissors']
-    await ctx.send(f"Rock, paper, or scissors? Choose wisely...")
+    await ctx.send(f"**Rock, paper, or scissors? Choose wisely...**")
 
     def check(msg):
         return msg.author == ctx.author and msg.channel == ctx.channel and msg.content.lower() in rpsGame
@@ -815,31 +839,33 @@ async def rps(ctx):
 
 @client.command()
 async def Sub(ctx):
-    await ctx.send(f'https://www.twitch.tv/products/shinyhunter2109')
-
-
-def is_it_me(ctx):
-    return ctx.author.id =='Insert Your Discord-ID here!'
+    embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+    embed.add_field(name='Subscribe here' ,value='[Click here to view]( https://www.twitch.tv/products/shinyhunter2109 )', inline=False)
+    await ctx.send(embed=embed)
 
 
 @client.command()
-@commands.check(is_it_me)
 async def Update(ctx):
-    await ctx.send(f'Checking for Updates...')
+    await ctx.send(f'**Checking for Updates...**')
     await asyncio.sleep(10)
-    await ctx.send(f'Latest Version detected...')
-    await ctx.send(f'https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.5/Discord-Moveset-Bot.7z')
-    await asyncio.sleep(20)
-    await ctx.send(f'Downloading New Version Now!')
-    await asyncio.sleep(60)
-    await ctx.send(f'Verify New Content')
-    await asyncio.sleep(20)
-    await ctx.send(f'Update Complete')
+    await ctx.send(f'**New Version detected...**')
     await asyncio.sleep(10)
-    await ctx.send(f'Please restart Bot now or wait 60 seconds')
-    await asyncio.sleep(60)
-    await ctx.send(f'No User Input recognized, restarting Bot now...')
-    await client.logout()
+    embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.6/Discord-Moveset-Bot.7z )', inline=False)
+    await ctx.send(embed=embed)
+
+
+@Update.error
+async def update_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command()
