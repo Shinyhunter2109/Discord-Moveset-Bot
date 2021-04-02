@@ -43,7 +43,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.6')
+    print('Bot version: 4.6.1')
     print('You are on the Latest Version')
 
 
@@ -120,6 +120,7 @@ async def slap(ctx, *, reason: Slapper):
 
 
 @client.command()
+@commands.cooldown(1, 180, commands.BucketType.user)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - client.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
@@ -128,7 +129,16 @@ async def uptime(ctx):
     await ctx.send(f'**{days}d, {hours}h, {minutes}m**')
 
 
-@client.command() # Experimental can work !
+@uptime.error
+async def uptime_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command() # Experimental can work ! Not Tested yet !
 async def lcp(ctx):
     voice_channel = ctx.author.channel
     channel = None
@@ -301,7 +311,7 @@ async def unbanhelp(ctx):
 
 
 @client.command()
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 90, commands.BucketType.user)
 async def spotify(self, ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
@@ -445,7 +455,7 @@ async def coinflip_error(ctx, error):
 @client.command()
 async def Ads(ctx, member : discord.Member):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
-    await asyncio.sleep(18)
+    await asyncio.sleep(30)
     await member.kick()
     await ctx.send('**Press F to pay respect**')
 
@@ -488,7 +498,7 @@ async def info(ctx, *, member: discord.Member):
 @info.error
 async def info_error(ctx, error):
     if isinstance(error, commands.BadArgument):
-        await ctx.send('I could not find that member...')
+        await ctx.send('**I could not find that member...**')
 
 
 @tasks.loop(seconds=320)
@@ -500,7 +510,7 @@ password = '94535412'
 
 
 @client.command()
-async def kick(ctx, member : discord.Member, *,password_check=None, reason=None):
+async def kick(ctx, member : discord.Member, *,password_check=None):
     if password_check and password_check == password:
         await ctx.message.channel.purge(limit=1)
         await ctx.send('Password correct!')
@@ -508,14 +518,14 @@ async def kick(ctx, member : discord.Member, *,password_check=None, reason=None)
         await ctx.send('Please enter the password!')
     else:
         await ctx.send('You got the password wrong.')
-    await member.kick(reason=reason)
+    await member.kick()
 
 
 password = '7376894'
 
 
 @client.command()
-async def ban(ctx, member : discord.Member, *, password_check=None, reason=None):
+async def ban(ctx, member : discord.Member, *, password_check=None):
     if password_check and password_check == password:
         await ctx.message.channel.purge(limit=1)
         await ctx.send('Password correct!')
@@ -523,7 +533,7 @@ async def ban(ctx, member : discord.Member, *, password_check=None, reason=None)
         await ctx.send('Please enter the password!')
     else:
         await ctx.send('You got the password wrong.')
-    await member.ban(reason=reason)
+    await member.ban()
 
 
 @client.command()
@@ -536,7 +546,7 @@ async def unban(ctx, *, member):
 
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
-            await ctx.send(f'Unbanned {user.mention}')
+            await ctx.send(f'**Unbanned {user.mention}**')
             return
 
 
@@ -655,8 +665,11 @@ async def ping(ctx):
 
 @client.command()
 async def Discord(ctx):
-    await ctx.send('Come and checkout the Development of this Project')
-    await ctx.send(f'https://discord.gg/T2deZV8')
+    embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+    embed.add_field(name='Come and checkout the Development of this Project' ,value='[Click here to join]( https://discord.gg/T2deZV8 )', inline=False)
+    await ctx.send(embed=embed)
 
 
 # Math Module
@@ -855,7 +868,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.6/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.7/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -875,9 +888,16 @@ async def BN(ctx):
 
 
 @client.command()
-async def Battle_net(ctx):
+async def Com_Help(ctx):
     guild = ctx.guild
-    await guild.create_role(name="Battle.net")
+    await guild.create_role(name="Community Helper")
+
+
+@client.command()
+async def Communit_Help(ctx):
+    role = discord.utils.get(ctx.guild.roles, name="Community Helper")
+    user = ctx.message.author
+    await user.add_roles(role)
 
 
 @client.command()
