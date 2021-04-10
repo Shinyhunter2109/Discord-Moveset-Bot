@@ -312,7 +312,7 @@ async def unbanhelp(ctx):
 
 @client.command()
 @commands.cooldown(1, 90, commands.BucketType.user)
-async def spotify(self, ctx, user: discord.Member = None):
+async def spotify(ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
