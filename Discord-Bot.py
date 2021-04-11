@@ -325,6 +325,15 @@ async def spotify(ctx, user: discord.Member = None):
     embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
     embed.set_thumbnail(url=spot.album_cover_url)
     await ctx.send(embed=embed)
+    
+    
+@spotify.error
+async def spotify_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 
@@ -862,9 +871,9 @@ async def Sub(ctx):
 @client.command()
 async def Update(ctx):
     await ctx.send(f'**Checking for Updates...**')
-    await asyncio.sleep(10)
+    await asyncio.sleep(15)
     await ctx.send(f'**New Version detected...**')
-    await asyncio.sleep(10)
+    await asyncio.sleep(15)
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
