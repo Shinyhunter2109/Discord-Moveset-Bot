@@ -34,7 +34,7 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
+status = cycle(['Playing Music', 'Community Help'])
 ROLE = 'INSERT ROLE HERE'
 
 
@@ -316,7 +316,7 @@ async def spotify(ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
-        await ctx.send(f"{user.name} is not listening to Spotify")
+        await ctx.send(f"**{user.name} is not listening to Spotify**")
     return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
@@ -384,7 +384,7 @@ async def leave(ctx):
     if voice and voice.is_connected():
         await voice.disconnect()
         print(f'The bot has left {channel}')
-        await ctx.send(f'Left {channel}')
+        await ctx.send(f'**Left {channel}**')
 
 
 @client.command(pass_context=True, aliases=['p', 'pla'])
@@ -469,7 +469,7 @@ async def Ads(ctx, member : discord.Member):
     await ctx.send('**Press F to pay respect**')
 
 
-password = '593734'
+password = '000000' # enter your password here | use digital numbers for pw |
 
 @client.command()
 async def offline(ctx, *, password_check=None):
@@ -515,7 +515,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '94535412'
+password = '00000000' # enter your own password here | use digital numbers as pw |
 
 
 @client.command()
@@ -530,7 +530,7 @@ async def kick(ctx, member : discord.Member, *,password_check=None):
     await member.kick()
 
 
-password = '7376894'
+password = '0000000' # like above for pw
 
 
 @client.command()
@@ -703,7 +703,7 @@ async def divide(ctx, *nums):
     await ctx.send(f'{operation} = {eval(operation)}')
 
 
-@client.command()
+@client.command() # not working Issue 1 #
 async def dma(ctx):
     rand_num = (randint(1, 3))
     win_num = 1
@@ -778,6 +778,7 @@ async def Prime(ctx):
 
 
 @client.command()
+@commands.cooldown(1, 90, commands.BucketType.user)
 async def timer(ctx):
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
@@ -792,6 +793,15 @@ async def timer(ctx):
     await ctx.send(f'GO Wondertrade')
     await asyncio.sleep(90)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
+    
+    
+@timer.error
+async def tim_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command()
@@ -877,7 +887,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.7/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.8/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
