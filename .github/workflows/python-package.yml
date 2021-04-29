@@ -28,6 +28,3 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install discord.py[Voice] youtube_dl PyNaCL asyncio PyGithub twitch-python
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test with pytest
-      run: |
-        pytest
