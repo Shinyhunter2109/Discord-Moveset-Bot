@@ -46,5 +46,5 @@
 
 
 
-[![Greetings](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml/badge.svg?branch=master&event=release)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml)  [![Labeler](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/label.yml/badge.svg?branch=master&event=label)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/label.yml)
+[![Greetings](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml/badge.svg?branch=master&event=release)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml)  [![Labeler](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/label.yml/badge.svg?branch=master&event=label)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/label.yml)  [![Manual workflow](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/manual.yml/badge.svg?branch=master)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/manual.yml)
 
