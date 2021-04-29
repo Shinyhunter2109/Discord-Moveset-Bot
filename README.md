@@ -39,3 +39,11 @@
 - If you done everything correctly you should see a Connection Message at the Console!
 
 - From here you can use the Bot and you are free to add some cool features to it !
+
+
+
+
+
+
+
+[![Greetings](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml/badge.svg?branch=master&event=release)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml)
