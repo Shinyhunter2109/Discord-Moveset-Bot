@@ -41,7 +41,7 @@
 - From here you can use the Bot and you are free to add some cool features to it !
 
 
-
+## Status Bar for this Project:
 
 
 
