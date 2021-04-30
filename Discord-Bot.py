@@ -44,7 +44,7 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.6.1')
+    print('Bot version: 4.7')
     print('You are on the Latest Version')
 
 
