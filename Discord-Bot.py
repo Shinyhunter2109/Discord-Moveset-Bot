@@ -730,6 +730,15 @@ async def vip_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
+        
+        
+ @client.command(name="color")
+async def role_color(ctx, arg):
+    name = ctx.author.name
+    guild_id = ctx.guild.id
+    guild = discord.utils.find(lambda g: g.id == guild_id, client.guilds)
+    role = discord.utils.get(guild.roles, name=name)
+    await role.edit(color=int(arg, 16))
 
 
 @client.command()
