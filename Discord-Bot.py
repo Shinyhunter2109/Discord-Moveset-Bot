@@ -806,7 +806,7 @@ async def timer(ctx):
     
     
 @timer.error
-async def tim_error(ctx, error):
+async def timer_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
         await ctx.send(msg)
@@ -890,14 +890,14 @@ async def Sub(ctx):
 
 @client.command()
 async def Update(ctx):
-    await ctx.send(f'**Checking for Updates...**')
+    await ctx.send(f'**Checking for Client Updates...**')
     await asyncio.sleep(15)
-    await ctx.send(f'**New Version detected...**')
+    await ctx.send(f'**Latest Client Version detected...**')
     await asyncio.sleep(15)
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.8/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Client Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.8/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
