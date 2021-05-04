@@ -463,11 +463,20 @@ async def coinflip_error(ctx, error):
 
 
 @client.command()
-async def Ads(ctx, member : discord.Member):
+async def Ads_Warn(ctx, member : discord.Member):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
     await asyncio.sleep(30)
     await member.kick()
     await ctx.send('**Press F to pay respect**')
+    
+    
+@Ads_Warn.error
+async def adw_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 password = '000000' # enter your password here | use digital numbers for pw |
@@ -640,12 +649,6 @@ async def STrade(ctx):
     role = discord.utils.get(ctx.guild.roles, name="Sub-Trade")
     user = ctx.message.author
     await user.add_roles(role)
-
-
-@client.command()
-async def Mixer(ctx):
-    guild = ctx.guild
-    await guild.create_role(name="Mixer")
 
 
 @client.command()
