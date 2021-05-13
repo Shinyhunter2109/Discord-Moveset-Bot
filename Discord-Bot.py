@@ -44,8 +44,12 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.7')
-    print('You are on the Latest Version')
+    print('Extensions: Loaded')
+    print('Tools: Loaded')
+    print('Log_Update: Done')
+    print('Bot_Connection: Online')
+    print('Bot version: 4.8')
+    print('Everything is setted up | Have Fun using this Program')
 
 
 @client.event
