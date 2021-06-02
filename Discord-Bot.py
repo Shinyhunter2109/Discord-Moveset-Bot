@@ -7,7 +7,6 @@ import asyncore
 import threading
 import logging
 import time
-import csv
 import typing
 import traceback
 import os
@@ -35,7 +34,7 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '.')
 client.remove_command('help')
-status = cycle(['Playing Music', 'Community Help'])
+status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLE HERE'
 
 
@@ -44,12 +43,10 @@ async def on_ready():
     change_status.start()
     print('Logged in as: ' + client.user.name + '\n')
     print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Extensions: Loaded')
     print('Tools: Loaded')
     print('Log_Update: Done')
     print('Bot_Connection: Online')
-    print('Bot version: 4.8')
-    print('Everything is setted up | Have Fun using this Program')
+    print('Bot version: 5.0')
 
 
 @client.event
@@ -122,6 +119,23 @@ class Slapper(commands.Converter):
 @client.command()
 async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
+
+
+@client.command()
+async def serveri(ctx):
+    client.loop.create_task(server_icon()) # Creates the task/loop after running the command
+    await ctx.send("Loop started, changed icon.")
+
+
+@client.command()
+async def server_icon():
+    while True:
+        server1 = client.get_guild(00000000)
+        with open('FullPathOfYourFolder/FileName.png/jpg', 'rb') as f:
+            icon = f.read()
+        await server1.edit(icon=icon) # Edit the server icon
+        print("Icon changed.") # Print in console to check if it works
+        await asyncio.sleep(90) # Edit the server every x minutes/hours/days
 
 
 @client.command()
@@ -321,7 +335,7 @@ async def spotify(ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
-        await ctx.send(f"**{user.name} is not listening to Spotify**")
+        await ctx.send(f"{user.name} is not listening to Spotify")
     return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
@@ -330,15 +344,6 @@ async def spotify(ctx, user: discord.Member = None):
     embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
     embed.set_thumbnail(url=spot.album_cover_url)
     await ctx.send(embed=embed)
-    
-    
-@spotify.error
-async def spotify_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
 
 
 
@@ -389,7 +394,7 @@ async def leave(ctx):
     if voice and voice.is_connected():
         await voice.disconnect()
         print(f'The bot has left {channel}')
-        await ctx.send(f'**Left {channel}**')
+        await ctx.send(f'Left {channel}')
 
 
 @client.command(pass_context=True, aliases=['p', 'pla'])
@@ -467,23 +472,14 @@ async def coinflip_error(ctx, error):
 
 
 @client.command()
-async def Ads_Warn(ctx, member : discord.Member):
+async def Ads(ctx, member : discord.Member):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
     await asyncio.sleep(30)
     await member.kick()
     await ctx.send('**Press F to pay respect**')
-    
-    
-@Ads_Warn.error
-async def adw_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
 
 
-password = '000000' # enter your password here | use digital numbers for pw |
+password = '593734'
 
 @client.command()
 async def offline(ctx, *, password_check=None):
@@ -529,7 +525,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '00000000' # enter your own password here | use digital numbers as pw |
+password = '94535412'
 
 
 @client.command()
@@ -544,7 +540,7 @@ async def kick(ctx, member : discord.Member, *,password_check=None):
     await member.kick()
 
 
-password = '0000000' # like above for pw
+password = '7376894'
 
 
 @client.command()
@@ -656,6 +652,12 @@ async def STrade(ctx):
 
 
 @client.command()
+async def Mixer(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Mixer")
+
+
+@client.command()
 async def Stream(ctx):
     role = discord.utils.get(ctx.guild.roles, name="Mixer")
     user = ctx.message.author
@@ -690,6 +692,14 @@ async def Discord(ctx):
 
 
 # Math Module
+
+@client.command()
+async def Math_Help(ctx):
+    await ctx.send(f'**Welcome New User, Commands for this Module are: !add, !sub, !multiply, !divide**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Use Number (1) and Number (2) that u have choosen and select one of the Commands above**')
+
+
 @client.command() 
 async def add(ctx, *nums):
     operation = " + ".join(nums)
@@ -711,9 +721,9 @@ async def divide(ctx, *nums):
     await ctx.send(f'{operation} = {eval(operation)}')
 
 
-@client.command() # not working Issue 1 #
+@client.command() # Can work IDK
 async def dma(ctx):
-    rand_num = (randint(1, 3))
+    rand_num = (1, 3)
     win_num = 1
     pm_channel = await ctx.author.create_dm()
     if win_num == rand_num:
@@ -738,15 +748,6 @@ async def vip_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
-        
-        
- @client.command(name="color")
-async def role_color(ctx, arg):
-    name = ctx.author.name
-    guild_id = ctx.guild.id
-    guild = discord.utils.find(lambda g: g.id == guild_id, client.guilds)
-    role = discord.utils.get(guild.roles, name=name)
-    await role.edit(color=int(arg, 16))
 
 
 @client.command()
@@ -795,7 +796,6 @@ async def Prime(ctx):
 
 
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
 async def timer(ctx):
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
@@ -810,15 +810,6 @@ async def timer(ctx):
     await ctx.send(f'GO Wondertrade')
     await asyncio.sleep(90)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
-    
-    
-@timer.error
-async def timer_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
 
 
 @client.command()
@@ -897,14 +888,14 @@ async def Sub(ctx):
 
 @client.command()
 async def Update(ctx):
-    await ctx.send(f'**Checking for Client Updates...**')
-    await asyncio.sleep(15)
-    await ctx.send(f'**Latest Client Version detected...**')
-    await asyncio.sleep(15)
+    await ctx.send(f'**Checking for Updates...**')
+    await asyncio.sleep(10)
+    await ctx.send(f'**New Version detected...**')
+    await asyncio.sleep(10)
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Latest Client Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.8/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.1/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -912,6 +903,28 @@ async def Update(ctx):
 async def update_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+async def DevAlpha(ctx):
+    await ctx.send(f'**Checking for latest Development Version...**')
+    await asyncio.sleep(15)
+    await ctx.send(f'**Latest Development Version found:** DevAlpha_5.1.1')
+    await asyncio.sleep(10)
+    embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+    embed.add_field(name='Development Version 5.1.1' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.1.1/DevVer.7z )', inline=False)
+    await ctx.send(embed=embed)
+
+
+@DevAlpha.error
+async def devver_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**WARNING USE THIS VERSION AT YOUR OWN RISK !.**'
         await ctx.send(msg)
     else:
         raise error
