@@ -1,26 +1,26 @@
-Changelog from 04/12/2021
+Changelog from 02/06/2021
 
-What's New
+## What's New ##
 
-- added new Password Module ✔️
-- added new Folders for later Usage ✔️
-- added ChatBot Module (Local +Discord) ✔️
+- added Dev Updater Service  ✔️
+(gives access to current Development Version (Alpha))
 
-Changes
+## Changes ##
 
-- changed Version number from 4.5 to 4.6 (Latest) ✔️
+- changed Version number from 4.6 to 5.0 (Latest) ✔️
+
 - rewrote some Commands and added newly released Features ✔️
 
-Hotfixes
+## Hotfixes ##
 
 - some small QoL Updates for better Connection Stability ✔️
-- fixed some Typo's ✔️
+- fixed some broken Features they may come back in the Future ✔️
 
-Note
+## Note ##
 
 - On Code there a some Placeholder please insert there the correct ID from your Server /Role /ID
 
-Bot Version
+## Bot Version ##
 
-- The latest Version is 4.6 if you are still on Version 4.5 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 5.0 if you are still on Version 4.6 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
