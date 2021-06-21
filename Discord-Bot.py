@@ -364,7 +364,7 @@ async def backup(ctx):
 @client.command()
 async def sendembed(ctx):
     e = discord.Embed(title="Movesets & Co - Where the Moves begin",
-                      url="smogon.com",
+                      url="https://www.smogon.com",
                       description="Smogon Movesets")
     e.set_thumbnail(url="https://i.imgur.com/ddx8Bpg.png")
     await ctx.send(embed=e)
@@ -895,7 +895,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.1/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.2/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
