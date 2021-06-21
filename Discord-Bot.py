@@ -121,21 +121,21 @@ async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
 
 
-@client.command()
+@client.command() # Experimental may work 
 async def serveri(ctx):
-    client.loop.create_task(server_icon()) # Creates the task/loop after running the command
+    client.loop.create_task(server_icon())
     await ctx.send("Loop started, changed icon.")
 
 
-@client.command()
+@client.command() # Experimental may work 
 async def server_icon():
     while True:
         server1 = client.get_guild(00000000)
         with open('FullPathOfYourFolder/FileName.png/jpg', 'rb') as f:
             icon = f.read()
-        await server1.edit(icon=icon) # Edit the server icon
-        print("Icon changed.") # Print in console to check if it works
-        await asyncio.sleep(90) # Edit the server every x minutes/hours/days
+        await server1.edit(icon=icon)
+        print("Icon changed.")
+        await asyncio.sleep(90)
 
 
 @client.command()
@@ -335,7 +335,7 @@ async def spotify(ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
-        await ctx.send(f"{user.name} is not listening to Spotify")
+        await ctx.send(f"{user.name} is not listening to Spotify at the moment")
     return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
@@ -363,9 +363,9 @@ async def backup(ctx):
 
 @client.command()
 async def sendembed(ctx):
-    e = discord.Embed(title="Stack Overflow - Where Developers Learn, Share, & Build Careers",
-                      url="https://stackoverflow.com",
-                      description="Stack Overflow | The World’s Largest Online Community for Developers")
+    e = discord.Embed(title="Movesets & Co - Where the Moves begin",
+                      url="smogon.com",
+                      description="Smogon Movesets")
     e.set_thumbnail(url="https://i.imgur.com/ddx8Bpg.png")
     await ctx.send(embed=e)
 
@@ -404,7 +404,7 @@ async def play(ctx, url: str):
         if song_there:
             os.remove("song.mp3")
     except PermissionError:
-        await ctx.send("Wait for the current playing music end or use the 'stop' command")
+        await ctx.send("Wait for the current playing music to end or use the 'stop' command")
         
         return
     
@@ -919,6 +919,7 @@ async def DevAlpha(ctx):
         )
     embed.add_field(name='Development Version 5.1.1' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.1.1/DevVer.7z )', inline=False)
     await ctx.send(embed=embed)
+    await ctx.send(f'THIS VERSION CONTAINS NEW FEATURES AND CAN CONTAIN SOME BUGS THAT ARE NOT FIXED YET!')
 
 
 @DevAlpha.error
