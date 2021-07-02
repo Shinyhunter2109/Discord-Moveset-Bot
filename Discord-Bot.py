@@ -4,6 +4,8 @@ import asyncio
 import json
 import async_timeout
 import asyncore
+import re
+from discord.ext.commands import BadArgument
 import threading
 import logging
 import time
@@ -46,7 +48,7 @@ async def on_ready():
     print('Tools: Loaded')
     print('Log_Update: Done')
     print('Bot_Connection: Online')
-    print('Bot version: 5.0')
+    print('Bot version: 5.2')
 
 
 @client.event
@@ -121,13 +123,13 @@ async def slap(ctx, *, reason: Slapper):
     await ctx.send(reason)
 
 
-@client.command() # Experimental may work 
+@client.command()
 async def serveri(ctx):
     client.loop.create_task(server_icon())
     await ctx.send("Loop started, changed icon.")
 
 
-@client.command() # Experimental may work 
+@client.command()
 async def server_icon():
     while True:
         server1 = client.get_guild(00000000)
@@ -335,7 +337,7 @@ async def spotify(ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
-        await ctx.send(f"{user.name} is not listening to Spotify at the moment")
+        await ctx.send(f"{user.name} is not listening to Spotify")
     return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
@@ -356,18 +358,64 @@ async def emoji(ctx, emoji: discord.PartialEmoji = None):
 
 
 @client.command()
+@commands.cooldown(1, 18000, commands.BucketType.user)
+async def report(ctx, member: discord.Member,  *, arg):
+    role = ctx.guild.get_role(000000000000000)
+    members = ctx.guild.members
+    await ctx.channel.send('**Your complaint was sent to moderators!**', delete_after=10)
+    for i in role.members:
+        await i.send(f'{ctx.author.mention} sent a complaint on {member.mention} with reason:\n**{arg}**')
+
+
+@report.error
+async def rep_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
 async def backup(ctx):
     await ctx.send('**Currently In Development! | Error Code: 9711-3878-8327 |**')
     await ctx.send('**https://open.spotify.com/track/5gqH38uFh40KxHJgrDDBwD?si=0kNN10c-QwG2xITas3E26A**')
 
 
 @client.command()
-async def sendembed(ctx):
-    e = discord.Embed(title="Movesets & Co - Where the Moves begin",
-                      url="https://www.smogon.com",
-                      description="Smogon Movesets")
-    e.set_thumbnail(url="https://i.imgur.com/ddx8Bpg.png")
-    await ctx.send(embed=e)
+async def pages(ctx):
+    contents = ["**This is page 1!**", "**This is page 2!**", "**This is page 3!**", "**This is page 4!**", "**This is Page 5!**", "**This is Page 6!**"]
+    pages = 6
+    cur_page = 1
+    message = await ctx.send(f"Page {cur_page}/{pages}:\n{contents[cur_page-1]}")
+
+    await message.add_reaction("◀️")
+    await message.add_reaction("▶️")
+
+    def check(reaction, user):
+        return user == ctx.author and str(reaction.emoji) in ["◀️", "▶️"]
+
+    while True:
+        try:
+            reaction, user = await client.wait_for("reaction_add", timeout=60, check=check)
+
+
+            if str(reaction.emoji) == "▶️" and cur_page != pages:
+                cur_page += 1
+                await message.edit(content=f"Page {cur_page}/{pages}:\n{contents[cur_page-1]}")
+                await message.remove_reaction(reaction, user)
+
+            elif str(reaction.emoji) == "◀️" and cur_page > 1:
+                cur_page -= 1
+                await message.edit(content=f"Page {cur_page}/{pages}:\n{contents[cur_page-1]}")
+                await message.remove_reaction(reaction, user)
+
+            else:
+                await message.remove_reaction(reaction, user)
+
+        except asyncio.TimeoutError:
+            await message.delete()
+            break
 
 
 @client.command(pass_context=True, aliases=['j', 'joi'])
@@ -404,7 +452,7 @@ async def play(ctx, url: str):
         if song_there:
             os.remove("song.mp3")
     except PermissionError:
-        await ctx.send("Wait for the current playing music to end or use the 'stop' command")
+        await ctx.send("Wait for the current playing music end or use the 'stop' command")
         
         return
     
@@ -477,6 +525,39 @@ async def Ads(ctx, member : discord.Member):
     await asyncio.sleep(30)
     await member.kick()
     await ctx.send('**Press F to pay respect**')
+
+
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def giveaway(ctx, time: str, *, prize: str):
+    time = convert(time)
+
+    embed = discord.Embed(title=prize,
+                          description=f"Hosted by - {ctx.author.mention}\nReact with :tada: to enter!\nTime Remaining: **{time}** seconds",
+                          color=ctx.guild.me.top_role.color)
+
+    msg = await ctx.channel.send(content=":tada: **GIVEAWAY** :tada:", embed=embed)
+    await msg.add_reaction("🎉")
+
+    await asyncio.sleep(3)
+    await asyncio.sleep(int(time))
+
+    new_msg = await ctx.channel.fetch_message(msg.id)
+
+    user_list = [user for user in await new_msg.reactions[0].users().flatten() if
+                 user != client.user]
+
+    if len(user_list) == 0:
+        await ctx.send("No one reacted.")
+    else:
+        winner = random.choice(user_list)
+        await ctx.send(f"**{winner.mention} You have won the {prize}!**")
+
+
+@giveaway.error
+async def ga_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('**You dont have the right Permissions to execute this command.**')
 
 
 password = '593734'
@@ -603,6 +684,12 @@ async def trades(ctx):
 async def Youtube(ctx):
     guild = ctx.guild
     await guild.create_role(name="Youtuber")
+
+
+@client.command()
+async def GM(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Guild_Member")
 
 
 @client.command()
@@ -895,7 +982,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.2/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.3/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -912,14 +999,13 @@ async def update_error(ctx, error):
 async def DevAlpha(ctx):
     await ctx.send(f'**Checking for latest Development Version...**')
     await asyncio.sleep(15)
-    await ctx.send(f'**Latest Development Version found:** DevAlpha_5.1.1')
+    await ctx.send(f'**Latest Development Version found:** DevAlpha_5.2.6')
     await asyncio.sleep(10)
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-    embed.add_field(name='Development Version 5.1.1' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.1.1/DevVer.7z )', inline=False)
+    embed.add_field(name='Development Version 5.2.6' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/5.2.6/DevVer.7z )', inline=False)
     await ctx.send(embed=embed)
-    await ctx.send(f'THIS VERSION CONTAINS NEW FEATURES AND CAN CONTAIN SOME BUGS THAT ARE NOT FIXED YET!')
 
 
 @DevAlpha.error
