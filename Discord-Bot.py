@@ -880,6 +880,14 @@ async def Prime(ctx):
         )
     embed.add_field(name='Use Amazon Prime on Twitch:' ,value='[Click here to view]( https://twitch.amazon.com/tp )', inline=False)
     await ctx.send(embed=embed)
+    
+    
+@bot.command(name="afk")
+async def afk(ctx, username: str = None):
+    if username is None:
+        username = ctx.author.name
+    await ctx.author.edit(nick = f"[AFK] {username}")
+    await ctx.send("Member is now AFK")
 
 
 @client.command()
