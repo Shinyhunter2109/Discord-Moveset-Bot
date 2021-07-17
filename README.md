@@ -27,9 +27,9 @@
 
 - Run the start.bat File [It will install all the needed Requirements] [Works aswell on Linux]
 
-- After that download Visual Studio Code from here: https://code.visualstudio.com/
+- After that download & Install Visual Studio Code from here: https://code.visualstudio.com/
 
-- Also download and install the FFmpeg on the Official Website. [ONLY if you want to play music on your Server]
+- Also download & install the FFmpeg on the Official Website. [ONLY NEEDED if you want to play music on your Server]
 
 - Open the Discord-Bot.py in Visual Studio Code
 
