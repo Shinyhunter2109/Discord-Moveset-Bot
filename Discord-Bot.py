@@ -5,13 +5,18 @@ import json
 import async_timeout
 import asyncore
 import re
-from discord.ext.commands import BadArgument
 import threading
+import warnings
+import sys
 import logging
 import time
 import typing
+import webbrowser
 import traceback
 import os
+import youtube_dl
+from itunesLibrary import library
+from discord.ext.commands import BadArgument
 from os import system
 from itertools import cycle
 from datetime import datetime
@@ -21,7 +26,6 @@ from discord.ext import commands, tasks
 from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import Spotify
-import youtube_dl
 from youtube_dl import YoutubeDL
 
 
@@ -48,7 +52,7 @@ async def on_ready():
     print('Tools: Loaded')
     print('Log_Update: Done')
     print('Bot_Connection: Online')
-    print('Bot version: 5.2')
+    print('Bot version: 5.8')
 
 
 @client.event
