@@ -1,10 +1,10 @@
 import discord
-from discord.ext import commands
 import asyncio
 import logging
 import async_timeout
 import asyncore
 import traceback
+from discord.ext import commands
 
 TOKEN = 'Set Token Here'
 bot = commands.Bot(command_prefix='!')
