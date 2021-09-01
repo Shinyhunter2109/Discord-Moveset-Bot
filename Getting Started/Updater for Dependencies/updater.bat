@@ -1,3 +1,3 @@
-pip install discord.py[Voice] youtube_dl PyGithub PyNaCL twitch-python pytube chat-exporter --upgrade
+pip install py-cord[voice] youtube_dl PyGithub PyNaCL twitch-python pytube --upgrade
 
 pause
