@@ -42,6 +42,10 @@
 - From here you can use the Bot and you are free to add some cool features to it !
 
 
+## Python Version Notes
+
+- Latest Version 3.10.0 is not supported bc it breaks the whole Bot caused by not supported Modules !
+
 ## Status Bar for this Project:
 
 
