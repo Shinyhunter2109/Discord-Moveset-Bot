@@ -51,6 +51,7 @@ async def on_ready():
     print('This Bot is Made by twitch.tv/shinyhunter2109')
     print('Tools: Loaded')
     print('Log_Update: Done')
+    print('OS_Version: Windows 10")
     print('Bot_Connection: Online')
     print('Bot version: 5.8')
 
