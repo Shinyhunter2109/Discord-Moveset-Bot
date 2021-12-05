@@ -15,7 +15,6 @@ import webbrowser
 import traceback
 import os
 import youtube_dl
-from itunesLibrary import library
 from discord.ext.commands import BadArgument
 from os import system
 from itertools import cycle
