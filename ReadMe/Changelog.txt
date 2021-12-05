@@ -1,26 +1,39 @@
-Changelog from 06/02/2021
+## Latest Changelog ##
 
 ## What's New ##
 
-- added Dev Updater Service  ✔️
-(gives access to current Development Version (Alpha))
+- added List Feature  ✔️
+
+- added Maintenance Mode ✔️
+
+- added some new Imports ✔️
+
+- added new Folders for older Windows Versions ✔️
+
 
 ## Changes ##
 
-- changed Version number from 4.6 to 5.0 (Latest) ✔️
+- changed Version number from 5.2 to 5.8 (Latest) ✔️
 
-- rewrote some Commands and added newly released Features ✔️
+- changed Responding Logic from the Bot ✔️
+
+- 24/7 H Stability should now stable to use ✔️
 
 ## Hotfixes ##
 
-- some small QoL Updates for better Connection Stability ✔️
-- fixed some broken Features they may come back in the Future ✔️
+- some  QoL Updates for better User Experience✔️
 
-## Note ##
+## Notes ##
 
-- On Code there a some Placeholder please insert there the correct ID from your Server /Role /ID
+- On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID
+
+- also this Version should have now a bit more Input than the last one !
+
+- Latest Python Version 3.10.0 is currently not supported till it get's a fix for the Broken Modules !
+
+- The Batch-File will be going away in the next Update, bc it is no longer needed for Reconnecting to Discord !
 
 ## Bot Version ##
 
-- The latest Version is 5.0 if you are still on Version 4.6 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 5.8 if you are still on Version 5.2 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
