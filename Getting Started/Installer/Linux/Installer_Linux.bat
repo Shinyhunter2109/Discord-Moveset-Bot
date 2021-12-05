@@ -1,0 +1,1 @@
+pip3 install discord.py[Voice] pyGithub PyNaCL twitch-python Youtube_dl
