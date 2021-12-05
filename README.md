@@ -8,6 +8,8 @@
 - Github Support (Beta) ✔️
 - Twitch Support (Alpha) ✔️
 - Backup Feature (Alpha) ✔️
+- List Feature ✔️
+- Maintenance Mode (Alpha) ✔️
 - Wondertrade/Linktrade Countdown ✔️
 - Auto-Role/Command Creating Feature ✔️
 - Auto-Role/Command adding Feature ✔️
