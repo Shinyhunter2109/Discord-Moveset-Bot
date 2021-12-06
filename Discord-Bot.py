@@ -15,12 +15,15 @@ import webbrowser
 import traceback
 import os
 import youtube_dl
+from discord import StageChannel
+from discord import Webhook
 from discord.ext.commands import BadArgument
 from os import system
 from itertools import cycle
 from datetime import datetime
 from github import Github
 from discord.voice_client import VoiceClient
+from discord.ext.commands.cooldowns import BucketType
 from discord.ext import commands, tasks
 from discord.utils import get
 from discord import FFmpegPCMAudio
