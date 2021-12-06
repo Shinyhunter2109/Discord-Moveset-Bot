@@ -37,7 +37,8 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
+client.launch_time = datetime.utcnow()
 client.remove_command('help')
 status = cycle(['Shiny Pokémon Linktrades', 'GTS Moveset Help'])
 ROLE = 'INSERT ROLE HERE'
