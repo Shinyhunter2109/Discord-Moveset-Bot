@@ -1,39 +1,45 @@
-## Latest Changelog ##
+## Changelog ##
 
 ## What's New ##
 
-- added List Feature  ✔️
 
-- added Maintenance Mode ✔️
+- added  new Imports for better  User Experience ✔️
 
-- added some new Imports ✔️
+- added new List Commands ✔️
 
-- added new Folders for older Windows Versions ✔️
+- added new Minigame  ✔️
 
+- added Daily Bonus Command ✔️
+
+- added some Secrets ✔️
 
 ## Changes ##
 
-- changed Version number from 5.2 to 5.8 (Latest) ✔️
+- changed Version number from 5.8 to 6.0 (Latest) ✔️
 
-- changed Responding Logic from the Bot ✔️
+- implemented  Voice State Reconnect Function ✔️
 
-- 24/7 H Stability should now stable to use ✔️
+- Batch File is now gone and will not come back ✔️
+
+- changed Command Prefix from "." to "!" ✔️
 
 ## Hotfixes ##
 
-- some  QoL Updates for better User Experience✔️
+- fixed some Commands ✔️
+
+- fixed Uptime Command (should work now alot better) ✔️
+
+- added needed Intents for some Functions to work (Spotify , etc) ✔️
+
+- fixed Cooldown Handler + Module ✔️
 
 ## Notes ##
 
 - On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID
 
-- also this Version should have now a bit more Input than the last one !
-
 - Latest Python Version 3.10.0 is currently not supported till it get's a fix for the Broken Modules !
-
-- The Batch-File will be going away in the next Update, bc it is no longer needed for Reconnecting to Discord !
 
 ## Bot Version ##
 
-- The latest Version is 5.8 if you are still on Version 5.2 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 6.0 if you are still on Version 5.8 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
