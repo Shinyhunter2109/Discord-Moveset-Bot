@@ -8,6 +8,8 @@
 
 - Twitch Support ❌
 
+- Reddit Support ✔️
+
 - Itunes Support ❌
 
 - Twitch Stream Announce ❌
