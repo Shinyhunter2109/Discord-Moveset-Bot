@@ -12,7 +12,7 @@
 
 - Itunes Support ❌
 
-- Twitch Stream Announce ❌
+- Twitch Stream Announce ✔️
 
 - Button Feature ❌
 
