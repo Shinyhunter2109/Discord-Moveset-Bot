@@ -56,7 +56,7 @@ async def on_ready():
     print('Log_Update: Done')
     print('OS_Version: Windows 10")
     print('Bot_Connection: Online')
-    print('Bot version: 5.8')
+    print('Bot version: 6.0')
 
 
 @client.event
