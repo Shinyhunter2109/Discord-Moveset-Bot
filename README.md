@@ -17,6 +17,8 @@
 - Game_Status_Change ✔️
 - Error Handler ✔️
 - Giveaway Feature ✔️
+- Reddit Feature ✔️
+- Twitch / Youtube Stream Announce ✔️
 
 
 ## Setup for Own Usage:
@@ -31,7 +33,7 @@
 
 - After that download & Install Visual Studio Code from here: https://code.visualstudio.com/
 
-- Also download & install the FFmpeg on the Official Website. [ONLY NEEDED if you want to play music on your Server]
+- (Optional) Download & install the FFmpeg on the Official Website. [ONLY NEEDED if you want to play music on your Server]
 
 - Open the Discord-Bot.py in Visual Studio Code
 
@@ -39,9 +41,7 @@
 
 - Edit the Token and the User Role and any other Information that is needed in the File and save it and overwrite the existing File.
 
-- If you done everything correctly you should see a Connection Message at the Console!
-
-- From here you can use the Bot and you are free to add some cool features to it !
+- If you done everything correctly you should see a Connection Message in the Console when u start the Program!
 
 
 ## Python Version Notes
