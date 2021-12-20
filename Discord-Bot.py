@@ -346,7 +346,7 @@ async def spotify(ctx, user: discord.Member = None):
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
         await ctx.send(f"{user.name} is not listening to Spotify")
-    return
+        return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
     embed.add_field(name="Artist", value=spot.artist)
