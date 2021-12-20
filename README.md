@@ -46,7 +46,7 @@
 
 ## Python Version Notes
 
-- Latest Version 3.10.0 is not supported bc it breaks the whole Bot caused by not supported Modules !
+- Latest Version 3.10.1 is not supported rn till a fix comes out for the broken modules !
 
 ## Status Bar for this Project:
 
