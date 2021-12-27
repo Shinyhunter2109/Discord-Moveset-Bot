@@ -12,11 +12,11 @@
 
 - Itunes Support ❌
 
-- Enviroment ❌
+- Enviroment ✔️
 
 - Twitch / Youtube Stream Announce ✔️
 
-- Database ❌
+- Database ✔️
 
 - GUI Rework ❌ 
 
