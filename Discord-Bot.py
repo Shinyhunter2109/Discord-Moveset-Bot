@@ -1,30 +1,61 @@
 import discord
 import random
 import asyncio
-import json
+import json, codecs
 import async_timeout
 import asyncore
+import calendar
+import webbrowser
+import warnings
+import venv
+import asyncprawcore
+import praw
+import runpy
+import io, json
+import re
+import locale
 import threading
 import logging
 import time
 import typing
 import traceback
+import youtube_dl
 import os
 from os import system
 from itertools import cycle
 from datetime import datetime
 from github import Github
+from youtube_dl import YoutubeDL
+from discord_slash import SlashCommand
+from discord.flags import flag_value
 from discord.voice_client import VoiceClient
 from discord.ext import commands, tasks
 from discord.utils import get
+from discord.ext.commands import BadArgument
+from discord.ext.commands.cooldowns import BucketType
+from discord.ext.commands import has_permissions, MissingPermissions
+from discord_slash.model import ContextMenuType
+from discord_slash.utils.manage_components import create_select, create_select_option, create_actionrow, create_button
+from discord_slash.model import ButtonStyle
+from discord_slash.context import MenuContext
+from discord import Member
+from discord import Intents
+from discord import MessageReference
 from discord import FFmpegPCMAudio
 from discord import Spotify
-import youtube_dl
-from youtube_dl import YoutubeDL
+from discord import LoginFailure
+from discord import Webhook
+from discord import DiscordServerError
+from discord import DiscordException
+from discord import InvalidData
+from discord import GatewayNotFound
+from discord import StageChannel
+from discord import VoiceProtocol
+from discord import Streaming
 
 
 
-TOKEN = 'INSERT YOUR TOKEN HERE...'
+TOKEN = 'INSERT YOUR TOKEN HERE...' # Bot Token goes here ! #
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -32,27 +63,37 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
+client.launch_time = datetime.utcnow()
+slash = SlashCommand(client, sync_commands=True)
+guild_ids = [0000000000000] # Your Guild ID here #
 client.remove_command('help')
-status = cycle(['Playing Music', 'Community Help'])
-ROLE = 'INSERT ROLE HERE'
+status = cycle(['Pokémon Brilliant Diamond', 'Pokémon Shining Pearl'])
+ROLE = 'Member' # Standard Role can be edited when needed ! #
 
 
 @client.event
 async def on_ready():
+    BVer = BVer = 6.2
+    BOwner = BOwner = 'twitch.tv/shinyhunter2109'
+    LogUP = LogUP = 'Done'
+    BCon = BCon = 'Online'
     change_status.start()
-    print('Logged in as: ' + client.user.name + '\n')
-    print('This Bot is Made by twitch.tv/shinyhunter2109')
-    print('Bot version: 4.6.1')
-    print('You are on the Latest Version')
+    print('Welcome back: ' + client.user.name + '\n')
+    print(f'This Bot is Made by {BOwner}')
+    print(f'Log_Update: {LogUP}')
+    print(f'Bot_Connection: {BCon}')
+    print(f'Bot Version: {BVer}')
 
 
-@client.event
-async def on_error(event, *args, kwargs):
-    message = args[0]
-    logging.warning(traceback.format_exc())
-    await client.send_message(message.channel, "You caused an error!")
-    print ('an error has occurred..!')
+
+# This Module needs to be filled out to get the reddit feature working ! | Currently Alpha !
+reddit = praw.Reddit(client_id = "id_goes_here", # client id goes here
+                     client_secret = "secret_goes_here", # client secret goes here
+                     username = "username_goes_here", # Reddit Username -> THIS MUST BE YOUR OWN USERNAME NOT BOT USERNAME !
+                     password = "app_pw_goes_here", # enter reddit app password here
+                     user_agent = "user goes here") # enter anything u want
+
 
 
 class JoinDistance:
@@ -91,18 +132,6 @@ async def roles(ctx, *, member: MemberRoles):
     await ctx.send('I see the following roles: ' + ', '.join(member))
 
 
-@client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        await ctx.send('**Invalid command used.**')
-
-
-@client.event
-async def on_permission_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send('**You dont have the right Permissions to execute this command.**')
-
-
 @client.command()
 async def joined(ctx, *, member: discord.Member):
     await ctx.send('{0} joined on {0.joined_at}'.format(member))
@@ -120,13 +149,30 @@ async def slap(ctx, *, reason: Slapper):
 
 
 @client.command()
+async def serveri(ctx):
+    client.loop.create_task(server_icon())
+    await ctx.send("Loop started, replacing current icon.")
+
+
+@client.command()
+async def server_icon():
+    while True:
+        server1 = client.get_guild(00000000)
+        with open('FullPathOfYourFolder/FileName.png/jpg', 'rb') as f:
+            icon = f.read()
+        await server1.edit(icon=icon)
+        print("Server Icon changed.")
+        await asyncio.sleep(90)
+
+
+@client.command()
 @commands.cooldown(1, 180, commands.BucketType.user)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - client.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
-    await ctx.send(f'**{days}d, {hours}h, {minutes}m**')
+    await ctx.send(f'**{days}d, {hours}h, {minutes}m, {seconds}s**')
 
 
 @uptime.error
@@ -138,7 +184,176 @@ async def uptime_error(ctx, error):
         raise error
 
 
-@client.command() # Experimental can work ! Not Tested yet !
+@client.command()
+async def Version(ctx):
+    Version = Version = 6.1
+    LVer = LVer = 6.2
+    await ctx.send(f'The Latest Version is: {Version}')
+
+
+@client.command()
+async def BugFix(ctx):
+    us = us = 'Shinyhunter2109'
+    await ctx.send(f'**Found a Bug?** | Contact **{us}** directly via @ or DM ! | **Thank You**')
+
+
+@client.command()
+async def SeasonUpdate(ctx):
+    spring = spring = '1st January'
+    summer = summer = '11th July'
+    fall = fall = '2nd September'
+    winter = winter = '3rd December'
+    await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
+
+
+# Economy Section Start #
+
+
+@client.command()
+async def balance(ctx):
+    await open_account(ctx.author)
+
+    user = ctx.author
+    users = await get_bank_data()
+
+    wallet_amt = users[str(user.id)]["wallet"]
+    bank_amt = users[str(user.id)]["bank"]
+
+    await ctx.send(f"**{ctx.author.name}'s coins balance**")
+    await ctx.send(f'**Wallet balance:** {wallet_amt} coins')
+    await ctx.send(f'**Bank balance:** {bank_amt} coins')
+
+
+@client.command()
+@commands.cooldown(1, 86400, commands.BucketType.user)
+async def dailybonus(ctx):
+    await open_account(ctx.author)
+
+    user = ctx.author
+    users = await get_bank_data()
+
+
+    earnings = random.randrange(1000)
+
+
+    await ctx.send(f'**Your Daily Bonus are:** {earnings} coins!!')
+
+
+    users[str(user.id)]["wallet"]+= earnings
+
+    with open("bank.json","w") as f:
+        json.dump(users,f)
+
+
+@dailybonus.error
+async def day_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**You already claimed your Daily Reward | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+@commands.cooldown(1, 604800, commands.BucketType.user)
+async def weeklybonus(ctx):
+    await open_account(ctx.author)
+
+    user = ctx.author
+    users = await get_bank_data()
+
+
+    earnings = random.randrange(2500)
+
+
+    await ctx.send(f'**Your Weekly Bonus are:** {earnings} coins!!')
+
+
+    users[str(user.id)]["wallet"]+= earnings
+
+    with open("bank.json","w") as f:
+        json.dump(users,f)
+
+
+@weeklybonus.error
+async def week_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**You already claimed your Weekly Reward | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+@commands.cooldown(1, 2628000, commands.BucketType.user)
+async def monthlybonus(ctx):
+    await open_account(ctx.author)
+
+    user = ctx.author
+    users = await get_bank_data()
+
+
+    earnings = random.randrange(5000)
+
+
+    await ctx.send(f'**Your Monthly Bonus are:** {earnings} coins!!')
+
+
+    users[str(user.id)]["wallet"]+= earnings
+
+    with open("bank.json","w") as f:
+        json.dump(users,f)
+
+
+@monthlybonus.error
+async def monthly_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**You already claimed your Monthly Reward | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+async def open_account(user):
+
+        users = await get_bank_data()
+
+        if str(user.id) in users:
+            return False
+        else:
+            users[str(user.id)] = {}
+            users[str(user.id)]["wallet"] = 0
+            users[str(user.id)]["bank"] = 0
+
+        with open("bank.json","w") as f:
+            json.dump(users,f)
+        return True
+
+
+
+async def get_bank_data():
+    with open("bank.json", "r") as f:
+        users = json.load(f)
+
+    return users
+
+
+async def update_bank(user,change = 0,mode = "wallet"):
+    users = await get_bank_data()
+
+    users[str(user.id)][mode] += change
+
+    with open("bank.json","w") as f:
+        json.dump(users,f)
+
+    bal = [users[str(user.id)]["wallet"],users[str(user.id)]["bank"]]
+    return bal
+
+
+# Economy Section End #
+
+
+@client.command()
 async def lcp(ctx):
     voice_channel = ctx.author.channel
     channel = None
@@ -172,7 +387,7 @@ async def coinhelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.gold()
     )
 
     embed.set_author(name='coinhelp')
@@ -185,7 +400,7 @@ async def joinhelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.green()
     )
 
     embed.set_author(name='joinhelp')
@@ -198,7 +413,7 @@ async def pokehelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.red()
     )
 
     embed.set_author(name='pokehelp')
@@ -211,7 +426,7 @@ async def bottlehelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.blue()
     )
 
     embed.set_author(name='bottlehelp')
@@ -224,7 +439,7 @@ async def spotifyhelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.green()
     )
 
     embed.set_author(name='spotifyhelp')
@@ -237,7 +452,7 @@ async def eightballhelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.light_grey()
     )
 
     embed.set_author(name='eightballhelp')
@@ -250,7 +465,7 @@ async def musichelp(ctx):
     author = ctx.message.author
 
     embed = discord.Embed(
-        colour = discord.Colour.orange()
+        colour = discord.Colour.dark_magenta()
     )
 
     embed.set_author(name='musichelp')
@@ -311,13 +526,13 @@ async def unbanhelp(ctx):
 
 
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
+@commands.cooldown(1, 180, commands.BucketType.user)
 async def spotify(ctx, user: discord.Member = None):
     user = user or ctx.author  
     spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
     if spot is None:
-        await ctx.send(f"**{user.name} is not listening to Spotify**")
-    return
+        await ctx.send(f"{user.name} is not listening to Spotify")
+        return
     embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
     embed.add_field(name="Song", value=spot.title)
     embed.add_field(name="Artist", value=spot.artist)
@@ -325,8 +540,8 @@ async def spotify(ctx, user: discord.Member = None):
     embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
     embed.set_thumbnail(url=spot.album_cover_url)
     await ctx.send(embed=embed)
-    
-    
+
+
 @spotify.error
 async def spotify_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
@@ -338,6 +553,7 @@ async def spotify_error(ctx, error):
 
 
 @client.command()
+@commands.cooldown(1, 90, commands.BucketType.user)
 async def emoji(ctx, emoji: discord.PartialEmoji = None):
     if not emoji:
         await ctx.send('**You need to provide an emoji!**')
@@ -345,19 +561,158 @@ async def emoji(ctx, emoji: discord.PartialEmoji = None):
         await ctx.send(emoji.url)
 
 
+@emoji.error
+async def emo_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+async def ExtUpdate(ctx):
+    Current = Current = 2.0
+    LCurrent = LCurrent = 2.5
+    await ctx.send(f'The current installed version is **{Current}**| Version : **{LCurrent}** is out!')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Updating version now...**')
+    await asyncio.sleep(15)
+    await ctx.send(f'**Update finished**')
+    await asyncio.sleep(5)
+    await ctx.send(f'The current version is **{LCurrent}** | **Up to Date**')
+
+
+@client.command()
+async def LogVer(ctx):
+    LogVer = LogVer = 1.7
+    NewLogVer = NewLogVer = 1.9
+    await ctx.send(f'Currently running Log Version: **{LogVer}**')
+
+
+@client.command()
+async def ToolVer(ctx):
+    ToolVer = ToolVer = 3.3
+    NewToolVer = NewToolVer = 3.5
+    await ctx.send(f'Currently installed Tool Version : **{ToolVer}**')
+
+
+@client.command()
+async def SecurityVer(ctx):
+    SecurityVer = SecurityVer = 2.4
+    NewSecVer = NewSecVer = 2.6
+    await ctx.send(f'Currently installed Security Version : **{SecurityVer}**')
+
+
+@client.command()
+async def OSVer(ctx):
+    OSVer = OSVer = 'Win 10'
+    OSNum = OSNum = '21H1'
+    OSBNum = OSBNum = '19043.1466'
+    await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
+
+
+@client.command()
+@commands.cooldown(1, 690, commands.BucketType.user)
+async def Server_Status(ctx):
+    Server_Status = Server_Status = 'Online'
+    Server_Status2 = Server_Status2 = 'Offline'
+    Server_Status3 = Server_Status3 = 'Maintenance'
+    Server_Status4 = Server_Status4 = 'Closed'
+    await ctx.send(f'The Status of the Server is currently **{Server_Status2}**')
+
+
+@Server_Status.error
+async def server_stat_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command() # ! Alpha ! | will be fixed in a future release #
+async def meme(ctx):
+    subreddit = reddit.subreddit("memes")
+    all_subs = []
+
+    top = subreddit.top(limit = 50)
+
+    for submission in top:
+        all_subs.append(submission)
+
+    random_sub = random.choice(all_subs)
+
+    name = random_sub.title
+    url = random_sub.url
+
+    em = discord.Embed(title = name)
+
+    em.set_image(url = url)
+
+    await ctx.send(embed= em)
+
+
+@client.command()
+@commands.cooldown(1, 18000, commands.BucketType.user)
+async def report(ctx, member: discord.Member,  *, arg):
+    role = ctx.guild.get_role(000000000000000) # enter role here #
+    members = ctx.guild.members
+    await ctx.channel.send('**Your complaint was sent to moderators!**', delete_after=10)
+    for i in role.members:
+        await i.send(f'{ctx.author.mention} sent a complaint on {member.mention} with reason:\n**{arg}**')
+
+
+@report.error
+async def rep_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 @client.command()
 async def backup(ctx):
-    await ctx.send('**Currently In Development! | Error Code: 9711-3878-8327 |**')
-    await ctx.send('**https://open.spotify.com/track/5gqH38uFh40KxHJgrDDBwD?si=0kNN10c-QwG2xITas3E26A**')
+    Ebackup = Ebackup = '8344-8315-9904'
+    await ctx.send(f'**Currently In Development! | Error Code:{Ebackup}|**')
+    await ctx.send(f'**https://open.spotify.com/track/5gqH38uFh40KxHJgrDDBwD?si=0kNN10c-QwG2xITas3E26A**')
 
 
 @client.command()
-async def sendembed(ctx):
-    e = discord.Embed(title="Stack Overflow - Where Developers Learn, Share, & Build Careers",
-                      url="https://stackoverflow.com",
-                      description="Stack Overflow | The World’s Largest Online Community for Developers")
-    e.set_thumbnail(url="https://i.imgur.com/ddx8Bpg.png")
-    await ctx.send(embed=e)
+async def pages(ctx):
+    contents = ["**This is page 1!**", "**This is page 2!**", "**This is page 3!**", "**This is page 4!**", "**This is Page 5!**", "**This is Page 6!**"]
+    pages = 6
+    cur_page = 1
+    message = await ctx.send(f"Page {cur_page}/{pages}:\n{contents[cur_page-1]}")
+
+    await message.add_reaction("◀️")
+    await message.add_reaction("▶️")
+
+    def check(reaction, user):
+        return user == ctx.author and str(reaction.emoji) in ["◀️", "▶️"]
+
+    while True:
+        try:
+            reaction, user = await client.wait_for("reaction_add", timeout=60, check=check)
+
+
+            if str(reaction.emoji) == "▶️" and cur_page != pages:
+                cur_page += 1
+                await message.edit(content=f"Page {cur_page}/{pages}:\n{contents[cur_page-1]}")
+                await message.remove_reaction(reaction, user)
+
+            elif str(reaction.emoji) == "◀️" and cur_page > 1:
+                cur_page -= 1
+                await message.edit(content=f"Page {cur_page}/{pages}:\n{contents[cur_page-1]}")
+                await message.remove_reaction(reaction, user)
+
+            else:
+                await message.remove_reaction(reaction, user)
+
+        except asyncio.TimeoutError:
+            await message.delete()
+            break
 
 
 @client.command(pass_context=True, aliases=['j', 'joi'])
@@ -384,7 +739,7 @@ async def leave(ctx):
     if voice and voice.is_connected():
         await voice.disconnect()
         print(f'The bot has left {channel}')
-        await ctx.send(f'**Left {channel}**')
+        await ctx.send(f'Left {channel}')
 
 
 @client.command(pass_context=True, aliases=['p', 'pla'])
@@ -461,6 +816,120 @@ async def coinflip_error(ctx, error):
         raise error
 
 
+@client.command(name="filter", help="Adds word to filter")
+async def Filter(ctx, word):
+    filter = open("filter.txt", "a")
+    filter.write(word+"\n")
+    filter.close()
+    await ctx.send(f'**Thank You for your Word !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**The Word has beend added to the List**')
+
+
+@Filter.error
+async def fil_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, or u did something wrong | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command(name="feature", help="Adds features to the feature list")
+async def Feature(ctx, word):
+    filter = open("feature.txt", "a")
+    filter.write(word+"\n")
+    filter.close()
+    await ctx.send(f'**Thank You for your Feature !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Feature has beend added to the List**')
+
+
+@Feature.error
+async def feature_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, or u did something wrong | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command(name="idea", help="Adds ideas to the idea list")
+async def Idea(ctx, word):
+    filter = open("idea.txt", "a")
+    filter.write(word+"\n")
+    filter.close()
+    await ctx.send(f'**Thank You for your Idea !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Idea has beend added to the List**')
+
+
+@Idea.error
+async def idea_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, or u did something wrong | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command(name="hunt", help="Adds hunting ideas to the hunt list")
+async def Hunt(ctx, word):
+    filter = open("hunt.txt", "a")
+    filter.write(word+"\n")
+    filter.close()
+    await ctx.send(f'**Thank You for your Hunt Idea !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Hunt Idea has beend added to the List**')
+
+
+@Hunt.error
+async def hunt_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, or u did something wrong | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command(name="art", help="Adds Art ideas to the Art list")
+async def Art(ctx, word):
+    filter = open("art.txt", "a")
+    filter.write(word+"\n")
+    filter.close()
+    await ctx.send(f'**Thank You for your Art Idea !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Art Idea has beend added to the List**')
+
+
+@Art.error
+async def art_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, or u did something wrong | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command(name="amazon", help="Adds Products to the Amazon list")
+async def Amazon(ctx, word):
+    filter = open("amazon.txt", "a")
+    filter.write(word+"\n")
+    filter.close()
+    await ctx.send(f'**Thank You for the Product!**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Product has beend added to the Amazon List**')
+
+
+@Amazon.error
+async def amazon_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, or u did something wrong | please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 @client.command()
 async def Ads(ctx, member : discord.Member):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
@@ -469,9 +938,59 @@ async def Ads(ctx, member : discord.Member):
     await ctx.send('**Press F to pay respect**')
 
 
-password = '000000' # enter your password here | use digital numbers for pw |
+time_regex = re.compile(r"(?:(\d{1,5})(h|s|m|d))+?")
+time_dict = {"h": 3600, "s": 1, "m": 60, "d": 86400}
+
+
+def convert(argument):
+  args = argument.lower()
+  matches = re.findall(time_regex, args)
+  time = 0
+  for key, value in matches:
+    try:
+      time += time_dict[value] * float(key)
+    except:
+      raise BadArgument
+  return round(time)
+
 
 @client.command()
+@commands.has_permissions(manage_messages=True)
+async def giveaway(ctx, time: str, *, prize: str):
+    time = convert(time)
+
+    embed = discord.Embed(title=prize,
+                          description=f"Hosted by - {ctx.author.mention}\nReact with :tada: to enter!\nTime Remaining: **{time}** seconds",
+                          color=ctx.guild.me.top_role.color)
+
+    msg = await ctx.channel.send(content=":tada: **GIVEAWAY** :tada:", embed=embed)
+    await msg.add_reaction("🎉")
+
+    await asyncio.sleep(3)
+    await asyncio.sleep(int(time))
+
+    new_msg = await ctx.channel.fetch_message(msg.id)
+
+    user_list = [user for user in await new_msg.reactions[0].users().flatten() if
+                 user != client.user]
+
+    if len(user_list) == 0:
+        await ctx.send("No one reacted.")
+    else:
+        winner = random.choice(user_list)
+        await ctx.send(f"**{winner.mention} You have won the {prize}!**")
+
+
+@giveaway.error
+async def ga_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('**You dont have the right Permissions to execute this command.**')
+
+
+password = '0371283648'
+
+@client.command()
+@has_permissions(manage_roles=True, ban_members=True)
 async def offline(ctx, *, password_check=None):
     if password_check and password_check == password:
         await ctx.message.channel.purge(limit=1)
@@ -481,6 +1000,12 @@ async def offline(ctx, *, password_check=None):
         await ctx.send('Please enter the password!')
     else:
         await ctx.send('You got the password wrong.')
+
+
+@offline.error
+async def offline_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('**You dont have the right Permissions to execute this command.**')
 
 
 @client.command()
@@ -510,12 +1035,12 @@ async def info_error(ctx, error):
         await ctx.send('**I could not find that member...**')
 
 
-@tasks.loop(seconds=320)
+@tasks.loop(seconds=360)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '00000000' # enter your own password here | use digital numbers as pw |
+password = '7924713'
 
 
 @client.command()
@@ -530,7 +1055,7 @@ async def kick(ctx, member : discord.Member, *,password_check=None):
     await member.kick()
 
 
-password = '0000000' # like above for pw
+password = '03819925'
 
 
 @client.command()
@@ -559,40 +1084,106 @@ async def unban(ctx, *, member):
             return
 
 
+@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
+@commands.has_permissions(administrator=True)
+async def catchthephoenix(ctx, member: discord.Member=None):
+    points = {ctx.author: 0, member: 0}
+    random_time = random.randrange(30)
+
+    game = False
+    if member is None:
+        await ctx.send("...")
+    elif member == client.user:
+        await ctx.send("...")
+    elif member.client:
+        await ctx.send("...")
+    else:
+        game = True
+
+    await ctx.send(...)
+    while True:
+        try:
+            await asyncio.sleep(random_time)
+            await ctx.send(...)
+            message = await client.wait_for(
+                "message",
+                check=lambda m: m.author.id == ctx.author.id,
+                timout=45.0
+            )
+        except asyncio.TimeoutError:
+            game = False
+            ...
+        if not message.content.lower() == "catch":
+            continue
+        if message.author.id == member.id:
+            ...
+        elif message.author.id == ctx.author.id:
+            ...
+
+
+@catchthephoenix.error
+async def ctp_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 @client.command()
 async def Switch(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('switch-talk')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Channel has been created**')
 
 
 @client.command()
 async def Community(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('community-couch')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Channel has been created**')
 
 
 @client.command()
 async def SSBU(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('smash-battles ')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Channel has been created**')
 
 
 @client.command()
 async def spam(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('bot-spam')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Channel has been created**')
 
 
 @client.command()
 async def trades(ctx):
     guild = ctx.message.guild
     await guild.create_text_channel('viewer-trades')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Channel has been created**')
 
 
 @client.command()
 async def Youtube(ctx):
     guild = ctx.guild
     await guild.create_role(name="Youtuber")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
+
+
+@client.command()
+async def GM(ctx):
+    guild = ctx.guild
+    await guild.create_role(name="Guild_Member")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
@@ -613,12 +1204,16 @@ async def FB(ctx):
 async def Facebook(ctx):
     guild = ctx.guild
     await guild.create_role(name="Facebook")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
 async def DB(ctx):
     guild = ctx.guild
     await guild.create_role(name="Discord-Bot")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
@@ -632,6 +1227,8 @@ async def DBot(ctx):
 async def ST(ctx):
     guild = ctx.guild
     await guild.create_role(name="Sub-Trade")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
@@ -645,6 +1242,8 @@ async def STrade(ctx):
 async def Mixer(ctx):
     guild = ctx.guild
     await guild.create_role(name="Mixer")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
@@ -658,6 +1257,8 @@ async def Stream(ctx):
 async def Admin(ctx):
     guild = ctx.guild
     await guild.create_role(name="Administrator")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
@@ -673,6 +1274,13 @@ async def ping(ctx):
 
 
 @client.command()
+async def BDSPHelp(ctx):
+    Game = Game = 'Brilliant Diamond & Shining Pearl'
+    BDSP = BDSP = 1.3
+    await ctx.send(f'Unfortunally we do not have Support yet for the Latest PKMN Game: **{Game}** & Version: **{BDSP}** for creating Custom PKMN .')
+
+
+@client.command()
 async def Discord(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
@@ -681,7 +1289,16 @@ async def Discord(ctx):
     await ctx.send(embed=embed)
 
 
-# Math Module
+# Math Module Start ########
+
+@client.command()
+@commands.cooldown(1, 90, commands.BucketType.user)
+async def Math_Help(ctx):
+    await ctx.send(f'**Welcome New User, Commands for this Module are: !add, !sub, !multiply, !divide**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Use Number (1) and Number (2) that u have choosen and select one of the Commands above**')
+
+
 @client.command() 
 async def add(ctx, *nums):
     operation = " + ".join(nums)
@@ -703,9 +1320,12 @@ async def divide(ctx, *nums):
     await ctx.send(f'{operation} = {eval(operation)}')
 
 
-@client.command() # not working Issue 1 #
+# Math Module End ########
+
+
+@client.command()
 async def dma(ctx):
-    rand_num = (randint(1, 3))
+    rand_num = (1, 3)
     win_num = 1
     pm_channel = await ctx.author.create_dm()
     if win_num == rand_num:
@@ -717,14 +1337,14 @@ async def dma(ctx):
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def vip_dm(ctx):
-    guild = client.get_guild(id=0000000000000)
-    role = discord.utils.get(guild.roles, id=00000000000000)
+    guild = client.get_guild(id=0000000000000) # guild ID here #
+    role = discord.utils.get(guild.roles, id=00000000000000) # vip role goes here #
     member = guild.get_member(ctx.message.author.id)
     await member.add_roles(role)
 
 
 @vip_dm.error
-async def vip_error(ctx, error):
+async def vipdm_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
         await ctx.send(msg)
@@ -732,10 +1352,16 @@ async def vip_error(ctx, error):
         raise error
 
 
+# will be used later # Stay Tuned !
+data = ("🎉")
+item = ("🎉")
+counter = data.count(item)
+
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def keyword(ctx, *, word: str):
-    channel = client.get_channel(00000000000)
+    channel = client.get_channel(00000000000) # selected channel for keyword search #
     messages = await ctx.channel.history(limit=200).flatten()
 
     for msg in messages:
@@ -746,10 +1372,33 @@ async def keyword(ctx, *, word: str):
 @keyword.error
 async def kw_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        msg = '**You dont have the right permissions to execute this command.**'
+        msg = '**You dont have the needed permissions to execute this command.**'
         await ctx.send(msg)
     else:
         raise error
+
+
+hug_gifs = ['https://c.tenor.com/nHkiUCkS04gAAAAC/anime-hug-hearts.gif']
+hug_names = ['Hugs you!'] 
+
+
+@client.command()
+async def hug(ctx):
+    embed = discord.Embed (
+        colour=(discord.Colour.red()),
+        description = f"{ctx.author.mention} {(random.choice(hug_names))}"
+    )
+    embed.set_image(url=(random.choice(hug_gifs)))
+
+    await ctx.send(embed = embed)
+
+
+@client.command()
+async def rob(ctx):
+    if random.randint(0, 100) <= 45:
+        await ctx.send("Robbery has failed.")
+    else:
+        await ctx.send("Robbery was successful.")
 
 
 @client.command()
@@ -769,16 +1418,26 @@ async def sd_error(ctx, error):
 
 
 @client.command()
+@commands.cooldown(1, 60, commands.BucketType.user)
 async def Prime(ctx):
     embed = discord.Embed(
-            color= discord.Colour.dark_teal()
+            color= discord.Colour.dark_theme()
         )
     embed.add_field(name='Use Amazon Prime on Twitch:' ,value='[Click here to view]( https://twitch.amazon.com/tp )', inline=False)
     await ctx.send(embed=embed)
 
 
+@Prime.error
+async def prime_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
+@commands.cooldown(1, 900, commands.BucketType.user)
 async def timer(ctx):
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
@@ -793,10 +1452,10 @@ async def timer(ctx):
     await ctx.send(f'GO Wondertrade')
     await asyncio.sleep(90)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
-    
-    
+
+
 @timer.error
-async def tim_error(ctx, error):
+async def timer_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
         await ctx.send(msg)
@@ -819,7 +1478,7 @@ async def blackjack(ctx):
 
 
 @blackjack.error
-async def blj_error(ctx, error):
+async def blackjack_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
         await ctx.send(msg)
@@ -828,8 +1487,18 @@ async def blj_error(ctx, error):
 
 
 @client.command()
+@commands.cooldown(1, 60, commands.BucketType.user)
 async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
     await ctx.send('{} bottles of {} on the wall!'.format(amount, liquid))
+
+
+@bottles.error
+async def bottles_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command(help="Play with .rps [your choice]")
@@ -869,25 +1538,51 @@ async def rps(ctx):
             await ctx.send(f"Oh well, we tied.\nYour choice: {user_choice}\nMy choice: {comp_choice}")
 
 
+@rps.error
+async def rps_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 @client.command()
+@commands.cooldown(1, 60, commands.BucketType.user)
 async def Sub(ctx):
     embed = discord.Embed(
-            color= discord.Colour.dark_teal()
+            color= discord.Colour.dark_magenta()
         )
     embed.add_field(name='Subscribe here' ,value='[Click here to view]( https://www.twitch.tv/products/shinyhunter2109 )', inline=False)
     await ctx.send(embed=embed)
 
 
+@Sub.error
+async def Sub_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 @client.command()
+@commands.has_permissions(administrator=True)
 async def Update(ctx):
+    Build = Build = 6.1
+    NewVer = NewVer = 6.2
+    NDate = NDate = '15th February'
+    Uploader = Uploader = 'Shinyhunter2109'
     await ctx.send(f'**Checking for Updates...**')
-    await asyncio.sleep(15)
-    await ctx.send(f'**New Version detected...**')
+    await asyncio.sleep(10)
+    await ctx.send(f'Latest Build: Build: **{Build}** uploaded by **{Uploader}**')
+    await asyncio.sleep(10)
+    await ctx.send(f'Next Bot Version will be released on: **{NDate}** with Version **{NewVer}**')
     await asyncio.sleep(15)
     embed = discord.Embed(
-            color= discord.Colour.dark_teal()
+            color= discord.Colour.dark_green()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/4.8/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.2/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -901,15 +1596,78 @@ async def update_error(ctx, error):
 
 
 @client.command()
+@commands.has_permissions(administrator=True)
+async def DevAlpha(ctx):
+    DevBuild = DevBuild = 7.1
+    NDevB = NDevB = 7.3
+    DevUpload = DevUpload = 'Shinyhunter'
+    DevDate = DevDate = '2nd June'
+    await ctx.send(f'**Checking for Updates...**')
+    await asyncio.sleep(15)
+    await ctx.send(f'**Latest Build found: Build: **{DevBuild}** uploaded by **{DevUpload}**')
+    await asyncio.sleep(10)
+    await ctx.send(f'Next Bot Version will be released on: **{DevDate}** with Version **{NDevB}**')
+    await asyncio.sleep(15)
+    embed = discord.Embed(
+            color= discord.Colour.dark_gold()
+        )
+    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.1/DevVer.7z )', inline=False)
+    await ctx.send(embed=embed)
+
+
+@DevAlpha.error
+async def devver_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**WARNING USE THIS VERSION AT YOUR OWN RISK !.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+@commands.has_permissions(administrator=True)
+async def PreRelease(ctx):
+    PR = PR = '6.1.1'
+    NPR = NPR = '6.2.1'
+    Downtime = Downtime = 4
+    PRDate = PRDate = '2nd February'
+    PRUploader = PRUploader = 'ShinyhunterTV'
+    await ctx.send(f'**Checking for Pre-Release Updates...**')
+    await asyncio.sleep(10)
+    await ctx.send(f'**Pre Release Version found: Build: **{PR}** uploaded by **{PRUploader}**')
+    await asyncio.sleep(10)
+    await ctx.send(f'Next Pre Version will be released on: **{PRDate}** with Version **{NPR}** | Expected Downtime: **{Downtime}** hours')
+    await asyncio.sleep(15)
+    embed = discord.Embed(
+            color= discord.Colour.dark_gold()
+        )
+    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.1.1/Discord-Moveset-Bot.7z )', inline=False)
+    await ctx.send(embed=embed)
+
+
+@PreRelease.error
+async def pre_ver_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**These are Pre Released Updates and they only contain Bug-Fixes !.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
 async def BN(ctx):
     guild = ctx.guild
     await guild.create_role(name="Battle.net")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
 async def Com_Help(ctx):
     guild = ctx.guild
     await guild.create_role(name="Community Helper")
+    await asyncio.sleep(5)
+    await ctx.send(f'**Role has been created**')
 
 
 @client.command()
@@ -925,207 +1683,213 @@ async def pokedex(ctx):
 
 
 @client.command()
-async def abomasnow(ctx):
+async def Abomasnow(ctx):
     await ctx.send(f'Ability: Soundproof  EVs: 92 HP / 252 SpA / 164 Spe  Nature: Mild  Moves: Blizzard  Giga Drain  Focus Blast  Ice Shard  Item: Abomasite')
     await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
 
 
 @client.command()
-async def abra(ctx):
+async def Abra(ctx):
     await ctx.send(f'Ability: Magic Guard  EVS: 236 Spa / 76 SpD / 196 Spe  Nature: Timid  Level: 5    Moves: Psychic  Dazzling Gleam  Hidden Power Fighting  Protect  Item: Focus Sash')
     await ctx.send(f'https://www.pokewiki.de/images/3/3a/Pok%C3%A9monsprite_063_Schillernd_XY.gif')
 
 
 @client.command()
-async def absol(ctx):
+async def Absol(ctx):
     await ctx.send(f'Ability: Justified  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Adamant  Moves: Swords Dance  Knock Off  Sucker Punch  Superpower  Item: Life Orb')
     await ctx.send(f'https://www.pokewiki.de/images/c/c8/Pok%C3%A9monsprite_359_Schillernd_XY.gif')
 
 
 @client.command()
-async def accelgor(ctx):
+async def Accelgor(ctx):
     await ctx.send(f'Ability: Sticky Hold  EVS: 4 Def / 252 SpA / 252 Spe  Nature: Timid  Moves: Bug Buzz  Focus Blast  Energy Ball  Spikes  Item: Choice Specs')
     await ctx.send(f'https://www.pokewiki.de/images/9/9d/Pok%C3%A9monsprite_617_Schillernd_XY.gif')
 
 
 @client.command()
-async def aegislash(ctx):
+async def Aegislash(ctx):
     await ctx.send(f'Ability: Stance Change  EVS: 252 HP / 252 SpA / 4 SpD  Nature: Quit  Moves: Shadow Ball  Flash Cannon  Shadow Sneak  Kings Shield  Item: Leftovers')
     await ctx.send(f'https://www.pokewiki.de/images/6/67/Pok%C3%A9monsprite_681_Schillernd_XY.gif')
 
 
 @client.command()
-async def aerodactyl(ctx):
+async def Aerodactyl(ctx):
     await ctx.send(f'Ability: Unnerve  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Stone Edge  Earthquake  Pursuit  Roost  Item: Aerodactylite')
     await ctx.send(f'https://www.pokewiki.de/images/a/a0/Pok%C3%A9monsprite_142_Schillernd_XY.gif')
 
 
 @client.command()
-async def aggron(ctx):
+async def Aggron(ctx):
     await ctx.send(f'Ability: Sturdy  EVS: 252 HP / 4 Def / 252 SpD  Nature: Careful  Moves: Stealth Rock  Heavy Slam  Earthquake  Toxic  Item: Aggronite')
     await ctx.send(f'https://www.pokewiki.de/images/7/79/Pok%C3%A9monsprite_306_Schillernd_XY.gif')
 
 
 @client.command()
-async def aipom(ctx):
+async def Aipom(ctx):
     await ctx.send(f'Ability: Skill Link  EVS: 76 HP / 116 Atk / 76 Def / 236 Spe  Nature: Jolly  Level: 5    Moves: Fury Swipes  Knock Off  Brick Break  Fake Out  Item: Life Orb')
     await ctx.send(f'https://www.pokewiki.de/images/c/ce/Pok%C3%A9monsprite_190_Schillernd_XY.gif')
 
 
 @client.command()
-async def alakazam(ctx):
+async def Alakazam(ctx):
     await ctx.send(f'Ability: Magic Guard  EVS: 4 Def / 252 SpA / 252 Spe  Nature: Timid  Moves: Psychic  Focus Blast  Recover  Shadow Ball  Item: Alakazite')
     await ctx.send(f'https://www.pokewiki.de/images/f/f2/Pok%C3%A9monsprite_065_Schillernd_XY.gif')
 
 
 @client.command()
-async def alomomola(ctx):
+async def Alomomola(ctx):
     await ctx.send(f'Ability: Regenerator  EVS: 40 HP / 252 Def / 216 SpD  Nature: Bold  Moves: Wish  Protect  Toxic  Scald  Item: Leftovers')
     await ctx.send(f'https://www.pokewiki.de/images/2/21/Pok%C3%A9monsprite_594_Schillernd_XY.gif')
 
 
 @client.command()
-async def altaria(ctx):
+async def Altaria(ctx):
     await ctx.send(f'Ability: Natural Cure  EVS: 72 HP / 252 Atk / 184 Spe  Nature: Adamant  Moves: Dragon Dance  Return  Refresh  Roost  Item: Altarianite')
     await ctx.send(f'https://www.pokewiki.de/images/a/a5/Pok%C3%A9monsprite_334_Schillernd_XY.gif')
 
 
 @client.command()
-async def amaura(ctx):
+async def Amaura(ctx):
     await ctx.send(f'Ability: Snow Warning  EVS: 60 HP / 220 SpA / 228 Spe  Nature: Modest  Level: 5    Moves: Blizzard  Earth Power  Thunderbolt  Ancient  Item: Choice Scarf')
     await ctx.send(f'https://www.pokewiki.de/images/e/e8/Pok%C3%A9monsprite_698_Schillernd_XY.gif')
 
 
 @client.command()
-async def ambipom(ctx):
+async def Ambipom(ctx):
     await ctx.send(f'Ability: Technican  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Fake Out  Return  Low Kick  U-turn  Item: Life Orb')
     await ctx.send(f'https://www.pokewiki.de/images/1/13/Pok%C3%A9monsprite_424_Schillernd_XY.gif')
 
 
 @client.command()
-async def amoonguss(ctx):
+async def Amoonguss(ctx):
     await ctx.send(f'Ability: Regenerator  EVS: 252 HP / 176 Def / 80 SpD  Nature: Bold  Moves: Spore  Giga Drain  Hidden Power Fire  Clear Smog  Item: Rocky Helmet')
     await ctx.send(f'https://www.pokewiki.de/images/6/64/Pok%C3%A9monsprite_591_Schillernd_XY.gif')
 
 
 @client.command()
-async def ampharos(ctx):
+async def Ampharos(ctx):
     await ctx.send(f'Ability: Static  EVS: 4 HP / 252 SpA / 252 Spe  Nature: Modest  Moves: Volt Switch  Dragon Pulse  Focus Blast  Thunderbolt  Item: Ampharosite')
     await ctx.send(f'https://www.pokewiki.de/images/0/0a/Pok%C3%A9monsprite_181_Schillernd_XY.gif')
 
 
 @client.command()
-async def anorith(ctx):
+async def Anorith(ctx):
     await ctx.send(f'Ability: Battle Armor  EVS: 236 Atk / 36 Def / 236 Spe  Nature: Jolly  Level: 5  Moves: Stealth Rock  Rapid Spin  Knock Off  Rock Blast  Item: Berry Juice')
     await ctx.send(f'https://www.pokewiki.de/images/3/39/Pok%C3%A9monsprite_347_Schillernd_XY.gif')
 
 
 @client.command()
-async def araquanid(ctx):
+async def Araquanid(ctx):
     await ctx.send(f'Ability: Water Bubble  EVS: 96 HP / 220 Atk / 192 Spe  Nature: Adamant  Moves: Liquidation  Spider Web  Toxic  Rest  Item: Splash Plate')
     await ctx.send(f'https://www.pokewiki.de/images/6/66/Pok%C3%A9monsprite_752_Schillernd_SoMo.gif')
 
 
 @client.command()
-async def arbok(ctx):
+async def Arbok(ctx):
     await ctx.send(f'Ability: Intimidate  EVS: 252 Atk / 4 SpD / 252 Spe  Nature: Adamant  Moves: Coil  Gunk Shot  Earthquake  Sucker Punch  item: Black Sludge')
     await ctx.send(f'https://www.pokewiki.de/images/7/78/Pok%C3%A9monsprite_024_Schillernd_XY.gif')
 
 
 @client.command()
-async def arcanine(ctx):
+async def Arcanine(ctx):
     await ctx.send(f'Ability: Flash Fire  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Flare Blitz  Wild Charge  Extreme Speed  Morning Sun  Item: Life Orb')
     await ctx.send(f'https://www.pokewiki.de/images/7/72/Pok%C3%A9monsprite_059_Schillernd_XY.gif')
 
 
 @client.command()
-async def arceus(ctx):
+async def Arceus(ctx):
     await ctx.send(f'Ability: Multitype  EVS: 240 HP / 252 Atk / 16 Spe  Nature: Adamant  Moves: Swords Dance  Extreme Speed  Shadow Claw  Recover  Item: Chople Berry')
     await ctx.send(f'https://www.pokewiki.de/images/9/94/Pok%C3%A9monsprite_493_Schillernd_XY.gif')
 
 
 @client.command()
-async def archen(ctx):
+async def Archen(ctx):
     await ctx.send(f'Ability: Defeatist  EVS: 76 HP / 180 Atk / 196 Spe  Nature: Jolly  Level: 5  Moves: Acrobatics  Rock Slide  Heat Wave  Hidden Power Grass Item: Berry Juice')
     await ctx.send(f'https://www.pokewiki.de/images/e/e6/Pok%C3%A9monsprite_566_Schillernd_XY.gif')
 
 
 @client.command()
-async def archeops(ctx):
+async def Archeops(ctx):
     await ctx.send(f'Ability: Defeatist  EVS: 252 Atk / 252 Spe / 0 HP / 0 Def / 0 SpD  Nature: Naive  Moves: Head Smash  Stealth Rock  Endeavor  Taunt  Item: Focus Sash')
     await ctx.send(f'https://www.pokewiki.de/images/e/e0/Pok%C3%A9monsprite_567_Schillernd_XY.gif')
 
 
 @client.command()
-async def ariados(ctx):
+async def Ariados(ctx):
     await ctx.send(f'Ability: Swarm  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Sticky Web  Toxic Spikes  Megahorn  Toxic Thread  Item: Focus Sash')
     await ctx.send(f'https://www.pokewiki.de/images/7/75/Pok%C3%A9monsprite_168_Schillernd_XY.gif')
 
 
 @client.command()
-async def armaldo(ctx):
+async def Armaldo(ctx):
     await ctx.send(f'Ability: Battle Armor  EVS: 252 HP / 92 Atk / 164 Spe  Nature: Adamant  Moves: Rapid Spin  Stone Edge  Knock Off  Earthquake  Item: Leftovers')
     await ctx.send(f'https://www.pokewiki.de/images/7/74/Pok%C3%A9monsprite_348_Schillernd_XY.gif')
 
 
 @client.command()
-async def aromatisse(ctx):
+async def Aromatisse(ctx):
     await ctx.send(f'Ability: Aroma Veil  EVS: 248 HP / 252 SpA / 8 SpD  Nature: Quit  Moves: Trick Room  Nasty Plot  Moonblast  Psychic  Item: Fairium Z')
     await ctx.send(f'https://www.pokewiki.de/images/a/a1/Pok%C3%A9monsprite_683_Schillernd_XY.gif')
 
 
 @client.command()
-async def aron(ctx):
+async def Aron(ctx):
     await ctx.send(f'Ability: Rock Head  EVS: 196 Atk / 116 SpD / 196 Spe  Nature: Jolly  Level: 5  Moves: Rock Polish  Head Smash  Heavy Slam  Earthquake  Item: Eviolite')
     await ctx.send(f'https://www.pokewiki.de/images/7/7a/Pok%C3%A9monsprite_304_Schillernd_XY.gif')
 
 
 @client.command()
-async def articuno(ctx):
+async def Articuno(ctx):
     await ctx.send(f'Ability: Pressure  EVS: 252 SpA / 4 SpD / 252 Spe  Nature: Timid  Moves: Substitute  Roost  Freeze-Dry  Hurricane  Item: Leftovers')
     await ctx.send(f'https://www.pokewiki.de/images/a/a9/Pok%C3%A9monsprite_144_Schillernd_XY.gif')
 
 
 @client.command()
-async def audino(ctx):
+async def Audino(ctx):
     await ctx.send(f'Ability: Regenerator  EVS: 252 HP / 4 Def / 252 SpD  Nature: Calm  Moves: Wish  Protect  Heal Bell  Knock Off  Item: Audinite')
     await ctx.send(f'https://www.pokewiki.de/images/a/a4/Pok%C3%A9monsprite_531_Schillernd_XY.gif')
 
 
 @client.command()
-async def aurorus(ctx):
+async def Aurorus(ctx):
     await ctx.send(f'Ability: Snow Warning  EVS: 252 SpA / 4 SpD / 252 Spe  Nature: Modest  Moves: Blizzard  Freeze-Dry  Earth Power  Hidden Power Rock  Item: Choice Specs')
     await ctx.send(f'https://www.pokewiki.de/images/0/01/Pok%C3%A9monsprite_699_Schillernd_XY.gif')
 
 
 @client.command()
-async def avalugg(ctx):
+async def Avalugg(ctx):
     await ctx.send(f'Ability: Sturdy  EVS: 252 HP / 88 Atk / 168 Def  Nature: Impish  Moves: Avalanche  Recover  Rapid Spin  Earthquake  Item: Rocky Helmet')
     await ctx.send(f'https://www.pokewiki.de/images/a/a5/Pok%C3%A9monsprite_713_Schillernd_XY.gif')
 
 
 @client.command()
-async def axew(ctx):
+async def Axew(ctx):
     await ctx.send(f'Ability: Mold Breaker  EVS: 68 HP / 220 Atk / 220 Spe  Nature: Jolly  Moves: Dragon Dance  Outrage  Superpower  Iron Tail  Item: Eviolite')
     await ctx.send(f'https://www.pokewiki.de/images/a/af/Pok%C3%A9monsprite_610_Schillernd_XY.gif')
 
 
 @client.command()
-async def azelf(ctx):
+async def Azelf(ctx):
     await ctx.send(f'Ability: Levitate  EVS: 252 Atk / 4 SpA / 252 Spe  Nature: Jolly  Moves: Stealth Rock  Explosion  Taunt  Knock Off  Item: Focus Sash')
     await ctx.send(f'https://www.pokewiki.de/images/c/c8/Pok%C3%A9monsprite_482_Schillernd_XY.gif')
 
 
 @client.command()
-async def azumarill(ctx):
+async def Azumarill(ctx):
     await ctx.send(f'Ability: Huge Power  EVS: 252 Atk / 4 HP / 252 Spe  Nature: Adamant  Moves: Belly Drum  Aqua Jet  Play Rough  Knock Off  Item: Sitrus Berry')
     await ctx.send(f'https://www.pokewiki.de/images/5/59/Pok%C3%A9monsprite_184_Schillernd_XY.gif')
 
 
 @client.command()
-async def azurill(ctx):
+async def Azurill(ctx):
     await ctx.send(f'Ability: Huge Power  EVS: 196 HP / 196 Atk / 116 Def  Nature: Brave  Level: 5  Moves: Double-Edge  Waterfall  Return  Knock Off  Item: Life Orb')
     await ctx.send(f'https://www.pokewiki.de/images/6/63/Pok%C3%A9monsprite_298_Schillernd_XY.gif')
+
+
+@client.command()
+async def Giratina(ctx):
+    await ctx.send(f'Ability: Pressure  EVS: 248 HP / 12 SpD/ 248 Def  Nature: Impish  Level: 100  Moves: Will-O-Wisp  Rest Sleep Talk Dragon Claw  Item: Leftovers')
+    await ctx.send(f'https://www.pokewiki.de/images/a/ac/Pok%C3%A9monsprite_487_Schillernd_XY.gif')
 
 
 @client.command(aliases=['8ball', 'test'])
@@ -1156,6 +1920,38 @@ async def clear_error(ctx, error):
         raise error
 
 
+# Slash Command Section #
+
+
+@slash.slash(name="ping", guild_ids=guild_ids)
+async def _ping(ctx):
+    await ctx.send("Pong!")
+
+
+@slash.slash(name="slash", guild_ids=guild_ids)
+async def _slash(ctx):
+    await ctx.send("**Slash Commands are now officially Supported!**")
+
+
+@slash.slash(name="abomasnow", guild_ids=guild_ids)
+async def _Abomasnow(ctx):
+    await ctx.send(f'Ability: Soundproof  EVs: 92 HP / 252 SpA / 164 Spe  Nature: Mild  Moves: Blizzard  Giga Drain  Focus Blast  Ice Shard  Item: Abomasite')
+    await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
+
+
+# Slash Command Section End #
+
+
+@client.command()
+async def dispatch_custom(ctx):
+    client.dispatch("custom_event has been started", ctx)
+
+
+@client.event
+async def on_custom_event(ctx):
+    print("Custom event : ERROR | Try again later !")
+
+
 @client.event
 async def on_message_delete(message):
     if len(message.mentions) == 0:
@@ -1178,15 +1974,12 @@ async def on_message_delete(message):
 
 @client.event
 async def on_raw_reaction_add(payload):
-    #You forgot to await the bot.get_channel
-    channel = (payload.channel_id)
+    channel = await client.get_channel(payload.channel_id)
     message = await channel.fetch_message(payload.message_id)
     guild = client.get_guild(payload.guild_id)
-    #Put the following Line
     member = guild.get_member(payload.user_id)
     reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
 
-    # only work if it is the client
     if payload.user_id == client.user.id:
         return
 
@@ -1198,10 +1991,51 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_member_update(before, after):
-    if before.status is discord.Status.offline and after.status is discord.Status.online:
-        print('was offline then online')
-        channel = client.get_channel(000000000000)  # notification channel
-        await channel.send(f'{after.name} is now {after.status}')
+        if after.guild.id == 00000000000: # Your Guild ID here #
+            if before.activity == after.activity:
+                return
+
+            role = get(after.guild.roles, id=0000000000000) # Your role goes here #
+            channel = get(after.guild.channels, id=000000000000) # channel goes here #
+
+            async for message in channel.history(limit=200):
+                if before.mention in message.content and "is now streaming" in message.content:
+                    if isinstance(after.activity, Streaming):
+                        return
+
+            if isinstance(after.activity, Streaming):
+                await after.add_roles(role)
+                stream_url = after.activity.url
+                stream_url_split = stream_url.split(".")
+                streaming_service = stream_url_split[1]
+                streaming_service = streaming_service.capitalize()
+                await channel.send(f":red_circle: **LIVE**\n{before.mention} is now streaming on {streaming_service}!\n{stream_url}")
+            elif isinstance(before.activity, Streaming):
+                await after.remove_roles(role)
+                async for message in channel.history(limit=200):
+                    if before.mention in message.content and "is now streaming" in message.content:
+                        await message.delete()
+            else:
+                return
+
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send('**Invalid command used.**')
+
+
+@client.event
+async def on_permission_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('**You dont have the right Permissions to execute this command.**')
+
+
+@client.event
+async def on_voice_state_update(member, before, after):
+    if member.id == client.user.id and after.channel == None and before.channel != None:
+        voiceChannel = before.channel
+        await voiceChannel.connect()
 
 
 @client.event
@@ -1209,6 +2043,25 @@ async def on_guild_join(guild):
     channel = guild.text_channels[0]
     embed = discord.Embed(title=guild.name, description="Hello, how can I help your Server?")
     await channel.send(embed=embed)
+
+
+@client.event
+async def on_slash_command_error(ctx, error):
+
+    if isinstance(error, discord.ext.commands.errors.MissingPermissions):
+        await ctx.send('You do not have permission to execute this command', hidden=True)
+
+    else:
+       await ctx.send('An unexpected error occured. Please contact the bot developer', hidden=True)
+       raise error
+
+
+@client.event
+async def on_error(event, *args, kwargs):
+    message = args[0]
+    logging.warning(traceback.format_exc())
+    await client.send_message(message.channel, "You caused an error!")
+    print ('an error has occurred..!')
 
 
 @client.event
