@@ -7,15 +7,17 @@ currently being supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 6.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :x:                |
+| 6.1     | :white_check_mark: |
+| 5.0     | :x:                |
+| 4.0     | :x:                |
 | < 4.0   | :x:                |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+When u see that something is not working or not working correctly please open a Issue on the Repo.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+## Updates
+
+The Update Shedule is set to once a Month.
+
+You can expect every Month a small Update 
