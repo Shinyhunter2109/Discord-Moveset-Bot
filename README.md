@@ -43,10 +43,25 @@
 
 - If you done everything correctly you should see a Connection Message in the Console when u start the Program!
 
+## Updates
 
-## Python Version Notes
+## Supported Versions
 
-- Latest Version 3.10.1 is not supported rn till a fix comes out for the broken modules !
+## Below you can see which Version still get Updates !
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 6.1     | :white_check_mark: |
+| 6.0     | :x:                |
+| 5.8     | :x:                |
+| 5.5     | :x:                |
+| 5.0     | :x:                |
+| 4.0     | :x:                |
+| 3.0     | :x:                |
+
+## Errors
+
+When u see that something is not working or not working correctly please open a Issue on the Repo !
 
 ## Status Bar for this Project:
 
