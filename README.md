@@ -45,6 +45,8 @@
 
 ## Updates
 
+- The Bot now has support for the latest Python Version
+
 ## Supported Versions
 
 ## Below you can see which Version still get Updates !
