@@ -45,6 +45,7 @@ from discord import FFmpegPCMAudio
 from discord import Spotify
 from discord import LoginFailure
 from discord import Webhook
+from discord import Game
 from discord import DiscordServerError
 from discord import DiscordException
 from discord import InvalidData
@@ -66,24 +67,31 @@ logger.addHandler(handler)
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
 slash = SlashCommand(client, sync_commands=True)
-guild_ids = [0000000000000] # Your Guild ID here #
+guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible) #
 client.remove_command('help')
-status = cycle(['Pokémon Brilliant Diamond', 'Pokémon Shining Pearl'])
+status = cycle(['Pokémon Brilliant Diamond', 'Pokémon Shining Pearl']) # Standard Games can be edited if needed #
 ROLE = 'Member' # Standard Role can be edited when needed ! #
+
+
+def setprefix():
+    with open("prefix.txt") as f:
+        return "\n".join(f.readlines())
 
 
 @client.event
 async def on_ready():
-    BVer = BVer = 6.2
+    BVer = BVer = 6.3
     BOwner = BOwner = 'twitch.tv/shinyhunter2109'
     LogUP = LogUP = 'Done'
     BCon = BCon = 'Online'
+    Build = Build ='6.3.0.2'
+    prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
     print(f'This Bot is Made by {BOwner}')
     print(f'Log_Update: {LogUP}')
-    print(f'Bot_Connection: {BCon}')
     print(f'Bot Version: {BVer}')
+    print(f'Build: {Build}')
 
 
 
@@ -166,7 +174,7 @@ async def server_icon():
 
 
 @client.command()
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 100, commands.BucketType.user)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - client.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
@@ -186,9 +194,12 @@ async def uptime_error(ctx, error):
 
 @client.command()
 async def Version(ctx):
-    Version = Version = 6.1
-    LVer = LVer = 6.2
-    await ctx.send(f'The Latest Version is: {Version}')
+    Version = Version = 6.3
+    LVer = LVer = 6.3
+    if Version < LVer:
+        await ctx.send(f'**Please download the latest Version from Github**')
+    else:
+        await ctx.send(f'**You are on the Latest Version**')
 
 
 @client.command()
@@ -219,8 +230,8 @@ async def balance(ctx):
     wallet_amt = users[str(user.id)]["wallet"]
     bank_amt = users[str(user.id)]["bank"]
 
-    await ctx.send(f"**{ctx.author.name}'s coins balance**")
-    await ctx.send(f'**Wallet balance:** {wallet_amt} coins')
+    await ctx.send(f"**{ctx.author.name}'s coin balance**")
+    await ctx.send(f'**Coin balance:** {wallet_amt} coins')
     await ctx.send(f'**Bank balance:** {bank_amt} coins')
 
 
@@ -353,8 +364,8 @@ async def update_bank(user,change = 0,mode = "wallet"):
 # Economy Section End #
 
 
-@client.command()
-async def lcp(ctx):
+#@client.command()
+#async def lcp(ctx):
     voice_channel = ctx.author.channel
     channel = None
     if voice_channel != None:
@@ -571,37 +582,58 @@ async def emo_error(ctx, error):
 
 
 @client.command()
+async def CheckVersion(ctx):
+    Old_Ver = 6.1
+    New_Ver = 6.2
+    if Old_Ver < New_Ver:
+        await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
+        embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.2/Discord-Moveset-Bot.7z )', inline=False)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send(f'**You are on the Latest Version**')
+
+
+@client.command()
 async def ExtUpdate(ctx):
-    Current = Current = 2.0
-    LCurrent = LCurrent = 2.5
-    await ctx.send(f'The current installed version is **{Current}**| Version : **{LCurrent}** is out!')
-    await asyncio.sleep(5)
-    await ctx.send(f'**Updating version now...**')
-    await asyncio.sleep(15)
-    await ctx.send(f'**Update finished**')
-    await asyncio.sleep(5)
-    await ctx.send(f'The current version is **{LCurrent}** | **Up to Date**')
+    Current = Current = 2.7
+    LCurrent = LCurrent = 2.7
+    if Current < LCurrent:
+        await ctx.send(f'**You are using old Extensions | Please update to the latest Version {LCurrent}**')
+    else:
+        await ctx.send(f'**Up to Date**')
 
 
 @client.command()
 async def LogVer(ctx):
-    LogVer = LogVer = 1.7
+    LogVer = LogVer = 1.9
     NewLogVer = NewLogVer = 1.9
-    await ctx.send(f'Currently running Log Version: **{LogVer}**')
+    if LogVer < NewLogVer:
+        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewLogVer}**')
+    else:
+        await ctx.send(f'**Up to date**')
 
 
 @client.command()
 async def ToolVer(ctx):
-    ToolVer = ToolVer = 3.3
+    ToolVer = ToolVer = 3.5
     NewToolVer = NewToolVer = 3.5
-    await ctx.send(f'Currently installed Tool Version : **{ToolVer}**')
+    if ToolVer < NewToolVer:
+        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewToolVer}**')
+    else:
+        await ctx.send(f'**Up to date**')
 
 
 @client.command()
 async def SecurityVer(ctx):
-    SecurityVer = SecurityVer = 2.4
+    SecurityVer = SecurityVer = 2.6
     NewSecVer = NewSecVer = 2.6
-    await ctx.send(f'Currently installed Security Version : **{SecurityVer}**')
+    if SecurityVer < NewSecVer:
+        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewSecVer}**')
+    else:
+        await ctx.send(f'**Up to date**')
 
 
 @client.command()
@@ -613,7 +645,7 @@ async def OSVer(ctx):
 
 
 @client.command()
-@commands.cooldown(1, 690, commands.BucketType.user)
+@commands.cooldown(1, 890, commands.BucketType.user)
 async def Server_Status(ctx):
     Server_Status = Server_Status = 'Online'
     Server_Status2 = Server_Status2 = 'Offline'
@@ -670,13 +702,6 @@ async def rep_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
-
-
-@client.command()
-async def backup(ctx):
-    Ebackup = Ebackup = '8344-8315-9904'
-    await ctx.send(f'**Currently In Development! | Error Code:{Ebackup}|**')
-    await ctx.send(f'**https://open.spotify.com/track/5gqH38uFh40KxHJgrDDBwD?si=0kNN10c-QwG2xITas3E26A**')
 
 
 @client.command()
@@ -1084,50 +1109,50 @@ async def unban(ctx, *, member):
             return
 
 
-@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
-@commands.has_permissions(administrator=True)
-async def catchthephoenix(ctx, member: discord.Member=None):
-    points = {ctx.author: 0, member: 0}
-    random_time = random.randrange(30)
+#@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
+#@commands.has_permissions(administrator=True)
+#async def catchthephoenix(ctx, member: discord.Member=None):
+    #points = {ctx.author: 0, member: 0}
+    #random_time = random.randrange(30)
 
-    game = False
-    if member is None:
-        await ctx.send("...")
-    elif member == client.user:
-        await ctx.send("...")
-    elif member.client:
-        await ctx.send("...")
-    else:
-        game = True
+    #game = False
+    #if member is None:
+        #await ctx.send("...")
+    #elif member == client.user:
+        #await ctx.send("...")
+    #elif member.client:
+        #await ctx.send("...")
+    #else:
+        #game = True
 
-    await ctx.send(...)
-    while True:
-        try:
-            await asyncio.sleep(random_time)
-            await ctx.send(...)
-            message = await client.wait_for(
-                "message",
-                check=lambda m: m.author.id == ctx.author.id,
-                timout=45.0
-            )
-        except asyncio.TimeoutError:
-            game = False
-            ...
-        if not message.content.lower() == "catch":
-            continue
-        if message.author.id == member.id:
-            ...
-        elif message.author.id == ctx.author.id:
-            ...
+    #await ctx.send(...)
+    #while True:
+        #try:
+            #await asyncio.sleep(random_time)
+            #await ctx.send(...)
+            #message = await client.wait_for(
+                #"message",
+                #check=lambda m: m.author.id == ctx.author.id,
+                #timout=45.0
+            #)
+        #except asyncio.TimeoutError:
+            #game = False
+            #...
+        #if not message.content.lower() == "catch":
+            #continue
+        #if message.author.id == member.id:
+            #...
+        #elif message.author.id == ctx.author.id:
+            #...
 
 
-@catchthephoenix.error
-async def ctp_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        msg = '**You dont have the right permissions to execute this command.**'
-        await ctx.send(msg)
-    else:
-        raise error
+#@catchthephoenix.error
+#async def ctp_error(ctx, error):
+    #if isinstance(error, commands.MissingPermissions):
+        #msg = '**You dont have the right permissions to execute this command.**'
+        #await ctx.send(msg)
+    #else:
+        #raise error
 
 
 @client.command()
@@ -1323,15 +1348,15 @@ async def divide(ctx, *nums):
 # Math Module End ########
 
 
-@client.command()
-async def dma(ctx):
-    rand_num = (1, 3)
-    win_num = 1
-    pm_channel = await ctx.author.create_dm()
-    if win_num == rand_num:
-        await pm_channel.send("You won!")
-    else:
-        await pm_channel.send("You lost")
+# @client.command()
+# async def dma(ctx):
+    # rand_num = (1, 3)
+   # win_num = 1
+    #pm_channel = await ctx.author.create_dm()
+   # if win_num == rand_num:
+       # await pm_channel.send("You won!")
+    #else:
+        #await pm_channel.send("You lost")
 
 
 @client.command()
@@ -1418,7 +1443,7 @@ async def sd_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 160, commands.BucketType.user)
 async def Prime(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_theme()
@@ -1437,7 +1462,7 @@ async def prime_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 900, commands.BucketType.user)
+@commands.cooldown(1, 1000, commands.BucketType.user)
 async def timer(ctx):
     await ctx.send(f'Starting Countdown in less than 15 seconds')
     await asyncio.sleep(15)
@@ -1464,7 +1489,7 @@ async def timer_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
+@commands.cooldown(1, 190, commands.BucketType.user)
 async def blackjack(ctx):
     choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied']
     rancoin = random.choice(choices)
@@ -1487,7 +1512,7 @@ async def blackjack_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 90, commands.BucketType.user)
 async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
     await ctx.send('{} bottles of {} on the wall!'.format(amount, liquid))
 
@@ -1502,7 +1527,7 @@ async def bottles_error(ctx, error):
 
 
 @client.command(help="Play with .rps [your choice]")
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 90, commands.BucketType.user)
 async def rps(ctx):
     rpsGame = ['rock', 'paper', 'scissors']
     await ctx.send(f"**Rock, paper, or scissors? Choose wisely...**")
@@ -1548,7 +1573,7 @@ async def rps_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 120, commands.BucketType.user)
 async def Sub(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_magenta()
@@ -1569,20 +1594,20 @@ async def Sub_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def Update(ctx):
-    Build = Build = 6.1
-    NewVer = NewVer = 6.2
-    NDate = NDate = '15th February'
+    Build = Build = 6.3
+    NewVer = NewVer = 6.3
+    NDate = NDate = 'N/A'
     Uploader = Uploader = 'Shinyhunter2109'
     await ctx.send(f'**Checking for Updates...**')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Build: Build: **{Build}** uploaded by **{Uploader}**')
     await asyncio.sleep(10)
-    await ctx.send(f'Next Bot Version will be released on: **{NDate}** with Version **{NewVer}**')
+    await ctx.send(f'Next Bot Version will be released with Version **{NewVer}**')
     await asyncio.sleep(15)
     embed = discord.Embed(
             color= discord.Colour.dark_green()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.2/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.3/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1598,7 +1623,7 @@ async def update_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def DevAlpha(ctx):
-    DevBuild = DevBuild = 7.1
+    DevBuild = DevBuild = 7.3
     NDevB = NDevB = 7.3
     DevUpload = DevUpload = 'Shinyhunter'
     DevDate = DevDate = '2nd June'
@@ -1606,12 +1631,12 @@ async def DevAlpha(ctx):
     await asyncio.sleep(15)
     await ctx.send(f'**Latest Build found: Build: **{DevBuild}** uploaded by **{DevUpload}**')
     await asyncio.sleep(10)
-    await ctx.send(f'Next Bot Version will be released on: **{DevDate}** with Version **{NDevB}**')
+    await ctx.send(f'Next Bot Version will be released with Version **{NDevB}**')
     await asyncio.sleep(15)
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.1/DevVer.7z )', inline=False)
+    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.3/DevVer.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1627,9 +1652,9 @@ async def devver_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def PreRelease(ctx):
-    PR = PR = '6.1.1'
-    NPR = NPR = '6.2.1'
-    Downtime = Downtime = 4
+    PR = PR = '6.3.1'
+    NPR = NPR = '6.3.2'
+    Downtime = Downtime = 9
     PRDate = PRDate = '2nd February'
     PRUploader = PRUploader = 'ShinyhunterTV'
     await ctx.send(f'**Checking for Pre-Release Updates...**')
@@ -1931,6 +1956,21 @@ async def _ping(ctx):
 @slash.slash(name="slash", guild_ids=guild_ids)
 async def _slash(ctx):
     await ctx.send("**Slash Commands are now officially Supported!**")
+
+
+@slash.slash(name="checkversion", guild_ids=guild_ids)
+async def _CheckVersion(ctx):
+    Old_Ver = 6.3
+    New_Ver = 6.3
+    if Old_Ver < New_Ver:
+        await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
+        embed = discord.Embed(
+            color= discord.Colour.dark_teal()
+        )
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.3/Discord-Moveset-Bot.7z )', inline=False)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send(f'**You are on the Latest Version**')
 
 
 @slash.slash(name="abomasnow", guild_ids=guild_ids)
