@@ -17,7 +17,6 @@
 - Game_Status_Change ✔️
 - Error Handler ✔️
 - Giveaway Feature ✔️
-- Reddit Feature ✔️
 - Twitch / Youtube Stream Announce ✔️
 
 
