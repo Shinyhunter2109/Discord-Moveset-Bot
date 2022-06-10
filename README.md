@@ -52,12 +52,12 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 6.2     | :white_check_mark: |
+| 6.3     | :white_check_mark: |
+| 6.2     | :x:                |
 | 6.1     | :x:                |
 | 6.0     | :x:                |
 | 5.8     | :x:                |
 | 5.5     | :x:                |
-| 5.0     | :x:                |
 
 ## Errors
 
