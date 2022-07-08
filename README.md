@@ -9,13 +9,13 @@
 - Twitch Support (Alpha) ✔️
 - Backup Feature (Alpha) ✔️
 - List Feature ✔️
-- Maintenance Mode (Alpha) ✔️
 - Wondertrade/Linktrade Countdown ✔️
 - Auto-Role/Command Creating Feature ✔️
 - Auto-Role/Command adding Feature ✔️
 - Auto-Update Feature ✔️
 - Game_Status_Change ✔️
 - Error Handler ✔️
+- Report Feature / Handler ✔️
 - Giveaway Feature ✔️
 - Twitch / Youtube Stream Announce ✔️
 
@@ -57,7 +57,6 @@
 | 6.2     | :x:                |
 | 6.1     | :x:                |
 | 6.0     | :x:                |
-| 5.8     | :x:                |
 
 ## Errors
 
