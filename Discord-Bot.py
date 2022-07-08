@@ -262,8 +262,8 @@ async def uptime_error(ctx, error):
 
 @client.command()
 async def Version(ctx):
-    Version = Version = 6.3
-    LVer = LVer = 6.3
+    Version = Version = 6.5
+    LVer = LVer = 6.5
     if Version < LVer:
         await ctx.send(f'**Please download the latest Version from Github**')
     else:
@@ -651,8 +651,8 @@ async def emo_error(ctx, error):
 
 @client.command()
 async def CheckVersion(ctx):
-    Old_Ver = 6.1
-    New_Ver = 6.2
+    Old_Ver = 6.5
+    New_Ver = 6.5
     if Old_Ver < New_Ver:
         await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
         embed = discord.Embed(
@@ -666,8 +666,8 @@ async def CheckVersion(ctx):
 
 @client.command()
 async def ExtUpdate(ctx):
-    Current = Current = 2.7
-    LCurrent = LCurrent = 2.7
+    Current = Current = 3.0
+    LCurrent = LCurrent = 3.0
     if Current < LCurrent:
         await ctx.send(f'**You are using old Extensions | Please update to the latest Version {LCurrent}**')
     else:
@@ -676,8 +676,8 @@ async def ExtUpdate(ctx):
 
 @client.command()
 async def LogVer(ctx):
-    LogVer = LogVer = 1.9
-    NewLogVer = NewLogVer = 1.9
+    LogVer = LogVer = 2.0
+    NewLogVer = NewLogVer = 2.0
     if LogVer < NewLogVer:
         await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewLogVer}**')
     else:
@@ -686,8 +686,8 @@ async def LogVer(ctx):
 
 @client.command()
 async def ToolVer(ctx):
-    ToolVer = ToolVer = 3.5
-    NewToolVer = NewToolVer = 3.5
+    ToolVer = ToolVer = 3.7
+    NewToolVer = NewToolVer = 3.7
     if ToolVer < NewToolVer:
         await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewToolVer}**')
     else:
@@ -696,8 +696,8 @@ async def ToolVer(ctx):
 
 @client.command()
 async def SecurityVer(ctx):
-    SecurityVer = SecurityVer = 2.6
-    NewSecVer = NewSecVer = 2.6
+    SecurityVer = SecurityVer = 2.8
+    NewSecVer = NewSecVer = 2.8
     if SecurityVer < NewSecVer:
         await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewSecVer}**')
     else:
