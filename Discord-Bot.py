@@ -8,7 +8,7 @@ import calendar
 import webbrowser
 import warnings
 import venv
-import asyncprawcore
+import aiofiles
 import praw
 import runpy
 import io, json
@@ -68,6 +68,7 @@ client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
 slash = SlashCommand(client, sync_commands=True)
 guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible) #
+client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
 client.remove_command('help')
 status = cycle(['Pokémon Brilliant Diamond', 'Pokémon Shining Pearl']) # Standard Games can be edited if needed #
 ROLE = 'Member' # Standard Role can be edited when needed ! #
@@ -80,11 +81,32 @@ def setprefix():
 
 @client.event
 async def on_ready():
-    BVer = BVer = 6.3
+    for guild in client.guilds:
+        client.warnings[guild.id] = {}
+        
+    async with aiofiles.open(f"{guild.id}.txt", mode="a") as temp:
+        pass
+
+        async with aiofiles.open(f"{guild.id}.txt", mode="r") as file:
+            lines = await file.readlines()
+
+            for line in lines:
+                data = line.split(" ")
+                member_id = int(data[0])
+                admin_id = int(data[1])
+                reason = " ".join(data[2:]).strip("\n")
+
+                try:
+                    client.warnings[guild.id][member_id][0] += 1
+                    client.warnings[guild.id][member_id][1].append((admin_id, reason))
+
+                except KeyError:
+                    client.warnings[guild.id][member_id] = [1, [(admin_id, reason)]]
+    BVer = BVer = 6.5
     BOwner = BOwner = 'twitch.tv/shinyhunter2109'
     LogUP = LogUP = 'Done'
     BCon = BCon = 'Online'
-    Build = Build ='6.3.0.2'
+    Build = Build ='6.5.0'
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
@@ -171,6 +193,52 @@ async def server_icon():
         await server1.edit(icon=icon)
         print("Server Icon changed.")
         await asyncio.sleep(90)
+
+
+@client.command()
+@commands.has_permissions(manage_roles=True)
+async def warn(ctx, member: discord.Member=None, *, reason=None):
+    if member is None:
+        return await ctx.send("**The provided member could not be found or you forgot to provide one.**")
+        
+    if reason is None:
+        return await ctx.send("**Please provide a reason for warning this user.**")
+
+    try:
+        first_warning = False
+        client.warnings[ctx.guild.id][member.id][0] += 1
+        client.warnings[ctx.guild.id][member.id][1].append((ctx.author.id, reason))
+
+    except KeyError:
+        first_warning = True
+        client.warnings[ctx.guild.id][member.id] = [1, [(ctx.author.id, reason)]]
+
+    count = client.warnings[ctx.guild.id][member.id][0]
+
+    async with aiofiles.open(f"{ctx.guild.id}.txt", mode="a") as file:
+        await file.write(f"{member.id} {ctx.author.id} {reason}\n")
+
+    await ctx.send(f"{member.mention} has {count} {'warning' if first_warning else 'warnings'}.")
+
+
+@client.command()
+@commands.has_permissions(manage_roles=True)
+async def warnings(ctx, member: discord.Member=None):
+    if member is None:
+        return await ctx.send("**The provided member could not be found or you forgot to provide one.**")
+    
+    embed = discord.Embed(title=f"Displaying Warnings for {member.name}", description="", colour=discord.Colour.red())
+    try:
+        i = 1
+        for admin_id, reason in client.warnings[ctx.guild.id][member.id][1]:
+            admin = ctx.guild.get_member(admin_id)
+            embed.description += f"**Warning {i}** given by: {admin.mention} for: *'{reason}'*.\n"
+            i += 1
+
+        await ctx.send(embed=embed)
+
+    except KeyError: # no warnings
+        await ctx.send("**This user has no warnings.**")
 
 
 @client.command()
@@ -639,8 +707,8 @@ async def SecurityVer(ctx):
 @client.command()
 async def OSVer(ctx):
     OSVer = OSVer = 'Win 10'
-    OSNum = OSNum = '21H1'
-    OSBNum = OSBNum = '19043.1466'
+    OSNum = OSNum = '21H2'
+    OSBNum = OSBNum = '19044.1706'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
@@ -1594,8 +1662,8 @@ async def Sub_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def Update(ctx):
-    Build = Build = 6.3
-    NewVer = NewVer = 6.3
+    Build = Build = 6.5
+    NewVer = NewVer = 6.7
     NDate = NDate = 'N/A'
     Uploader = Uploader = 'Shinyhunter2109'
     await ctx.send(f'**Checking for Updates...**')
@@ -1960,8 +2028,8 @@ async def _slash(ctx):
 
 @slash.slash(name="checkversion", guild_ids=guild_ids)
 async def _CheckVersion(ctx):
-    Old_Ver = 6.3
-    New_Ver = 6.3
+    Old_Ver = 6.5
+    New_Ver = 6.5
     if Old_Ver < New_Ver:
         await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
         embed = discord.Embed(
