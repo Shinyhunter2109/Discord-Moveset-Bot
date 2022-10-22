@@ -139,7 +139,12 @@ class JoinDistance:
     @property
     def delta(self):
         return self.joined - self.created
+    
+# ============================================================================ #
+RemovedFromBot = RemovedFromBot = 'This Command has been Removed !'
+AddedItem = AddedItem = 'This Command has been recently added to the Bot !'
 
+# ============================================================================= #
 
 @client.command()
 async def delta(ctx, *, member: JoinDistance):
