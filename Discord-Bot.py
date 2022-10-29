@@ -143,6 +143,7 @@ class JoinDistance:
 # ============================================================================ #
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed !'
 AddedItem = AddedItem = 'This Command has been recently added to the Bot !'
+RecentItemS = RecentItemS = 'This Item was recently newly added to the Shop !'
 
 # ============================================================================= #
 
