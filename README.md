@@ -52,7 +52,7 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 6.x     | :white_check_mark: |
+| 7.0     | :white_check_mark: |
 | 6.5     | :x:                |
 | 6.3     | :x:                |
 | 6.2     | :x:                |
