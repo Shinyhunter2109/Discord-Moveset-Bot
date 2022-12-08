@@ -102,22 +102,61 @@ async def on_ready():
 
                 except KeyError:
                     client.warnings[guild.id][member_id] = [1, [(admin_id, reason)]]
-    BVer = BVer = 6.5
-    BOwner = BOwner = 'twitch.tv/shinyhunter2109'
-    LogUP = LogUP = 'Done'
-    BCon = BCon = 'Online'
-    Build = Build ='6.5.0'
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
     print(f'This Bot is Made by {BOwner}')
     print(f'Log_Update: {LogUP}')
-    print(f'Bot Version: {BVer}')
-    print(f'Build: {Build}')
+    print(f'Bot Version: {RV}')
 
 
 
-# This Module needs to be filled out to get the reddit feature working ! | Currently Alpha !
+# ====================== ITEM STORAGE VARIABLES ============================== #
+RemovedFromBot = RemovedFromBot = 'This Command has been Removed !'
+Added2Item = Added2Item = 'This Command has been recently added !'
+NewItem = NewItem = 'This Command is brand new !'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch !'
+Classic = Classic = 'This is a Legacy Command and exists since the Bot was created'
+Downtime = Downtime = 12
+DownDate = DownDate = '01/12/22'
+Version = Version = 7.0
+LogVer = LogVer = 2.0
+Extension = Extension = 'Loaded'
+ExtVer = ExtVer = 2.0
+CMM = CMM = 'Online'
+CSS = CSS = 8000
+Server_Status = Server_Status = 'Online'
+Server_Status2 = Server_Status2 = 'Offline'
+Server_Status3 = Server_Status3 = 'Maintenance'
+Server_Status4 = Server_Status4 = 'Closed'
+BOwner = BOwner = 'twitch.tv/shinyhunter2109'
+LogUP = LogUP = 'Done'
+# ====================== Bot Update Shedule ================================= #
+spring = spring = '5th January'
+summer = summer = '11th July'
+fall = fall = '3rd September'
+winter = winter = '3rd December'
+# ======================== VALUES ========================================== # # Mostly will be used later #
+NBV = NBV = 7.0
+OBV = OBV = 6.5
+ODV = ODV = 7.6
+NDV = NDV = 7.8
+NEV = NEV = 3.0
+OEV = OEV = 2.9
+OUE = OUE = 1.8
+NUE = NUE = 1.9
+OSV = OSV = 2.3
+NSV = NSV = 2.5
+OTV = OTV = 3.0
+NTV = NTV = 3.1
+EXT = EXT = 2.1
+OEXT = OEXT = 2.0
+UV = UV = OBV
+RV = RV = NBV
+# ============================================================================ #
+
+
+# This Module needs to be filled out to get the reddit feature working !
 reddit = praw.Reddit(client_id = "id_goes_here", # client id goes here
                      client_secret = "secret_goes_here", # client secret goes here
                      username = "username_goes_here", # Reddit Username -> THIS MUST BE YOUR OWN USERNAME NOT BOT USERNAME !
@@ -139,13 +178,7 @@ class JoinDistance:
     @property
     def delta(self):
         return self.joined - self.created
-    
-# ============================================================================ #
-RemovedFromBot = RemovedFromBot = 'This Command has been Removed !'
-AddedItem = AddedItem = 'This Command has been recently added to the Bot !'
-RecentItemS = RecentItemS = 'This Item was recently newly added to the Shop !'
 
-# ============================================================================= #
 
 @client.command()
 async def delta(ctx, *, member: JoinDistance):
@@ -267,10 +300,8 @@ async def uptime_error(ctx, error):
 
 
 @client.command()
-async def Version(ctx):
-    Version = Version = 6.5
-    LVer = LVer = 6.5
-    if Version < LVer:
+async def BVersion(ctx):
+    if OBV < NBV:
         await ctx.send(f'**Please download the latest Version from Github**')
     else:
         await ctx.send(f'**You are on the Latest Version**')
@@ -284,10 +315,6 @@ async def BugFix(ctx):
 
 @client.command()
 async def SeasonUpdate(ctx):
-    spring = spring = '1st January'
-    summer = summer = '11th July'
-    fall = fall = '2nd September'
-    winter = winter = '3rd December'
     await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
 
 
@@ -657,9 +684,7 @@ async def emo_error(ctx, error):
 
 @client.command()
 async def CheckVersion(ctx):
-    Old_Ver = 6.5
-    New_Ver = 6.5
-    if Old_Ver < New_Ver:
+    if OBV < NBV:
         await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
         embed = discord.Embed(
             color= discord.Colour.dark_teal()
@@ -672,40 +697,32 @@ async def CheckVersion(ctx):
 
 @client.command()
 async def ExtUpdate(ctx):
-    Current = Current = 3.0
-    LCurrent = LCurrent = 3.0
-    if Current < LCurrent:
-        await ctx.send(f'**You are using old Extensions | Please update to the latest Version {LCurrent}**')
+    if OEXT < EXT:
+        await ctx.send(f'**You are using old Extensions | Please update to the latest Version {EXT}**')
     else:
         await ctx.send(f'**Up to Date**')
 
 
 @client.command()
-async def LogVer(ctx):
-    LogVer = LogVer = 2.0
-    NewLogVer = NewLogVer = 2.0
-    if LogVer < NewLogVer:
-        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewLogVer}**')
+async def Log_Ver(ctx):
+    if OEXT < EXT:
+        await ctx.send(f'**Your Version Client is outdated ! | Please update to the latest Version**')
     else:
         await ctx.send(f'**Up to date**')
 
 
 @client.command()
 async def ToolVer(ctx):
-    ToolVer = ToolVer = 3.7
-    NewToolVer = NewToolVer = 3.7
-    if ToolVer < NewToolVer:
-        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewToolVer}**')
+    if OTV < NTV:
+        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NTV}**')
     else:
         await ctx.send(f'**Up to date**')
 
 
 @client.command()
 async def SecurityVer(ctx):
-    SecurityVer = SecurityVer = 2.8
-    NewSecVer = NewSecVer = 2.8
-    if SecurityVer < NewSecVer:
-        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NewSecVer}**')
+    if OSV < NSV:
+        await ctx.send(f'**Your Version Client is outdated ! | Please update to Version {NSV}**')
     else:
         await ctx.send(f'**Up to date**')
 
@@ -714,18 +731,14 @@ async def SecurityVer(ctx):
 async def OSVer(ctx):
     OSVer = OSVer = 'Win 10'
     OSNum = OSNum = '21H2'
-    OSBNum = OSBNum = '19044.1706'
+    OSBNum = OSBNum = '19044.2130'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
 @client.command()
 @commands.cooldown(1, 890, commands.BucketType.user)
-async def Server_Status(ctx):
-    Server_Status = Server_Status = 'Online'
-    Server_Status2 = Server_Status2 = 'Offline'
-    Server_Status3 = Server_Status3 = 'Maintenance'
-    Server_Status4 = Server_Status4 = 'Closed'
-    await ctx.send(f'The Status of the Server is currently **{Server_Status2}**')
+async def ServerStatus(ctx):
+    await ctx.send(f'The Status of the Server is currently **{Server_Status3}**')
 
 
 @Server_Status.error
@@ -758,6 +771,7 @@ async def meme(ctx):
 
     await ctx.send(embed= em)
 
+# Note: Meme Command will be available 2023 !
 
 @client.command()
 @commands.cooldown(1, 18000, commands.BucketType.user)
@@ -874,7 +888,7 @@ async def play(ctx, url: str):
 
 
 @client.command(help="Play with !Coinflip [your choice]")
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 65, commands.BucketType.user)
 async def Coinflip(ctx):
     rpsGame = ['head', 'tails']
     await ctx.send(f"**head or tails? Choose wisely...**")
@@ -1032,7 +1046,7 @@ async def amazon_error(ctx, error):
 @client.command()
 async def Ads(ctx, member : discord.Member):
     await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
-    await asyncio.sleep(30)
+    await asyncio.sleep(60)
     await member.kick()
     await ctx.send('**Press F to pay respect**')
 
@@ -1450,8 +1464,8 @@ async def vipdm_error(ctx, error):
     else:
         raise error
 
-
-# will be used later # Stay Tuned !
+newdat = newdat = '7.2'
+OWN = OWN = '10.0'
 data = ("🎉")
 item = ("🎉")
 counter = data.count(item)
@@ -1563,7 +1577,7 @@ async def timer_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 190, commands.BucketType.user)
+@commands.cooldown(1, 200, commands.BucketType.user)
 async def blackjack(ctx):
     choices = ['You Won the Blackjack', 'You Lost the Blackjack', 'Tied']
     rancoin = random.choice(choices)
@@ -1586,7 +1600,7 @@ async def blackjack_error(ctx, error):
 
 
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
+@commands.cooldown(1, 60, commands.BucketType.user)
 async def bottles(ctx, amount: typing.Optional[int] = 99, *, liquid="beer"):
     await ctx.send('{} bottles of {} on the wall!'.format(amount, liquid))
 
@@ -1668,8 +1682,8 @@ async def Sub_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def Update(ctx):
-    Build = Build = 6.5
-    NewVer = NewVer = 6.7
+    Build = Build = 7.2
+    NewVer = NewVer = 7.3
     NDate = NDate = 'N/A'
     Uploader = Uploader = 'Shinyhunter2109'
     await ctx.send(f'**Checking for Updates...**')
@@ -1681,7 +1695,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_green()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.3/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.2/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1697,8 +1711,8 @@ async def update_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def DevAlpha(ctx):
-    DevBuild = DevBuild = 7.3
-    NDevB = NDevB = 7.3
+    DevBuild = DevBuild = 7.5
+    NDevB = NDevB = 7.6
     DevUpload = DevUpload = 'Shinyhunter'
     DevDate = DevDate = '2nd June'
     await ctx.send(f'**Checking for Updates...**')
@@ -1710,7 +1724,7 @@ async def DevAlpha(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.3/DevVer.7z )', inline=False)
+    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.5/DevVer.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1726,8 +1740,8 @@ async def devver_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def PreRelease(ctx):
-    PR = PR = '6.3.1'
-    NPR = NPR = '6.3.2'
+    PR = PR = '7.2.0'
+    NPR = NPR = '7.3.0'
     Downtime = Downtime = 9
     PRDate = PRDate = '2nd February'
     PRUploader = PRUploader = 'ShinyhunterTV'
@@ -1740,7 +1754,7 @@ async def PreRelease(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.1.1/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.0.1/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -2032,16 +2046,26 @@ async def _slash(ctx):
     await ctx.send("**Slash Commands are now officially Supported!**")
 
 
+@slash.slash(name="emotes", guild_ids=guild_ids)
+async def _emotes(ctx):
+    await ctx.send("**We now have some new cool Emotes from my Twitch Channel | Check it out !**")
+
+
+@slash.slash(name="subicons", guild_ids=guild_ids)
+async def _subicons(ctx):
+    await ctx.send("**We now have some new cool Subicons on my Twitch Channel | Check it out if u want !**")
+
+
 @slash.slash(name="checkversion", guild_ids=guild_ids)
 async def _CheckVersion(ctx):
-    Old_Ver = 6.5
-    New_Ver = 6.5
+    Old_Ver = 7.0
+    New_Ver = 7.0
     if Old_Ver < New_Ver:
         await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
         embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.3/Discord-Moveset-Bot.7z )', inline=False)
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.0/Discord-Moveset-Bot.7z )', inline=False)
         await ctx.send(embed=embed)
     else:
         await ctx.send(f'**You are on the Latest Version**')
