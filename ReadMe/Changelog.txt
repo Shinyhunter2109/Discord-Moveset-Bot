@@ -2,44 +2,24 @@
 
 ## What's New ##
 
+- added a lot of new Stuff ✔️
 
-- added  new Imports for better  User Experience ✔️
-
-- added new List Commands ✔️
-
-- added new Minigame  ✔️
-
-- added Daily Bonus Command ✔️
-
-- added some Secrets ✔️
 
 ## Changes ##
 
-- changed Version number from 5.8 to 6.0 (Latest) ✔️
+- changed Version number from 6.5 to 7.0 (Latest) ✔️
 
-- implemented  Voice State Reconnect Function ✔️
-
-- Batch File is now gone and will not come back ✔️
-
-- changed Command Prefix from "." to "!" ✔️
+- re-organized whole Bot Logic and made it more user-friendly ✔️
 
 ## Hotfixes ##
 
-- fixed some Commands ✔️
-
-- fixed Uptime Command (should work now alot better) ✔️
-
-- added needed Intents for some Functions to work (Spotify , etc) ✔️
-
-- fixed Cooldown Handler + Module ✔️
+- moved the Values Tab to the Start 
 
 ## Notes ##
 
-- On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID
-
-- Latest Python Version 3.10.0 is currently not supported till it get's a fix for the Broken Modules !
+- On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID !
 
 ## Bot Version ##
 
-- The latest Version is 6.0 if you are still on Version 5.8 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 7.0 if you are still on Version 6.5 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
