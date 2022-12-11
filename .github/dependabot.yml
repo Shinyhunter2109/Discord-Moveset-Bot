@@ -5,8 +5,8 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "https://github.com/Shinyhunter2109/Discord-Moveset-Bot/wiki"
+    directory: "https://github.com/Shinyhunter2109/Discord-Moveset-Bot/blob/master/Getting%20Started/Updater%20for%20Dependencies/Windows%2010/Updater.bat/"
     schedule:
       interval: "weekly"
 
