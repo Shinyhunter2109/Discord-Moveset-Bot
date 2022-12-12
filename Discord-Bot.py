@@ -131,6 +131,11 @@ Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Done'
+newdat = newdat = '7.2'
+OWN = OWN = '10.0'
+data = ("🎉")
+item = ("🎉")
+counter = data.count(item)
 # ====================== Bot Update Shedule ================================= #
 spring = spring = '5th January'
 summer = summer = '11th July'
@@ -151,8 +156,8 @@ OTV = OTV = 3.0
 NTV = NTV = 3.1
 EXT = EXT = 2.1
 OEXT = OEXT = 2.0
-UV = UV = OBV
-RV = RV = NBV
+UV = UV = NBV
+RV = RV = OBV
 # ============================================================================ #
 
 
@@ -281,7 +286,7 @@ async def warnings(ctx, member: discord.Member=None):
 
 
 @client.command()
-@commands.cooldown(1, 100, commands.BucketType.user)
+@commands.cooldown(1, 110, commands.BucketType.user)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - client.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
@@ -462,14 +467,49 @@ async def update_bank(user,change = 0,mode = "wallet"):
     return bal
 
 
+
+@client.command()
+@commands.cooldown(1, 31622400, commands.BucketType.user)
+async def xmas_bonus(ctx):
+    await open_account(ctx.author)
+
+    user = ctx.author
+    users = await get_bank_data()
+
+
+    earnings = random.randrange(50000)
+
+
+    await ctx.send(f'**Your Christmas Bonus are:** {earnings} shinycoins!!')
+    await asyncio.sleep(5)
+    await ctx.send(f'**Bonus has been added to your Balance !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**This Bonus was secret and you found it before the event ended !**')
+
+
+    users[str(user.id)]["wallet"]+= earnings
+
+    with open("bank.json","w") as f:
+        json.dump(users,f)
+
+
+@xmas_bonus.error
+async def christmasevent_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**The Christmas Event is over !| please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
+
+
 # Economy Section End #
 
 
 #@client.command()
 #async def lcp(ctx):
-    voice_channel = ctx.author.channel
-    channel = None
-    if voice_channel != None:
+    #voice_channel = ctx.author.channel
+    #channel = None
+    #if voice_channel != None:
         channel = voice_channel.name
         vc = await voice_channel.connect()
         vc.play(discord.FFmpegPCMAudio(executable="C:/FFMPEG/ffmpeg.exe", source="<file directory goes here>"))
@@ -477,8 +517,8 @@ async def update_bank(user,change = 0,mode = "wallet"):
         while vc.is_playing():
             await asyncio.sleep(.1)
         await vc.disconnect()
-    else:
-        await ctx.send(str(ctx.author.name) + "is not in a channel.")
+    #else:
+        #await ctx.send(str(ctx.author.name) + "is not in a channel.")
 
 
 @client.command(pass_context=True)
@@ -1100,7 +1140,7 @@ async def ga_error(ctx, error):
         await ctx.send('**You dont have the right Permissions to execute this command.**')
 
 
-password = '0371283648'
+password = '3732703425'
 
 @client.command()
 @has_permissions(manage_roles=True, ban_members=True)
@@ -1153,7 +1193,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '7924713'
+password = '17836399'
 
 
 @client.command()
@@ -1196,6 +1236,7 @@ async def unban(ctx, *, member):
             await ctx.send(f'**Unbanned {user.mention}**')
             return
 
+## Removed due to Bugs ##
 
 #@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
 #@commands.has_permissions(administrator=True)
@@ -1394,6 +1435,13 @@ async def BDSPHelp(ctx):
 
 
 @client.command()
+async def SVHelp(ctx):
+    Game = Game = 'Scarlet & Violet'
+    SV = SV = 1.1
+    await ctx.send(f'Unfortunally we do not have Support yet for the Latest PKMN Game: **{Game}** & Version: **{SV}** for creating Custom PKMN .')
+
+
+@client.command()
 async def Discord(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_teal()
@@ -1405,7 +1453,7 @@ async def Discord(ctx):
 # Math Module Start ########
 
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
+@commands.cooldown(1, 100, commands.BucketType.user)
 async def Math_Help(ctx):
     await ctx.send(f'**Welcome New User, Commands for this Module are: !add, !sub, !multiply, !divide**')
     await asyncio.sleep(5)
@@ -1463,12 +1511,6 @@ async def vipdm_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
-
-newdat = newdat = '7.2'
-OWN = OWN = '10.0'
-data = ("🎉")
-item = ("🎉")
-counter = data.count(item)
 
 
 @client.command()
