@@ -107,7 +107,7 @@ async def on_ready():
     print('Welcome back: ' + client.user.name + '\n')
     print(f'This Bot is Made by {BOwner}')
     print(f'Log_Update: {LogUP}')
-    print(f'Bot Version: {RV}')
+    print(f'Bot Version: {UV}')
 
 
 
@@ -135,6 +135,10 @@ newdat = newdat = '7.2'
 OWN = OWN = '10.0'
 data = ("🎉")
 item = ("🎉")
+Build = Build = 7.2
+NewVer = NewVer = 7.3
+NDate = NDate = 'N/A'
+Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
 # ====================== Bot Update Shedule ================================= #
 spring = spring = '5th January'
@@ -771,7 +775,7 @@ async def SecurityVer(ctx):
 async def OSVer(ctx):
     OSVer = OSVer = 'Win 10'
     OSNum = OSNum = '21H2'
-    OSBNum = OSBNum = '19044.2130'
+    OSBNum = OSBNum = '19044.2251'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
@@ -1532,9 +1536,10 @@ async def kw_error(ctx, error):
     else:
         raise error
 
-
+# =====================================================================================================================
 hug_gifs = ['https://c.tenor.com/nHkiUCkS04gAAAAC/anime-hug-hearts.gif']
 hug_names = ['Hugs you!'] 
+# =====================================================================================================================
 
 
 @client.command()
@@ -1724,10 +1729,6 @@ async def Sub_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def Update(ctx):
-    Build = Build = 7.2
-    NewVer = NewVer = 7.3
-    NDate = NDate = 'N/A'
-    Uploader = Uploader = 'Shinyhunter2109'
     await ctx.send(f'**Checking for Updates...**')
     await asyncio.sleep(10)
     await ctx.send(f'Latest Build: Build: **{Build}** uploaded by **{Uploader}**')
