@@ -44,15 +44,14 @@
 
 ## Updates
 
-- Latest Python Version 3.11 is currently not tested with the Program.
+- Latest Python Version 3.11 is currently not tested with the Program. Please refer to older versions till we have Support for the latest Version.
 
 ## Supported Versions
 
 ## Below you can see which Bot & Python Version is supported and still get Updates !
 
-| Version | Supported          |
+| Version | Supported / Updates|
 | ------- | ------------------ |
-| 8.x     | :white_check_mark: |
 | 7.0     | :white_check_mark: |
 | 6.5     | :x:                |
 | 6.3     | :x:                |
@@ -67,7 +66,14 @@
 | 3.9     | :white_check_mark: |
 | 3.8     | :white_check_mark: |
 | 3.6     | :x:                |
-| 3.4     | :x:                |
+
+
+|DevAlpha | Supported / tested |
+| ------- | ------------------ |
+| 7.0.4   | :white_check_mark: |
+| 6.5.5   | :x:                |
+| 6.3.2   | :x:                |
+| 6.2.1   | :x:                |
 
 
 
