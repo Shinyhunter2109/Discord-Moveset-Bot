@@ -52,10 +52,10 @@
 
 | Version | Supported / Updates|
 | ------- | ------------------ |
-| 7.0     | :white_check_mark: |
+| 7.1     | :white_check_mark: |
+| 7.0     | :x:                |
 | 6.5     | :x:                |
 | 6.3     | :x:                |
-| 6.2     | :x:                |
 
 
 
@@ -70,10 +70,10 @@
 
 |DevAlpha | Supported / tested |
 | ------- | ------------------ |
-| 7.0.4   | :white_check_mark: |
+| 7.1.2   | :white_check_mark: |
+| 7.0.4   | :x:                |
 | 6.5.5   | :x:                |
 | 6.3.2   | :x:                |
-| 6.2.1   | :x:                |
 
 
 
