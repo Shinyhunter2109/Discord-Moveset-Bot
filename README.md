@@ -44,7 +44,7 @@
 
 ## Updates
 
-- Latest Python Version 3.11 is currently not tested with the Program. Please refer to older versions till we have Support for the latest Version.
+- Latest Python Version 3.11 is finally tested and not supported with the Program. Please refer to older versions till we have Support for the latest Version.
 
 ## Supported Versions
 
@@ -78,7 +78,7 @@
 
 |Windows  | Supported / tested |
 | ------- | ------------------ |
-| Win 11  | :x:                |
+| Win 11  | :white_check_mark: |
 | Win 10  | :white_check_mark: | 
 | Win 8.1 | :x:                |
 | Win 8   | :x:                |
