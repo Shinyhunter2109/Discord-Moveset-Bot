@@ -78,7 +78,7 @@
 
 |Windows  | Supported / tested |
 | ------- | ------------------ |
-| Win 11  | :white_check_mark: |
+| Win 11  | :x:                |
 | Win 10  | :white_check_mark: | 
 | Win 8.1 | :x:                |
 | Win 8   | :x:                |
