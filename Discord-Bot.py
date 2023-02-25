@@ -1,58 +1,60 @@
 import discord
 import random
 import asyncio
-import json, codecs
-import async_timeout
-import asyncore
-import calendar
-import webbrowser
-import warnings
-import venv
-import aiofiles
-import praw
-import runpy
-import io, json
+import json
 import re
-import locale
+import aiofiles
+import secrets
+import async_timeout
 import threading
+import warnings
 import logging
+import sys
 import time
+import math
+import keyword
+import calendar
+import venv
+import webbrowser
 import typing
 import traceback
 import youtube_dl
 import os
-from os import system
-from itertools import cycle
+import asyncpraw
+import interactions
+from googletrans import Translator
+from interactions.client import StopCommand
+from discord.embeds import Embed
 from datetime import datetime
-from github import Github
-from youtube_dl import YoutubeDL
-from discord_slash import SlashCommand
-from discord.flags import flag_value
-from discord.voice_client import VoiceClient
-from discord.ext import commands, tasks
-from discord.utils import get
 from discord.ext.commands import BadArgument
 from discord.ext.commands.cooldowns import BucketType
 from discord.ext.commands import has_permissions, MissingPermissions
+from github import Github
+from aiohttp import ServerDisconnectedError
+from aiohttp import ServerTimeoutError
+from discord.voice_client import VoiceClient
+from discord.ext import commands, tasks
+from discord.utils import get
+from discord import FFmpegPCMAudio
+from discord import StageChannel
+from discord import Webhook
+from discord import Intents
+from discord import Streaming
+from youtube_dl import YoutubeDL
+from subprocess import run
+from dataclasses import dataclass
+from os import name, system
+from discord import Spotify
+from discord import Status
+from itertools import cycle
+from datetime import date
+from discord_slash import SlashCommand, SlashContext
+from discord_slash.context import MenuContext
 from discord_slash.model import ContextMenuType
+from discord_slash.model import SlashCommandOptionType
+from discord_slash.model import ChoiceData
 from discord_slash.utils.manage_components import create_select, create_select_option, create_actionrow, create_button
 from discord_slash.model import ButtonStyle
-from discord_slash.context import MenuContext
-from discord import Member
-from discord import Intents
-from discord import MessageReference
-from discord import FFmpegPCMAudio
-from discord import Spotify
-from discord import LoginFailure
-from discord import Webhook
-from discord import Game
-from discord import DiscordServerError
-from discord import DiscordException
-from discord import InvalidData
-from discord import GatewayNotFound
-from discord import StageChannel
-from discord import VoiceProtocol
-from discord import Streaming
 
 
 
@@ -66,16 +68,16 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
-slash = SlashCommand(client, sync_commands=True)
 guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible) #
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
+slash = SlashCommand(client, sync_commands=True)
 client.remove_command('help')
 status = cycle(['Pokémon Brilliant Diamond', 'Pokémon Shining Pearl']) # Standard Games can be edited if needed #
 ROLE = 'Member' # Standard Role can be edited when needed ! #
 
 
 def setprefix():
-    with open("prefix.txt") as f:
+    with open("prefix.txt") as f: #  (can be changed but totally optional)
         return "\n".join(f.readlines())
 
 
@@ -105,73 +107,77 @@ async def on_ready():
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
-    print(f'This Bot is Made by {BOwner}')
+    print(f'This Modul is made for {OS10} & {OS11}')
     print(f'Log_Update: {LogUP}')
     print(f'Bot Version: {UV}')
 
 
 
 # ====================== ITEM STORAGE VARIABLES ============================== #
-RemovedFromBot = RemovedFromBot = 'This Command has been Removed !'
-Added2Item = Added2Item = 'This Command has been recently added !'
-NewItem = NewItem = 'This Command is brand new !'
-RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch !'
+RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
+Added2Item = Added2Item = 'This Command has been recently added!'
+NewItem = NewItem = 'This Command is new!'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
 Classic = Classic = 'This is a Legacy Command and exists since the Bot was created'
-Downtime = Downtime = 12
-DownDate = DownDate = '01/12/22'
-Version = Version = 7.0
-LogVer = LogVer = 2.0
+Downtime = Downtime = 15
+DownDate = DownDate = '01/03/23'
+Version = Version = 7.5
+LogVer = LogVer = 2.2
 Extension = Extension = 'Loaded'
-ExtVer = ExtVer = 2.0
+ExtVer = ExtVer = 2.3
 CMM = CMM = 'Online'
 CSS = CSS = 8000
+OS10 = OS10 = 'Windows 10'
+OS11 = OS11 = 'Windows 11'
 Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Done'
-newdat = newdat = '7.2'
-OWN = OWN = '10.0'
+newdat = newdat = 7.5
+OWN = OWN = 10.0
 data = ("🎉")
 item = ("🎉")
-Build = Build = 7.2
-NewVer = NewVer = 7.3
+Build = Build = 7.5
+NewVer = NewVer = 7.5
 NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
+PR = PR = '7.5.1'
+NPR = NPR = '7.5.1'
+Downtime = Downtime = 9
+PRDate = PRDate = '2nd February'
+PRUploader = PRUploader = 'ShinyhunterTV'
+DevBuild = DevBuild = 7.6
+NDevB = NDevB = 7.6
+DevUpload = DevUpload = 'Shinyhunter'
+DevDate = DevDate = '2nd June'
+BDSP = BDSP = 1.3
+SV = SV = 2.0
 # ====================== Bot Update Shedule ================================= #
 spring = spring = '5th January'
 summer = summer = '11th July'
 fall = fall = '3rd September'
 winter = winter = '3rd December'
 # ======================== VALUES ========================================== # # Mostly will be used later #
-NBV = NBV = 7.0
-OBV = OBV = 6.5
-ODV = ODV = 7.6
-NDV = NDV = 7.8
-NEV = NEV = 3.0
-OEV = OEV = 2.9
-OUE = OUE = 1.8
-NUE = NUE = 1.9
-OSV = OSV = 2.3
-NSV = NSV = 2.5
-OTV = OTV = 3.0
-NTV = NTV = 3.1
-EXT = EXT = 2.1
-OEXT = OEXT = 2.0
+NBV = NBV = 7.5
+OBV = OBV = 7.0
+ODV = ODV = 7.5
+NDV = NDV = 7.6
+NEV = NEV = 3.3
+OEV = OEV = 3.1
+OUE = OUE = 2.1
+NUE = NUE = 2.3
+OSV = OSV = 2.6
+NSV = NSV = 2.7
+OTV = OTV = 3.2
+NTV = NTV = 3.4
+EXT = EXT = 2.4
+OEXT = OEXT = 2.6
 UV = UV = NBV
 RV = RV = OBV
 # ============================================================================ #
-
-
-# This Module needs to be filled out to get the reddit feature working !
-reddit = praw.Reddit(client_id = "id_goes_here", # client id goes here
-                     client_secret = "secret_goes_here", # client secret goes here
-                     username = "username_goes_here", # Reddit Username -> THIS MUST BE YOUR OWN USERNAME NOT BOT USERNAME !
-                     password = "app_pw_goes_here", # enter reddit app password here
-                     user_agent = "user goes here") # enter anything u want
-
 
 
 class JoinDistance:
@@ -230,6 +236,14 @@ async def slap(ctx, *, reason: Slapper):
 async def serveri(ctx):
     client.loop.create_task(server_icon())
     await ctx.send("Loop started, replacing current icon.")
+
+
+@client.command()
+async def sync(ctx: commands.Context, guild: discord.Guild = None) -> None:
+    if guild is None:
+        await client.tree.sync()
+    else:
+        await client.tree.sync(guild=guild)
 
 
 @client.command()
@@ -733,7 +747,7 @@ async def CheckVersion(ctx):
         embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/6.2/Discord-Moveset-Bot.7z )', inline=False)
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.5/Discord-Moveset-Bot.zip )', inline=False)
         await ctx.send(embed=embed)
     else:
         await ctx.send(f'**You are on the Latest Version**')
@@ -773,9 +787,9 @@ async def SecurityVer(ctx):
 
 @client.command()
 async def OSVer(ctx):
-    OSVer = OSVer = 'Win 10'
-    OSNum = OSNum = '21H2'
-    OSBNum = OSBNum = '19044.2251'
+    OSVer = OSVer = 'Win 11'
+    OSNum = OSNum = '22H2'
+    OSBNum = OSBNum = '19045.2604'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
@@ -794,14 +808,21 @@ async def server_stat_error(ctx, error):
         raise error
 
 
-@client.command() # ! Alpha ! | will be fixed in a future release #
-async def meme(ctx):
-    subreddit = reddit.subreddit("memes")
+@client.command(name="meme")
+async def meme(ctx, subred="memes"):
+    msg = await ctx.send('Loading ... ')
+
+    reddit = asyncpraw.Reddit(client_id='clientid',
+                                client_secret='clientsecret',
+                                username='username',
+                                password='password',
+                                user_agent='useragent')
+
+    subreddit = await reddit.subreddit(subred)
     all_subs = []
+    top = subreddit.top(limit=250) # bot will choose between the top 250 memes
 
-    top = subreddit.top(limit = 50)
-
-    for submission in top:
+    async for submission in top:
         all_subs.append(submission)
 
     random_sub = random.choice(all_subs)
@@ -809,11 +830,14 @@ async def meme(ctx):
     name = random_sub.title
     url = random_sub.url
 
-    em = discord.Embed(title = name)
+    embed = Embed(title=f'__{name}__', colour=discord.Colour.random(), timestamp=ctx.message.created_at, url=url)
 
-    em.set_image(url = url)
-
-    await ctx.send(embed= em)
+    embed.set_image(url=url)
+    embed.set_author(name=ctx.message.author, icon_url=ctx.author.avatar_url)
+    embed.set_footer(text='Here is your meme!')
+    await ctx.send(embed=embed)
+    await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') # < and > remove the embed link
+    return
 
 # Note: Meme Command will be available 2023 !
 
@@ -1434,14 +1458,12 @@ async def ping(ctx):
 @client.command()
 async def BDSPHelp(ctx):
     Game = Game = 'Brilliant Diamond & Shining Pearl'
-    BDSP = BDSP = 1.3
     await ctx.send(f'Unfortunally we do not have Support yet for the Latest PKMN Game: **{Game}** & Version: **{BDSP}** for creating Custom PKMN .')
 
 
 @client.command()
 async def SVHelp(ctx):
     Game = Game = 'Scarlet & Violet'
-    SV = SV = 1.1
     await ctx.send(f'Unfortunally we do not have Support yet for the Latest PKMN Game: **{Game}** & Version: **{SV}** for creating Custom PKMN .')
 
 
@@ -1487,16 +1509,92 @@ async def divide(ctx, *nums):
 
 # Math Module End ########
 
+#Removed / Unused Section #
 
-# @client.command()
-# async def dma(ctx):
-    # rand_num = (1, 3)
-   # win_num = 1
-    #pm_channel = await ctx.author.create_dm()
-   # if win_num == rand_num:
-       # await pm_channel.send("You won!")
-    #else:
-        #await pm_channel.send("You lost")
+@client.command()
+async def dma(ctx):
+    rand_num = (0, 0)
+    win_num = 0
+    if win_num == rand_num:
+       await ctx.send(f"{RemovedFromBot}")
+    else:
+        await ctx.send(f"{RemovedFromBot}")
+
+
+@client.command(
+    name="base_command",
+    description="This description isn't seen in UI",
+    scope=1234567890,
+    options=[
+        interactions.Option(
+            name="command_name",
+            description="A descriptive description",
+            type=interactions.OptionType.SUB_COMMAND,
+            options=[
+                interactions.Option(
+                    name="option",
+                    description="A descriptive description",
+                    type=interactions.OptionType.INTEGER,
+                    required=False,
+                ),
+            ],
+        ),
+        interactions.Option(
+            name="second_command",
+            description="A descriptive description",
+            type=interactions.OptionType.SUB_COMMAND,
+            options=[
+                interactions.Option(
+                    name="second_option",
+                    description="A descriptive description",
+                    type=interactions.OptionType.STRING,
+                    required=True,
+                ),
+            ],
+        ),
+    ],
+)
+async def cmd(ctx: interactions.CommandContext, sub_command: str, second_option: str = "", option: int = None):
+    if sub_command == "command_name":
+        await ctx.send(f"You selected the command_name sub command and put in {option}")
+    elif sub_command == "second_command":
+        await ctx.send(f"You selected the second_command sub command and put in {second_option}")
+
+
+@client.command(
+    type=interactions.ApplicationCommandType.USER,
+    name="User Command",
+    scope=0000000000000000,
+)
+async def test(ctx):
+    await ctx.send(f"You have applied a command onto user {ctx.target.user.username}!")
+
+button = interactions.Button(
+    style=interactions.ButtonStyle.PRIMARY,
+    label="world!",
+    custom_id="hello"
+)
+
+@client.command(
+    name="button_test",
+    description="This is the first command!",
+    scope=000000000000000,
+)
+async def button_test(ctx):
+    await ctx.send("testing", components=button)
+
+
+@client.command()
+async def Application_Form(ctx):
+    modal = interactions.Modal(
+        title="Application Form",
+        custom_id="mod_form",
+        components=[interactions.TextInput(...)],
+    )
+
+    await ctx.popup(modal)
+
+# Removed Section End #
 
 
 @client.command()
@@ -1536,10 +1634,10 @@ async def kw_error(ctx, error):
     else:
         raise error
 
-# =====================================================================================================================
-hug_gifs = ['https://c.tenor.com/nHkiUCkS04gAAAAC/anime-hug-hearts.gif']
-hug_names = ['Hugs you!'] 
-# =====================================================================================================================
+# ===================================================================================================================== #
+hug_gifs = ['https://c.tenor.com/nHkiUCkS04gAAAAC/anime-hug-hearts.gif']   # DO NOT TOUCH SOMETHING HERE ! #
+hug_names = ['Hugs you!']                                                  # DO NOT TOUCH SOMETHING HERE ! #
+# ===================================================================================================================== #
 
 
 @client.command()
@@ -1599,8 +1697,8 @@ async def prime_error(ctx, error):
 @client.command()
 @commands.cooldown(1, 1000, commands.BucketType.user)
 async def timer(ctx):
-    await ctx.send(f'Starting Countdown in less than 15 seconds')
-    await asyncio.sleep(15)
+    await ctx.send(f'Starting Countdown in less than 10 seconds')
+    await asyncio.sleep(10)
     await ctx.send(f'Starting Countdown now...')
     await asyncio.sleep(1)
     await ctx.send(f'3...')
@@ -1610,12 +1708,12 @@ async def timer(ctx):
     await ctx.send(f'1...')
     await asyncio.sleep(1)
     await ctx.send(f'GO Wondertrade')
-    await asyncio.sleep(90)
+    await asyncio.sleep(60)
     await ctx.send(f'Trades finished succesfully | Thanks for Trading')
 
 
 @timer.error
-async def timer_error(ctx, error):
+async def wtimer_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
         await ctx.send(msg)
@@ -1633,7 +1731,7 @@ async def blackjack(ctx):
     await ctx.send(f'Making Choice Now [10 seconds]')
     await asyncio.sleep(10)
     await ctx.send(f'I choose this One...')
-    await asyncio.sleep(2)
+    await asyncio.sleep(5)
     await ctx.send(rancoin)
 
 
@@ -1662,7 +1760,7 @@ async def bottles_error(ctx, error):
 
 
 @client.command(help="Play with .rps [your choice]")
-@commands.cooldown(1, 90, commands.BucketType.user)
+@commands.cooldown(1, 180, commands.BucketType.user)
 async def rps(ctx):
     rpsGame = ['rock', 'paper', 'scissors']
     await ctx.send(f"**Rock, paper, or scissors? Choose wisely...**")
@@ -1738,7 +1836,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_green()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.2/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.1/Discord-Moveset-Bot.7z )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1754,10 +1852,6 @@ async def update_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def DevAlpha(ctx):
-    DevBuild = DevBuild = 7.5
-    NDevB = NDevB = 7.6
-    DevUpload = DevUpload = 'Shinyhunter'
-    DevDate = DevDate = '2nd June'
     await ctx.send(f'**Checking for Updates...**')
     await asyncio.sleep(15)
     await ctx.send(f'**Latest Build found: Build: **{DevBuild}** uploaded by **{DevUpload}**')
@@ -1783,11 +1877,6 @@ async def devver_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def PreRelease(ctx):
-    PR = PR = '7.2.0'
-    NPR = NPR = '7.3.0'
-    Downtime = Downtime = 9
-    PRDate = PRDate = '2nd February'
-    PRUploader = PRUploader = 'ShinyhunterTV'
     await ctx.send(f'**Checking for Pre-Release Updates...**')
     await asyncio.sleep(10)
     await ctx.send(f'**Pre Release Version found: Build: **{PR}** uploaded by **{PRUploader}**')
@@ -1814,7 +1903,7 @@ async def pre_ver_error(ctx, error):
 async def BN(ctx):
     guild = ctx.guild
     await guild.create_role(name="Battle.net")
-    await asyncio.sleep(5)
+    await asyncio.sleep(10)
     await ctx.send(f'**Role has been created**')
 
 
@@ -1822,7 +1911,7 @@ async def BN(ctx):
 async def Com_Help(ctx):
     guild = ctx.guild
     await guild.create_role(name="Community Helper")
-    await asyncio.sleep(5)
+    await asyncio.sleep(10)
     await ctx.send(f'**Role has been created**')
 
 
@@ -1835,8 +1924,52 @@ async def Communit_Help(ctx):
 
 @client.command()
 async def pokedex(ctx):
-    await ctx.send(f'There are over 910 Pokemon on the Pokedex!')
+    await ctx.send(f'There are over 1000 Pokemon on the Pokedex!')
 
+
+#helpdict = {
+ # 'command0': ['description', 'usage', 'aliases'],
+  #'command1': ['description', 'usage', 'aliases'],
+#}
+
+
+@client.command()
+async def translate(ctx, lang, *, thing):
+    translator = Translator()
+    translation = translator.translate(thing, dest=lang)
+    await ctx.send(translation.text)
+
+
+@client.command(aliases=['8ball', 'test'])
+async def _8Ball(ctx, *, question):
+    responses = ['It is certain.',
+                 'It is decidedly so.',
+                 'Without a doubt',
+                 'Yes.',
+                 'My reply is no.',
+                 'Outlook not so good.',
+                 'Very doubtful.']
+    await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+
+
+@client.command()
+@commands.has_permissions(manage_channels=True)
+async def clear(ctx, amount=100):
+    await ctx.channel.purge(limit=amount)
+    await ctx.send(f'Channel Clear Successfully done!')
+
+
+@clear.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+
+# Movesets PKMN # More Coming in Patch 8.0 #
 
 @client.command()
 async def Abomasnow(ctx):
@@ -2048,36 +2181,15 @@ async def Giratina(ctx):
     await ctx.send(f'https://www.pokewiki.de/images/a/ac/Pok%C3%A9monsprite_487_Schillernd_XY.gif')
 
 
-@client.command(aliases=['8ball', 'test'])
-async def _8Ball(ctx, *, question):
-    responses = ['It is certain.',
-                 'It is decidedly so.',
-                 'Without a doubt',
-                 'Yes.',
-                 'My reply is no.',
-                 'Outlook not so good.',
-                 'Very doubtful.']
-    await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+# Movesets PKMN End #
 
 
 @client.command()
-@commands.has_permissions(manage_channels=True)
-async def clear(ctx, amount=100):
-    await ctx.channel.purge(limit=amount)
-    await ctx.send(f'Channel Clear Successfully done!')
+async def dispatch_custom(ctx):
+    client.dispatch("custom_event has been started", ctx)
 
 
-@clear.error
-async def clear_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        msg = '**You dont have the right permissions to execute this command.**'
-        await ctx.send(msg)
-    else:
-        raise error
-
-
-# Slash Command Section #
-
+# Slash #
 
 @slash.slash(name="ping", guild_ids=guild_ids)
 async def _ping(ctx):
@@ -2099,34 +2211,27 @@ async def _subicons(ctx):
     await ctx.send("**We now have some new cool Subicons on my Twitch Channel | Check it out if u want !**")
 
 
-@slash.slash(name="checkversion", guild_ids=guild_ids)
-async def _CheckVersion(ctx):
-    Old_Ver = 7.0
-    New_Ver = 7.0
-    if Old_Ver < New_Ver:
-        await ctx.send(f'**Your Version Client is outdated ! | Please download the Latest Release from the Github Repo**')
-        embed = discord.Embed(
-            color= discord.Colour.dark_teal()
-        )
-        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.0/Discord-Moveset-Bot.7z )', inline=False)
-        await ctx.send(embed=embed)
-    else:
-        await ctx.send(f'**You are on the Latest Version**')
+@slash.slash(name="pokedex", guild_ids=guild_ids)
+async def _pokedex(ctx):
+    await ctx.send(f'**There are over 800 Pokemon on the Pokédex !**')
+    await asyncio.sleep(5)
+    await ctx.send(f'**You can search for any Pokémon by typing /Pokemon [Pokémonname] | When  Bot is Online you will get the Results if not wait till its back Online**')
 
 
-@slash.slash(name="abomasnow", guild_ids=guild_ids)
-async def _Abomasnow(ctx):
-    await ctx.send(f'Ability: Soundproof  EVs: 92 HP / 252 SpA / 164 Spe  Nature: Mild  Moves: Blizzard  Giga Drain  Focus Blast  Ice Shard  Item: Abomasite')
-    await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
+@slash.slash(name="tbi", guild_ids=guild_ids)
+async def _tradebotinfo(ctx):
+    await ctx.send('**The Link-Trade-Bot is exclusive on my Discord and Twitch Channel | If you want to use it leave a Follow on Twitch and Join on the Discord Server to get Permissions**')
+    await asyncio.sleep(5)
+    await ctx.send('**The Trading Bot on Twitch wont be able to handle Custom Requests**')
 
 
-# Slash Command Section End #
+@slash.slash(name="version", guild_ids=guild_ids)
+async def _version(ctx):
+    await ctx.send(f'The Latest Version is: **{Version}**')
 
 
-@client.command()
-async def dispatch_custom(ctx):
-    client.dispatch("custom_event has been started", ctx)
-
+# Client Event Section #
+#========================================================================================================== #
 
 @client.event
 async def on_custom_event(ctx):
@@ -2198,7 +2303,7 @@ async def on_member_update(before, after):
                         await message.delete()
             else:
                 return
-
+            
 
 @client.event
 async def on_command_error(ctx, error):
@@ -2224,6 +2329,12 @@ async def on_guild_join(guild):
     channel = guild.text_channels[0]
     embed = discord.Embed(title=guild.name, description="Hello, how can I help your Server?")
     await channel.send(embed=embed)
+
+
+@client.event()
+async def on_thread_create(thread):
+    if thread.name != 'approved':
+        await thread.delete()
 
 
 @client.event
