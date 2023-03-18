@@ -117,10 +117,10 @@ async def on_ready():
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
 Added2Item = Added2Item = 'This Command has been recently added!'
 NewItem = NewItem = 'This Command is new!'
-RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
-Classic = Classic = 'This is a Legacy Command and exists since the Bot was created'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Update!'
+Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
 Downtime = Downtime = 15
-DownDate = DownDate = '01/03/23'
+DownDate = DownDate = '01/04/23'
 Version = Version = 7.5
 LogVer = LogVer = 2.2
 Extension = Extension = 'Loaded'
@@ -154,17 +154,17 @@ NDevB = NDevB = 7.6
 DevUpload = DevUpload = 'Shinyhunter'
 DevDate = DevDate = '2nd June'
 BDSP = BDSP = 1.3
-SV = SV = 2.0
+SV = SV = 1.2
 # ====================== Bot Update Shedule ================================= #
 spring = spring = '5th January'
 summer = summer = '11th July'
 fall = fall = '3rd September'
 winter = winter = '3rd December'
 # ======================== VALUES ========================================== # # Mostly will be used later #
-NBV = NBV = 7.5
-OBV = OBV = 7.0
-ODV = ODV = 7.5
-NDV = NDV = 7.6
+NBV = NBV = 7.6
+OBV = OBV = 7.5
+ODV = ODV = 7.6
+NDV = NDV = 7.8
 NEV = NEV = 3.3
 OEV = OEV = 3.1
 OUE = OUE = 2.1
