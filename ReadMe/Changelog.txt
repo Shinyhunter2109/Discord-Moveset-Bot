@@ -2,24 +2,29 @@
 
 ## What's New ##
 
-- added a lot of new Stuff ✔️
+- added Windows 11 Compatibility ✔️
+- added Translator ✔️
+- added Discord Thread Event Handler  ✔️
 
 
 ## Changes ##
 
-- changed Version number from 6.5 to 7.0 (Latest) ✔️
-
-- re-organized whole Bot Logic and made it more user-friendly ✔️
+- changed Version number from 7.0 to 7.5 (Latest) ✔️
+- removed Slash Libary from Updater  ✔️
 
 ## Hotfixes ##
 
-- moved the Values Tab to the Start 
+- Spotify Module has been currently disabled while the bug gets fixed
+- Discord Slash now only works with Version 3.0.3 (Latest Version broken)
+- Download Command Typo has been fixed
+- Random Crash after some hours has been fixed
 
 ## Notes ##
 
 - On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID !
+-  For Python use either Version 3.9 or 3.10 ( 3.11 is not Compatible & Supported either)
 
 ## Bot Version ##
 
-- The latest Version is 7.0 if you are still on Version 6.5 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 7.5 if you are still on Version 7.0 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
