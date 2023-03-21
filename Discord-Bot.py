@@ -20,10 +20,9 @@ import typing
 import traceback
 import youtube_dl
 import os
-import asyncpraw
+import praw
 import interactions
 from googletrans import Translator
-from interactions.client import StopCommand
 from discord.embeds import Embed
 from datetime import datetime
 from discord.ext.commands import BadArgument
@@ -72,7 +71,7 @@ guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible)
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
 slash = SlashCommand(client, sync_commands=True)
 client.remove_command('help')
-status = cycle(['Pokémon Brilliant Diamond', 'Pokémon Shining Pearl']) # Standard Games can be edited if needed #
+status = cycle(['Pokémon Scarlet', 'Pokémon Violet']) # Standard Games can be edited if needed #
 ROLE = 'Member' # Standard Role can be edited when needed ! #
 
 
@@ -117,14 +116,14 @@ async def on_ready():
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
 Added2Item = Added2Item = 'This Command has been recently added!'
 NewItem = NewItem = 'This Command is new!'
-RemovedInPatch = RemovedInPatch = 'This gets removed in the next Update!'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
-Downtime = Downtime = 15
+Downtime = Downtime = 8
 DownDate = DownDate = '01/04/23'
-Version = Version = 7.5
-LogVer = LogVer = 2.2
+Version = Version = 7.6
+LogVer = LogVer = 2.5
 Extension = Extension = 'Loaded'
-ExtVer = ExtVer = 2.3
+ExtVer = ExtVer = 2.7
 CMM = CMM = 'Online'
 CSS = CSS = 8000
 OS10 = OS10 = 'Windows 10'
@@ -134,19 +133,19 @@ Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
-LogUP = LogUP = 'Done'
-newdat = newdat = 7.5
+LogUP = LogUP = 'Finished'
+newdat = newdat = 7.6
 OWN = OWN = 10.0
 data = ("🎉")
 item = ("🎉")
-Build = Build = 7.5
-NewVer = NewVer = 7.5
+Build = Build = 7.6
+NewVer = NewVer = 7.6
 NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
-PR = PR = '7.5.1'
-NPR = NPR = '7.5.1'
-Downtime = Downtime = 9
+PR = PR = '7.8'
+NPR = NPR = '7.7.1'
+SDowntime = SDowntime = 9
 PRDate = PRDate = '2nd February'
 PRUploader = PRUploader = 'ShinyhunterTV'
 DevBuild = DevBuild = 7.6
@@ -156,25 +155,25 @@ DevDate = DevDate = '2nd June'
 BDSP = BDSP = 1.3
 SV = SV = 1.2
 # ====================== Bot Update Shedule ================================= #
-spring = spring = '5th January'
+spring = spring = '21th January'
 summer = summer = '11th July'
-fall = fall = '3rd September'
+fall = fall = '2nd September'
 winter = winter = '3rd December'
 # ======================== VALUES ========================================== # # Mostly will be used later #
 NBV = NBV = 7.6
 OBV = OBV = 7.5
-ODV = ODV = 7.6
+ODV = ODV = 7.5
 NDV = NDV = 7.8
-NEV = NEV = 3.3
-OEV = OEV = 3.1
-OUE = OUE = 2.1
-NUE = NUE = 2.3
-OSV = OSV = 2.6
-NSV = NSV = 2.7
-OTV = OTV = 3.2
-NTV = NTV = 3.4
-EXT = EXT = 2.4
-OEXT = OEXT = 2.6
+NEV = NEV = 3.5
+OEV = OEV = 3.3
+OUE = OUE = 2.3
+NUE = NUE = 2.5
+OSV = OSV = 2.7
+NSV = NSV = 2.6
+OTV = OTV = 3.4
+NTV = NTV = 3.2
+EXT = EXT = 2.6
+OEXT = OEXT = 2.4
 UV = UV = NBV
 RV = RV = OBV
 # ============================================================================ #
@@ -523,22 +522,6 @@ async def christmasevent_error(ctx, error):
 # Economy Section End #
 
 
-#@client.command()
-#async def lcp(ctx):
-    #voice_channel = ctx.author.channel
-    #channel = None
-    #if voice_channel != None:
-        channel = voice_channel.name
-        vc = await voice_channel.connect()
-        vc.play(discord.FFmpegPCMAudio(executable="C:/FFMPEG/ffmpeg.exe", source="<file directory goes here>"))
-        await ctx.send("Connected to " + channel)
-        while vc.is_playing():
-            await asyncio.sleep(.1)
-        await vc.disconnect()
-    #else:
-        #await ctx.send(str(ctx.author.name) + "is not in a channel.")
-
-
 @client.command(pass_context=True)
 async def help(ctx):
     author = ctx.message.author
@@ -694,31 +677,36 @@ async def unbanhelp(ctx):
     embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
+# ================================================================================= #
 
-@client.command()
-@commands.cooldown(1, 180, commands.BucketType.user)
-async def spotify(ctx, user: discord.Member = None):
-    user = user or ctx.author  
-    spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
-    if spot is None:
-        await ctx.send(f"{user.name} is not listening to Spotify")
-        return
-    embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
-    embed.add_field(name="Song", value=spot.title)
-    embed.add_field(name="Artist", value=spot.artist)
-    embed.add_field(name="Album", value=spot.album)
-    embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
-    embed.set_thumbnail(url=spot.album_cover_url)
-    await ctx.send(embed=embed)
+# Currently no clue why Spotify is not responding seems to be a Discord Issue #
+
+# ================================================================================= #
+
+#@client.command()
+#@commands.cooldown(1, 180, commands.BucketType.user)
+#async def spotify(ctx, user: discord.Member = None):
+    #user = user or ctx.author  
+    #spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
+    #if spot is None:
+        #await ctx.send(f"{user.name} is not listening to Spotify")
+        #return
+    #embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
+    #embed.add_field(name="Song", value=spot.title)
+    #embed.add_field(name="Artist", value=spot.artist)
+    #embed.add_field(name="Album", value=spot.album)
+    #embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
+    #embed.set_thumbnail(url=spot.album_cover_url)
+    #await ctx.send(embed=embed)
 
 
-@spotify.error
-async def spotify_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
+#@spotify.error
+#async def spotify_error(ctx, error):
+    #if isinstance(error, commands.CommandOnCooldown):
+        #msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        #await ctx.send(msg)
+    #else:
+        #raise error
 
 
 
@@ -747,7 +735,7 @@ async def CheckVersion(ctx):
         embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.5/Discord-Moveset-Bot.zip )', inline=False)
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.6/Discord-Moveset-Bot.zip )', inline=False)
         await ctx.send(embed=embed)
     else:
         await ctx.send(f'**You are on the Latest Version**')
@@ -789,7 +777,7 @@ async def SecurityVer(ctx):
 async def OSVer(ctx):
     OSVer = OSVer = 'Win 11'
     OSNum = OSNum = '22H2'
-    OSBNum = OSBNum = '19045.2604'
+    OSBNum = OSBNum = '22621.1413'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
@@ -812,7 +800,7 @@ async def server_stat_error(ctx, error):
 async def meme(ctx, subred="memes"):
     msg = await ctx.send('Loading ... ')
 
-    reddit = asyncpraw.Reddit(client_id='clientid',
+    reddit = praw.Reddit(client_id='clientid',
                                 client_secret='clientsecret',
                                 username='username',
                                 password='password',
@@ -1221,7 +1209,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '17836399'
+password = '642751'
 
 
 @client.command()
@@ -1236,7 +1224,7 @@ async def kick(ctx, member : discord.Member, *,password_check=None):
     await member.kick()
 
 
-password = '03819925'
+password = '7391732'
 
 
 @client.command()
@@ -1263,53 +1251,6 @@ async def unban(ctx, *, member):
             await ctx.guild.unban(user)
             await ctx.send(f'**Unbanned {user.mention}**')
             return
-
-## Removed due to Bugs ##
-
-#@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
-#@commands.has_permissions(administrator=True)
-#async def catchthephoenix(ctx, member: discord.Member=None):
-    #points = {ctx.author: 0, member: 0}
-    #random_time = random.randrange(30)
-
-    #game = False
-    #if member is None:
-        #await ctx.send("...")
-    #elif member == client.user:
-        #await ctx.send("...")
-    #elif member.client:
-        #await ctx.send("...")
-    #else:
-        #game = True
-
-    #await ctx.send(...)
-    #while True:
-        #try:
-            #await asyncio.sleep(random_time)
-            #await ctx.send(...)
-            #message = await client.wait_for(
-                #"message",
-                #check=lambda m: m.author.id == ctx.author.id,
-                #timout=45.0
-            #)
-        #except asyncio.TimeoutError:
-            #game = False
-            #...
-        #if not message.content.lower() == "catch":
-            #continue
-        #if message.author.id == member.id:
-            #...
-        #elif message.author.id == ctx.author.id:
-            #...
-
-
-#@catchthephoenix.error
-#async def ctp_error(ctx, error):
-    #if isinstance(error, commands.MissingPermissions):
-        #msg = '**You dont have the right permissions to execute this command.**'
-        #await ctx.send(msg)
-    #else:
-        #raise error
 
 
 @client.command()
@@ -1594,6 +1535,68 @@ async def Application_Form(ctx):
 
     await ctx.popup(modal)
 
+
+#@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
+#@commands.has_permissions(administrator=True)
+#async def catchthephoenix(ctx, member: discord.Member=None):
+    #points = {ctx.author: 0, member: 0}
+    #random_time = random.randrange(30)
+
+    #game = False
+    #if member is None:
+        #await ctx.send("...")
+    #elif member == client.user:
+        #await ctx.send("...")
+    #elif member.client:
+        #await ctx.send("...")
+    #else:
+        #game = True
+
+    #await ctx.send(...)
+    #while True:
+        #try:
+            #await asyncio.sleep(random_time)
+            #await ctx.send(...)
+            #message = await client.wait_for(
+                #"message",
+                #check=lambda m: m.author.id == ctx.author.id,
+                #timout=45.0
+            #)
+        #except asyncio.TimeoutError:
+            #game = False
+            #...
+        #if not message.content.lower() == "catch":
+            #continue
+        #if message.author.id == member.id:
+            #...
+        #elif message.author.id == ctx.author.id:
+            #...
+
+
+#@catchthephoenix.error
+#async def ctp_error(ctx, error):
+    #if isinstance(error, commands.MissingPermissions):
+        #msg = '**You dont have the right permissions to execute this command.**'
+        #await ctx.send(msg)
+    #else:
+        #raise error
+
+
+#@client.command()
+#async def lcp(ctx):
+    #voice_channel = ctx.author.channel
+    #channel = None
+    #if voice_channel != None:
+        #channel = voice_channel.name
+        #vc = await voice_channel.connect()
+        #vc.play(discord.FFmpegPCMAudio(executable="C:/FFMPEG/ffmpeg.exe", source="<file directory goes here>"))
+        #await ctx.send("Connected to " + channel)
+        #while vc.is_playing():
+            #await asyncio.sleep(.1)
+        #await vc.disconnect()
+    #else:
+        #await ctx.send(str(ctx.author.name) + "is not in a channel.")
+
 # Removed Section End #
 
 
@@ -1836,7 +1839,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_green()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.1/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.6/Discord-Moveset-Bot.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1861,7 +1864,7 @@ async def DevAlpha(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.5/DevVer.7z )', inline=False)
+    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.8/DevVer.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1886,7 +1889,7 @@ async def PreRelease(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.0.1/Discord-Moveset-Bot.7z )', inline=False)
+    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.7.1/Discord-Moveset-Bot.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
