@@ -2,29 +2,26 @@
 
 ## What's New ##
 
-- added Windows 11 Compatibility ✔️
-- added Translator ✔️
-- added Discord Thread Event Handler  ✔️
-
+- nothing ( Update 8.0 brings alot of new Stuff)
 
 ## Changes ##
 
-- changed Version number from 7.0 to 7.5 (Latest) ✔️
-- removed Slash Libary from Updater  ✔️
+- changed Version number from 7.5 to 7.6 (Latest) ✔️
+- changed some values   ✔️
+- Program should now work alot smoother under Windows 11 ✔️
 
 ## Hotfixes ##
 
-- Spotify Module has been currently disabled while the bug gets fixed
-- Discord Slash now only works with Version 3.0.3 (Latest Version broken)
-- Download Command Typo has been fixed
-- Random Crash after some hours has been fixed
+- Spotify Module is still disabled ( Issue is currently investigated)
+- Discord Slash now only works with Version 3.0.3 (Latest Version still broken)
+- Some Typos have been found & fixed
 
 ## Notes ##
 
 - On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID !
--  For Python use either Version 3.9 or 3.10 ( 3.11 is not Compatible & Supported either)
+-  For Python use either Version 3.9 or 3.10 ( 3.11 is not Compatible or Supported either)
 
 ## Bot Version ##
 
-- The latest Version is 7.5 if you are still on Version 7.0 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 7.6 if you are still on Version 7.5 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
