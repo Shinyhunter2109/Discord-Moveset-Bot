@@ -126,6 +126,10 @@ Extension = Extension = 'Loaded'
 ExtVer = ExtVer = 2.7
 CMM = CMM = 'Online'
 CSS = CSS = 8000
+LINUXOS = LINUXOS = 'Linux Support is currently in Beta State'
+MACOS = MACOS = 'Mac Support is currently in Beta State !'
+OS07 = OS07 = 'Support has ended for this Windows Version | Please refer to a newer Version of Windows !'
+OS08 = OS08 = 'Support has ended for this Windows Version | Please refer to a newer Version of Windows !' 
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
 Server_Status = Server_Status = 'Online'
