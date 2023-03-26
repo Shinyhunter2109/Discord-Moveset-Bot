@@ -106,7 +106,7 @@ async def on_ready():
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
-    print(f'This Modul is made for {OS10} & {OS11}')
+    print(f'This Modular is made for {OS10} & {OS11}')
     print(f'Log_Update: {LogUP}')
     print(f'Bot Version: {UV}')
 
@@ -341,7 +341,7 @@ async def BugFix(ctx):
 
 @client.command()
 async def SeasonUpdate(ctx):
-    await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
+    await ctx.send(f'New Seasonal Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
 
 
 # Economy Section Start #
