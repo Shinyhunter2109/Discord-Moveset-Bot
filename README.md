@@ -52,10 +52,10 @@
 
 | Version | Supported / Updates|
 | ------- | ------------------ |
+| 8.0     | :white_check_mark: |
 | 7.6     | :white_check_mark: |
 | 7.5     | :x:                |
 | 7.0     | :x:                |
-| 6.5     | :x:                |
 
 
 
