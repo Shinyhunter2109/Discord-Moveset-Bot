@@ -120,7 +120,7 @@ RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
 Downtime = Downtime = 8
 DownDate = DownDate = '01/04/23'
-Version = Version = 7.6
+Version = Version = 8.0
 LogVer = LogVer = 2.5
 Extension = Extension = 'Loaded'
 ExtVer = ExtVer = 2.7
@@ -138,12 +138,12 @@ Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Finished'
-newdat = newdat = 7.6
+newdat = newdat = 8.0
 OWN = OWN = 10.0
 data = ("🎉")
 item = ("🎉")
-Build = Build = 7.6
-NewVer = NewVer = 7.6
+Build = Build = 8.0
+NewVer = NewVer = 8.0
 NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
@@ -164,8 +164,8 @@ summer = summer = '11th July'
 fall = fall = '2nd September'
 winter = winter = '3rd December'
 # ======================== VALUES ========================================== # # Mostly will be used later #
-NBV = NBV = 7.6
-OBV = OBV = 7.5
+NBV = NBV = 8.0
+OBV = OBV = 7.6
 ODV = ODV = 7.5
 NDV = NDV = 7.8
 NEV = NEV = 3.5
