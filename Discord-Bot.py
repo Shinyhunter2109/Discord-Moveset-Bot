@@ -152,12 +152,12 @@ NPR = NPR = '7.7.1'
 SDowntime = SDowntime = 9
 PRDate = PRDate = '2nd February'
 PRUploader = PRUploader = 'ShinyhunterTV'
-DevBuild = DevBuild = 7.6
-NDevB = NDevB = 7.6
+DevBuild = DevBuild = 8.1
+NDevB = NDevB = 8.1
 DevUpload = DevUpload = 'Shinyhunter'
 DevDate = DevDate = '2nd June'
 BDSP = BDSP = 1.3
-SV = SV = 1.2
+SV = SV = 1.3
 # ====================== Bot Update Shedule ================================= #
 spring = spring = '21th January'
 summer = summer = '11th July'
