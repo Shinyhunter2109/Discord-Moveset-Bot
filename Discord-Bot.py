@@ -119,7 +119,7 @@ NewItem = NewItem = 'This Command is new!'
 RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
 Downtime = Downtime = 8
-DownDate = DownDate = '01/04/23'
+DownDate = DownDate = '01/09/23'
 Version = Version = 8.0
 LogVer = LogVer = 2.5
 Extension = Extension = 'Loaded'
