@@ -739,7 +739,7 @@ async def CheckVersion(ctx):
         embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.6/Discord-Moveset-Bot.zip )', inline=False)
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/8.0/Discord-Moveset-Bot.zip )', inline=False)
         await ctx.send(embed=embed)
     else:
         await ctx.send(f'**You are on the Latest Version**')
