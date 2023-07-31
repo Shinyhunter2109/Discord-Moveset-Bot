@@ -115,8 +115,8 @@ async def on_ready():
 # ====================== ITEM STORAGE VARIABLES ============================== #
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
 Added2Item = Added2Item = 'This Command has been recently added!'
-NewItem = NewItem = 'This Command is new!'
-RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
+NewItem = NewItem = 'This Item is newly added!'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Build / Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
 Downtime = Downtime = 8
 DownDate = DownDate = '01/09/23'
@@ -132,6 +132,7 @@ OS07 = OS07 = 'Support has ended for this Windows Version | Please refer to a ne
 OS08 = OS08 = 'Support has ended for this Windows Version | Please refer to a newer Version of Windows !' 
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
+OS12 = OS12 = 'N/A'
 Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
