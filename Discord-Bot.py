@@ -118,8 +118,8 @@ Added2Item = Added2Item = 'This Command has been recently added!'
 NewItem = NewItem = 'This Item is newly added!'
 RemovedInPatch = RemovedInPatch = 'This gets removed in the next Build / Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
-Downtime = Downtime = 8
-DownDate = DownDate = '01/09/23'
+Downtime = Downtime = 24
+DownDate = DownDate = '30/12/23'
 Version = Version = 8.0
 LogVer = LogVer = 2.5
 Extension = Extension = 'Loaded'
@@ -132,7 +132,7 @@ OS07 = OS07 = 'Support has ended for this Windows Version | Please refer to a ne
 OS08 = OS08 = 'Support has ended for this Windows Version | Please refer to a newer Version of Windows !' 
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
-OS12 = OS12 = 'N/A'
+OS12 = OS12 = 'Windows 12'
 Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
@@ -145,25 +145,25 @@ data = ("🎉")
 item = ("🎉")
 Build = Build = 8.0
 NewVer = NewVer = 8.0
-NDate = NDate = 'N/A'
+NDate = NDate = '31/12/23'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
 PR = PR = '7.8'
 NPR = NPR = '7.7.1'
 SDowntime = SDowntime = 9
-PRDate = PRDate = '2nd February'
+PRDate = PRDate = '02/01/24'
 PRUploader = PRUploader = 'ShinyhunterTV'
 DevBuild = DevBuild = 8.1
 NDevB = NDevB = 8.1
 DevUpload = DevUpload = 'Shinyhunter'
-DevDate = DevDate = '2nd June'
+DevDate = DevDate = '01/01/24'
 BDSP = BDSP = 1.3
-SV = SV = 1.3
+SV = SV = 3.0
 # ====================== Bot Update Shedule ================================= #
-spring = spring = '21th January'
-summer = summer = '11th July'
-fall = fall = '2nd September'
-winter = winter = '3rd December'
+spring = spring = 'N/A'
+summer = summer = 'N/A'
+fall = fall = 'N/A'
+winter = winter = 'N/A'
 # ======================== VALUES ========================================== # # Mostly will be used later #
 NBV = NBV = 8.0
 OBV = OBV = 7.6
