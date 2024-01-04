@@ -44,7 +44,9 @@
 
 ## Updates
 
-- Latest Python Version 3.11 is finally tested and not supported with the Program. Please refer to older versions till we have Support for the latest Version.
+- Python Version 3.11 is tested and not supported with the Program. Please refer to older versions till we have Support for the latest Version.
+
+- Latest Version 3.12 has not been tested with the Program so atm no Support given means Try it out at your own risk !
 
 ## Supported Versions
 
@@ -52,28 +54,28 @@
 
 | Version | Supported / Updates|
 | ------- | ------------------ |
+| 8.x     | :white_check_mark: |
 | 8.0     | :white_check_mark: |
-| 7.6     | :white_check_mark: |
+| 7.6     | :x:                |
 | 7.5     | :x:                |
-| 7.0     | :x:                |
 
 
 
 | Python  | Supported / tested |
 | ------- | ------------------ |
+| 3.12    | :x:                |
 | 3.11    | :x:                |
 | 3.10    | :white_check_mark: |
 | 3.9     | :white_check_mark: |
 | 3.8     | :white_check_mark: |
-| 3.6     | :x:                |
 
 
 |DevAlpha | Supported / tested |
 | ------- | ------------------ |
-| 7.1.2   | :white_check_mark: |
+| 8.0.2   | :white_check_mark: |
+| 7.1.2   | :x:                |
 | 7.0.4   | :x:                |
 | 6.5.5   | :x:                |
-| 6.3.2   | :x:                |
 
 
 |Windows  | Supported / tested |
