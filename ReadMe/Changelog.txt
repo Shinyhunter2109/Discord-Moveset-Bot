@@ -2,26 +2,32 @@
 
 ## What's New ##
 
-- nothing ( Update 8.0 brings alot of new Stuff)
+- added Season Modules
+- added System Checks for Seasons
+- added some Secrets
+- added some Future Content
+- added WIP Moveset Overhaul Tool
 
 ## Changes ##
 
-- changed Version number from 7.5 to 7.6 (Latest) ✔️
-- changed some values   ✔️
-- Program should now work alot smoother under Windows 11 ✔️
+- changed Version number from 7.6 to 8.0 (Latest) 
 
 ## Hotfixes ##
 
-- Spotify Module is still disabled ( Issue is currently investigated)
-- Discord Slash now only works with Version 3.0.3 (Latest Version still broken)
-- Some Typos have been found & fixed
+- fixed some rare crashes
 
 ## Notes ##
 
 - On Code there a some Placeholders please insert there the correct ID from your Server /Role /ID !
--  For Python use either Version 3.9 or 3.10 ( 3.11 is not Compatible or Supported either)
+-  For Python use either Version 3.9 or 3.10 ( 3.11 and further is not Compatible or Supported either)
+
+## Open Issues ##
+
+- Spotify Integration is still broken
+
+- Giveaway Module can break at some point
 
 ## Bot Version ##
 
-- The latest Version is 7.6 if you are still on Version 7.5 or lower its really Important for you to Update to get some weird bugs fixed!
+- The latest Version is 8.0 if you are still on Version 7.6 or lower its really Important for you to Update to get some weird bugs fixed!
 - Don't forget to Update your Dependencies via Updater.bat File ! ( Otherwise you will get errors while running the Bot!)
