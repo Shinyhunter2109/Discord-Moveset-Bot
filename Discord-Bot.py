@@ -116,33 +116,36 @@ async def on_ready():
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
 Added2Item = Added2Item = 'This Command has been recently added!'
 NewItem = NewItem = 'This Item is newly added!'
-RemovedInPatch = RemovedInPatch = 'This gets removed in the next Build / Patch!'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Build !'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
-Downtime = Downtime = 24
-DownDate = DownDate = '30/12/23'
+Downtime = Downtime = 4
+DownDate = DownDate = '30/04/24'
 Version = Version = 8.0
 LogVer = LogVer = 2.5
 Extension = Extension = 'Loaded'
 ExtVer = ExtVer = 2.7
 CMM = CMM = 'Online'
 CSS = CSS = 8000
+Nintendo_Services_3ds = Nintendo-Services_3ds = 'Offline'
+SwitchCon = SwitchCon = 'Online'
 LINUXOS = LINUXOS = 'Linux Support is currently in Beta State'
 MACOS = MACOS = 'Mac Support is currently in Beta State !'
-OS07 = OS07 = 'Support has ended for this Windows Version | Please refer to a newer Version of Windows !'
-OS08 = OS08 = 'Support has ended for this Windows Version | Please refer to a newer Version of Windows !' 
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
 OS12 = OS12 = 'Windows 12'
+Steam_Ver = Steamd_Ver = '1713825714'
 Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
+Server-Status5 = Server_Status5 = 'N/A'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Finished'
 newdat = newdat = 8.0
 OWN = OWN = 10.0
 data = ("🎉")
 item = ("🎉")
+TWW = TWW = 'N/A'
 Build = Build = 8.0
 NewVer = NewVer = 8.0
 NDate = NDate = '31/12/23'
@@ -153,12 +156,12 @@ NPR = NPR = '7.7.1'
 SDowntime = SDowntime = 9
 PRDate = PRDate = '02/01/24'
 PRUploader = PRUploader = 'ShinyhunterTV'
-DevBuild = DevBuild = 8.1
-NDevB = NDevB = 8.1
+DevBuild = DevBuild = 8.0
+NDevB = NDevB = 8.0
 DevUpload = DevUpload = 'Shinyhunter'
-DevDate = DevDate = '01/01/24'
+DevDate = DevDate = '01/04/24'
 BDSP = BDSP = 1.3
-SV = SV = 3.0
+SV = SV = 3.2
 # ====================== Bot Update Shedule ================================= #
 spring = spring = 'N/A'
 summer = summer = 'N/A'
