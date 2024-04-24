@@ -115,73 +115,154 @@ async def on_ready():
 # ====================== ITEM STORAGE VARIABLES ============================== #
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
 Added2Item = Added2Item = 'This Command has been recently added!'
-NewItem = NewItem = 'This Item is newly added!'
-RemovedInPatch = RemovedInPatch = 'This gets removed in the next Build !'
+NewItem = NewItem = 'This Command is new!'
+RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
-Downtime = Downtime = 4
-DownDate = DownDate = '30/04/24'
+
+# =============================================================================== #
+
+Downtime = Downtime = 10
+DownDate = DownDate = '01/09/23'
 Version = Version = 8.0
-LogVer = LogVer = 2.5
+LogVer = LogVer = 2.8
 Extension = Extension = 'Loaded'
-ExtVer = ExtVer = 2.7
+ExtVer = ExtVer = 2.9
 CMM = CMM = 'Online'
 CSS = CSS = 8000
-Nintendo_Services_3ds = Nintendo-Services_3ds = 'Offline'
-SwitchCon = SwitchCon = 'Online'
-LINUXOS = LINUXOS = 'Linux Support is currently in Beta State'
-MACOS = MACOS = 'Mac Support is currently in Beta State !'
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
-OS12 = OS12 = 'Windows 12'
-Steam_Ver = Steamd_Ver = '1713825714'
+OS12 =OS12 = 'Windows 12'
 Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
-Server-Status5 = Server_Status5 = 'N/A'
+Server_Status5 = Server_Status5 = 'N/A'
+TWWA = TWWA = 'Live'
+TWWB = TWWB = 'N/A'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Finished'
 newdat = newdat = 8.0
 OWN = OWN = 10.0
 data = ("🎉")
 item = ("🎉")
-TWW = TWW = 'N/A'
 Build = Build = 8.0
 NewVer = NewVer = 8.0
-NDate = NDate = '31/12/23'
+NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
-PR = PR = '7.8'
-NPR = NPR = '7.7.1'
+PR = PR = '8.0'
+NPR = NPR = '8.0.1'
 SDowntime = SDowntime = 9
-PRDate = PRDate = '02/01/24'
+PRDate = PRDate = '2nd September'
 PRUploader = PRUploader = 'ShinyhunterTV'
-DevBuild = DevBuild = 8.0
-NDevB = NDevB = 8.0
+DevBuild = DevBuild = 8.2
+NDevB = NDevB = 8.2
+PMP = PMP = 'TOP SECRET'
 DevUpload = DevUpload = 'Shinyhunter'
-DevDate = DevDate = '01/04/24'
+DevDate = DevDate = '2nd June'
 BDSP = BDSP = 1.3
 SV = SV = 3.2
+
+# ======================== Pokemon Move Preset =============================== #
+
+Name = Name = f'{PMP}'
+Item = Item = f'{PMP}'
+IVs = IVs = '31|31|31|31|31|31'
+EVs = EVs = '252|252|8'
+
+# ============================================================================= #
+
+ConRegion1 = ConRegion1 = 'Europe'
+ConRegion2 = ConRegion2 = 'US'
+ConRegion3 = ConRegion3 = 'Japanese'
+ConRegion4 = ConRegion4 = 'Asia'
+
+# ========================  Pokemon Items / Pokeballs ========================== #
+
+Ball1 = Ball1 = 'Poke Ball'
+Ball2 = Ball2 = 'Great Ball'
+Ball3 = Ball3 = 'Hyper Ball'
+Ball4 = Ball4 = 'Timer Ball'
+Ball5 = Ball5 = 'Dusk Ball'
+Ball6 = Ball6 = 'Friend Ball'
+Ball7 = Ball7 = 'Master Ball'
+Ball8 = Ball8 = 'Heal Ball'
+Ball9 = Ball9 = 'Repeat Ball'
+Ball10 = Ball10 = 'Cherrish Ball'
+
+# ============================== Experimental ========================================================= #
+
+Ability2 = Ability2 = 'Hidden'
+Ability1 = Ability1 = 'Normal'
+Ability = Ability = f'{Ability1}'
+PokeBall = PokeBall = f'{Ball5}'
+OrgTrain = OrgTrain = 'Shinyhunter'
+Nature = Nature = f'{PMP}'
+Moves = Moves = f'{PMP}'
+Origin = Origin = f'{PMP}'
+DSRegion = DSRegion = f'{PMP}'
+ConsoleReg = ConsoleReg =f'{ConRegion1}'
+IsConsoleBanned = IsConsoleBanned = f'{PMP}'
+Nintendo_Network_3ds = Nintendo_Network_3ds = 'Server Offline'
+Nintendo_Switch_Network = Nintendo_Switch_Network = 'Server Online'
+CFW_Server_Status = CFW_Server_Status = f'{PMP}'
+
+# ================================================================
+
+Abomasnow_EVS = Abomasnow_EVS = '92 HP / 252 SpA / 164 Spe'
+AbomasnowAbil = AbomasnowAbil = 'Soundproof'
+AbomasnowNat = AbomasnowNat = 'Mild'
+AbomasnowMoves = AbomasnowMoves = 'Blizzard  Giga Drain  Focus Blast  Ice Shard'
+AbomasnowItem = AbomasnowItem = 'Abomasite'
+AbomasnowLevel = AbomasnowLevel = '100'
+
+# ===============================================================
+
+Abra_EVS = Abra_EVS = 'N/A'
+AbraAbil = AbraAbil = 'N/A'
+AbraNat = AbraNat = 'N/A'               # TBD
+AbraMoves = AbraMoves = 'N/A'
+AbraItem = AbraItem = 'N/A'
+
+
 # ====================== Bot Update Shedule ================================= #
-spring = spring = 'N/A'
-summer = summer = 'N/A'
-fall = fall = 'N/A'
-winter = winter = 'N/A'
+spring = spring = '21th January'
+summer = summer = '11th July'               # ATM Random Releases
+fall = fall = '2nd September'
+winter = winter = '3rd December'
+
+# ================================ Seasons ================================== #
+
+
+Season_1 = Season_1 = 'Launches on Sep 2nd'
+Season_2 = Season_2 = 'N/A'
+Season_3 = Season_3 = 'N/A'
+
+Season_Reset = SeasonUpdate = 'The Old Season is Gone and the New Season has Started' 
+SeasonUpdate_Revoke = SeasonError = 'Error retrieving Seasonal Information !'
+SeasonError = SeasonError = 'Something went wrong'
+Season_Start = Season_Start = 1
+SeasonClose = SeasonClose = 0
+S_enable = S_enable = 'Season has started'
+
+Season_1 = Season_1 = S_enable
+Season_2 = Season_2 = SeasonClose
+
 # ======================== VALUES ========================================== # # Mostly will be used later #
 NBV = NBV = 8.0
 OBV = OBV = 7.6
-ODV = ODV = 7.5
-NDV = NDV = 7.8
-NEV = NEV = 3.5
-OEV = OEV = 3.3
-OUE = OUE = 2.3
-NUE = NUE = 2.5
+ODV = ODV = 8.1
+NDV = NDV = 8.2
+NEV = NEV = 3.7
+OEV = OEV = 3.5
+OUE = OUE = 2.5
+NUE = NUE = 2.3
 OSV = OSV = 2.7
-NSV = NSV = 2.6
-OTV = OTV = 3.4
-NTV = NTV = 3.2
-EXT = EXT = 2.6
-OEXT = OEXT = 2.4
+NSV = NSV = 2.9
+OTV = OTV = 3.6
+NTV = NTV = 3.8
+EXT = EXT = 2.8
+OEXT = OEXT = 2.6
 UV = UV = NBV
 RV = RV = OBV
 # ============================================================================ #
@@ -257,7 +338,7 @@ async def sync(ctx: commands.Context, guild: discord.Guild = None) -> None:
 async def server_icon():
     while True:
         server1 = client.get_guild(00000000)
-        with open('FullPathOfYourFolder/FileName.png/jpg', 'rb') as f:
+        with open('EnterYourPathHere/jpg', 'rb') as f:
             icon = f.read()
         await server1.edit(icon=icon)
         print("Server Icon changed.")
@@ -345,7 +426,7 @@ async def BugFix(ctx):
 
 @client.command()
 async def SeasonUpdate(ctx):
-    await ctx.send(f'New Seasonal Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
+    await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
 
 
 # Economy Section Start #
@@ -691,30 +772,30 @@ async def unbanhelp(ctx):
 
 # ================================================================================= #
 
-#@client.command()
-#@commands.cooldown(1, 180, commands.BucketType.user)
-#async def spotify(ctx, user: discord.Member = None):
-    #user = user or ctx.author  
-    #spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
-    #if spot is None:
-        #await ctx.send(f"{user.name} is not listening to Spotify")
-        #return
-    #embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
-    #embed.add_field(name="Song", value=spot.title)
-    #embed.add_field(name="Artist", value=spot.artist)
-    #embed.add_field(name="Album", value=spot.album)
-    #embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
-    #embed.set_thumbnail(url=spot.album_cover_url)
-    #await ctx.send(embed=embed)
+@client.command()
+@commands.cooldown(1, 180, commands.BucketType.user)
+async def spotify(ctx, user: discord.Member = None):
+    user = user or ctx.author  
+    spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
+    if spot is None:
+        await ctx.send(f"{user.name} is not listening to Spotify")
+        return
+    embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
+    embed.add_field(name="Song", value=spot.title)
+    embed.add_field(name="Artist", value=spot.artist)
+    embed.add_field(name="Album", value=spot.album)
+    embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
+    embed.set_thumbnail(url=spot.album_cover_url)
+    await ctx.send(embed=embed)
 
 
-#@spotify.error
-#async def spotify_error(ctx, error):
-    #if isinstance(error, commands.CommandOnCooldown):
-        #msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        #await ctx.send(msg)
-    #else:
-        #raise error
+@spotify.error
+async def spotify_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 
@@ -832,7 +913,7 @@ async def meme(ctx, subred="memes"):
     embed.set_author(name=ctx.message.author, icon_url=ctx.author.avatar_url)
     embed.set_footer(text='Here is your meme!')
     await ctx.send(embed=embed)
-    await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') # < and > remove the embed link
+    await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') 
     return
 
 # Note: Meme Command will be available 2023 !
@@ -1212,7 +1293,7 @@ async def info_error(ctx, error):
         await ctx.send('**I could not find that member...**')
 
 
-@tasks.loop(seconds=360)
+@tasks.loop(seconds=1000)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
@@ -1407,7 +1488,7 @@ async def ping(ctx):
 @client.command()
 async def BDSPHelp(ctx):
     Game = Game = 'Brilliant Diamond & Shining Pearl'
-    await ctx.send(f'Unfortunally we do not have Support yet for the Latest PKMN Game: **{Game}** & Version: **{BDSP}** for creating Custom PKMN .')
+    await ctx.send(f'Unfortunally we do not have Support yet for this PKMN Game: **{Game}** & Version: **{BDSP}** for creating Custom PKMN .')
 
 
 @client.command()
@@ -1847,7 +1928,7 @@ async def Update(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_green()
         )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.6/Discord-Moveset-Bot.zip )', inline=False)
+    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/8.0/Discord-Moveset-Bot.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1872,7 +1953,7 @@ async def DevAlpha(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/7.8/DevVer.zip )', inline=False)
+    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/8.3/DevVer.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1897,7 +1978,7 @@ async def PreRelease(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/7.7.1/Discord-Moveset-Bot.zip )', inline=False)
+    embed.add_field(name='Pre-Release Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/8.0.1/Discord-Moveset-Bot.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -1980,11 +2061,11 @@ async def clear_error(ctx, error):
 
 
 
-# Movesets PKMN # More Coming in Patch 8.0 #
+# Movesets PKMN # More Coming in Patch 8.5 #
 
 @client.command()
 async def Abomasnow(ctx):
-    await ctx.send(f'Ability: Soundproof  EVs: 92 HP / 252 SpA / 164 Spe  Nature: Mild  Moves: Blizzard  Giga Drain  Focus Blast  Ice Shard  Item: Abomasite')
+    await ctx.send(f'Ability: {AbomasnowAbil} Level: {AbomasnowLevel}  EVs: {Abomasnow_EVS}  Nature: {AbomasnowNat}  Moves: {AbomasnowMoves}  Item: {AbomasnowItem} IVS: {IVs}')
     await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
 
 
@@ -2190,6 +2271,7 @@ async def Azurill(ctx):
 async def Giratina(ctx):
     await ctx.send(f'Ability: Pressure  EVS: 248 HP / 12 SpD/ 248 Def  Nature: Impish  Level: 100  Moves: Will-O-Wisp  Rest Sleep Talk Dragon Claw  Item: Leftovers')
     await ctx.send(f'https://www.pokewiki.de/images/a/ac/Pok%C3%A9monsprite_487_Schillernd_XY.gif')
+
 
 
 # Movesets PKMN End #
