@@ -46,7 +46,7 @@
 
 - Python Version 3.11 is tested and not supported with the Program. Please refer to older versions till we have Support for the latest Version.
 
-- Latest Version 3.12 has not been tested with the Program so atm no Support given means Try it out at your own risk !
+- Latest Versions 3.12 & 3.13 (Pre release) have not been tested with the Program so atm no Support given means Try it out at your own risk !
 
 ## Supported Versions
 
@@ -63,16 +63,16 @@
 
 | Python  | Supported / tested |
 | ------- | ------------------ |
+| 3.13    | :x:                |
 | 3.12    | :x:                |
 | 3.11    | :x:                |
 | 3.10    | :white_check_mark: |
 | 3.9     | :white_check_mark: |
-| 3.8     | :white_check_mark: |
 
 
 |DevAlpha | Supported / tested |
 | ------- | ------------------ |
-| 8.0.2   | :white_check_mark: |
+| 8.1.0   | :white_check_mark: |
 | 7.1.2   | :x:                |
 | 7.0.4   | :x:                |
 | 6.5.5   | :x:                |
