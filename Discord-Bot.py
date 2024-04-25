@@ -141,6 +141,8 @@ TWWA = TWWA = 'Live'
 TWWB = TWWB = 'N/A'
 CataCB = CataCB = 'Live'
 CataC = CataC = 'SoonTM'
+CataCV = CataCV = 4.0
+DFV = DFV = '10.2.6'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Finished'
 newdat = newdat = 8.0
@@ -407,7 +409,7 @@ async def warnings(ctx, member: discord.Member=None):
 
 
 @client.command()
-@commands.cooldown(1, 110, commands.BucketType.user)
+@commands.cooldown(1, 190, commands.BucketType.user)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - client.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
@@ -442,6 +444,11 @@ async def BugFix(ctx):
 @client.command()
 async def SeasonUpdate(ctx):
     await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
+
+
+@client.command()
+async def SeasonInfo(ctx):
+    await ctx.send(f'The First Season {Season_1}')
 
 
 # ================================================= Economy Section Start ============================================================== #
