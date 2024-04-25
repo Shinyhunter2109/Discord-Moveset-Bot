@@ -121,8 +121,8 @@ Classic = Classic = 'This is a Legacy Command and it exists since the Bot was cr
 
 # =============================================================================== #
 
-Downtime = Downtime = 10
-DownDate = DownDate = '01/09/23'
+Downtime = Downtime = 2
+DownDate = DownDate = '01/05/24'
 Version = Version = 8.0
 LogVer = LogVer = 2.8
 Extension = Extension = 'Loaded'
@@ -136,9 +136,11 @@ Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
-Server_Status5 = Server_Status5 = 'N/A'
+Server_Status5 = Server_Status5 = 'No Connection to Host'
 TWWA = TWWA = 'Live'
 TWWB = TWWB = 'N/A'
+CataCB = CataCB = 'Live'
+CataC = CataC = 'SoonTM'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
 LogUP = LogUP = 'Finished'
 newdat = newdat = 8.0
@@ -151,7 +153,7 @@ NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
 PR = PR = '8.0'
-NPR = NPR = '8.0.1'
+NPR = NPR = '8.1.0'
 SDowntime = SDowntime = 9
 PRDate = PRDate = '2nd September'
 PRUploader = PRUploader = 'ShinyhunterTV'
@@ -161,7 +163,7 @@ PMP = PMP = 'TOP SECRET'
 DevUpload = DevUpload = 'Shinyhunter'
 DevDate = DevDate = '2nd June'
 BDSP = BDSP = 1.3
-SV = SV = 3.2
+SV = SV = 3.0
 
 # ======================== Pokemon Move Preset =============================== #
 
@@ -170,7 +172,7 @@ Item = Item = f'{PMP}'
 IVs = IVs = '31|31|31|31|31|31'
 EVs = EVs = '252|252|8'
 
-# ============================================================================= #
+# ============================ Console Region Information ================================================= #
 
 ConRegion1 = ConRegion1 = 'Europe'
 ConRegion2 = ConRegion2 = 'US'
@@ -190,7 +192,7 @@ Ball8 = Ball8 = 'Heal Ball'
 Ball9 = Ball9 = 'Repeat Ball'
 Ball10 = Ball10 = 'Cherrish Ball'
 
-# ============================== Experimental ========================================================= #
+# ============================== Abilities & Stuff ========================================================= #
 
 Ability2 = Ability2 = 'Hidden'
 Ability1 = Ability1 = 'Normal'
@@ -202,12 +204,8 @@ Moves = Moves = f'{PMP}'
 Origin = Origin = f'{PMP}'
 DSRegion = DSRegion = f'{PMP}'
 ConsoleReg = ConsoleReg =f'{ConRegion1}'
-IsConsoleBanned = IsConsoleBanned = f'{PMP}'
-Nintendo_Network_3ds = Nintendo_Network_3ds = 'Server Offline'
-Nintendo_Switch_Network = Nintendo_Switch_Network = 'Server Online'
-CFW_Server_Status = CFW_Server_Status = f'{PMP}'
 
-# ================================================================
+# =================== Abomasnow Moveset ============================================= #
 
 Abomasnow_EVS = Abomasnow_EVS = '92 HP / 252 SpA / 164 Spe'
 AbomasnowAbil = AbomasnowAbil = 'Soundproof'
@@ -216,7 +214,7 @@ AbomasnowMoves = AbomasnowMoves = 'Blizzard  Giga Drain  Focus Blast  Ice Shard'
 AbomasnowItem = AbomasnowItem = 'Abomasite'
 AbomasnowLevel = AbomasnowLevel = '100'
 
-# ===============================================================
+# =============================================================== #
 
 Abra_EVS = Abra_EVS = 'N/A'
 AbraAbil = AbraAbil = 'N/A'
@@ -234,9 +232,10 @@ winter = winter = '3rd December'
 # ================================ Seasons ================================== #
 
 
-Season_1 = Season_1 = 'Launches on Sep 2nd'
-Season_2 = Season_2 = 'N/A'
+Season_1 = Season_1 = 'Launches on Sep 2nd 2024'
+Season_2 = Season_2 = '2025'
 Season_3 = Season_3 = 'N/A'
+Season_4 = Season_4 = 'N/A'
 
 Season_Reset = SeasonUpdate = 'The Old Season is Gone and the New Season has Started' 
 SeasonUpdate_Revoke = SeasonError = 'Error retrieving Seasonal Information !'
@@ -248,7 +247,23 @@ S_enable = S_enable = 'Season has started'
 Season_1 = Season_1 = S_enable
 Season_2 = Season_2 = SeasonClose
 
-# ======================== VALUES ========================================== # # Mostly will be used later #
+# ============================ Network Information =================================================================== #
+
+IsConsoleBanned = IsConsoleBanned = f'{PMP}'
+Nintendo_Network_3ds = Nintendo_Network_3ds = 'Server Offline'
+Nintendo_Switch_Network = Nintendo_Switch_Network = 'Server Online'
+CFW_Server_Status = CFW_Server_Status = f'{PMP}'
+Steam_Server_Status = Steam_Server_Status = 'Online'
+Battle_Net_Status = Battle_Net_Status = 'Online'
+
+# ======================================================== Serrver Status Switch ========================================#
+
+BNS_1 = BNS_1 = 'ON'
+BNS_2 = BNS_2 = 'OFF'
+STS_1 = STS_1 = 'ON'
+STS_2 = STS_2 = 'OFF'
+
+# ======================== VALUES ========================================== # # Most of this will be used later #
 NBV = NBV = 8.0
 OBV = OBV = 7.6
 ODV = ODV = 8.1
@@ -429,7 +444,7 @@ async def SeasonUpdate(ctx):
     await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
 
 
-# Economy Section Start #
+# ================================================= Economy Section Start ============================================================== #
 
 
 @client.command()
@@ -916,7 +931,6 @@ async def meme(ctx, subred="memes"):
     await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') 
     return
 
-# Note: Meme Command will be available 2023 !
 
 @client.command()
 @commands.cooldown(1, 18000, commands.BucketType.user)
