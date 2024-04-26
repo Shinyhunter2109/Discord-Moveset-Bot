@@ -2305,41 +2305,41 @@ async def dispatch_custom(ctx):
 
 # Slash #
 
-@slash.slash(name="ping", guild_ids=guild_ids)
+#@slash.slash(name="ping", guild_ids=guild_ids)
 async def _ping(ctx):
     await ctx.send("Pong!")
 
 
-@slash.slash(name="slash", guild_ids=guild_ids)
+#@slash.slash(name="slash", guild_ids=guild_ids)
 async def _slash(ctx):
     await ctx.send("**Slash Commands are now officially Supported!**")
 
 
-@slash.slash(name="emotes", guild_ids=guild_ids)
+#@slash.slash(name="emotes", guild_ids=guild_ids)
 async def _emotes(ctx):
     await ctx.send("**We now have some new cool Emotes from my Twitch Channel | Check it out !**")
 
 
-@slash.slash(name="subicons", guild_ids=guild_ids)
+#@slash.slash(name="subicons", guild_ids=guild_ids)
 async def _subicons(ctx):
     await ctx.send("**We now have some new cool Subicons on my Twitch Channel | Check it out if u want !**")
 
 
-@slash.slash(name="pokedex", guild_ids=guild_ids)
+#@slash.slash(name="pokedex", guild_ids=guild_ids)
 async def _pokedex(ctx):
     await ctx.send(f'**There are over 800 Pokemon on the Pokédex !**')
     await asyncio.sleep(5)
     await ctx.send(f'**You can search for any Pokémon by typing /Pokemon [Pokémonname] | When  Bot is Online you will get the Results if not wait till its back Online**')
 
 
-@slash.slash(name="tbi", guild_ids=guild_ids)
+#@slash.slash(name="tbi", guild_ids=guild_ids)
 async def _tradebotinfo(ctx):
     await ctx.send('**The Link-Trade-Bot is exclusive on my Discord and Twitch Channel | If you want to use it leave a Follow on Twitch and Join on the Discord Server to get Permissions**')
     await asyncio.sleep(5)
     await ctx.send('**The Trading Bot on Twitch wont be able to handle Custom Requests**')
 
 
-@slash.slash(name="version", guild_ids=guild_ids)
+#@slash.slash(name="version", guild_ids=guild_ids)
 async def _version(ctx):
     await ctx.send(f'The Latest Version is: **{Version}**')
 
