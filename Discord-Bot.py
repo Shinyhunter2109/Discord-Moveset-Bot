@@ -106,7 +106,7 @@ async def on_ready():
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
-    print(f'This Modular is made for {OS10} & {OS11}')
+    print(f'This Modular is only made for {OS10} & {OS11}')
     print(f'Log_Update: {LogUP}')
     print(f'Bot Version: {UV}')
 
@@ -264,6 +264,8 @@ BNS_1 = BNS_1 = 'ON'
 BNS_2 = BNS_2 = 'OFF'
 STS_1 = STS_1 = 'ON'
 STS_2 = STS_2 = 'OFF'
+EAS_1 = EAS_1 = 'ON'
+EAS_2 = EAS_2 = 'OFF'
 
 # ======================== VALUES ========================================== # # Most of this will be used later #
 NBV = NBV = 8.0
