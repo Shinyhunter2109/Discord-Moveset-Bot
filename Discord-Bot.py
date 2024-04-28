@@ -65,7 +65,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
+client = commands.Bot(command_prefix = '!', intents = intents) discord.Intents().all() intents.members = True
 client.launch_time = datetime.utcnow()
 guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible) #
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
