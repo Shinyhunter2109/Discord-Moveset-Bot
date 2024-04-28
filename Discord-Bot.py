@@ -889,8 +889,8 @@ async def SecurityVer(ctx):
 @client.command()
 async def OSVer(ctx):
     OSVer = OSVer = 'Win 11'
-    OSNum = OSNum = '22H2'
-    OSBNum = OSBNum = '22621.1413'
+    OSNum = OSNum = '23H2'
+    OSBNum = OSBNum = '22631.3447'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
@@ -1213,9 +1213,9 @@ async def amazon_error(ctx, error):
 
 @client.command()
 async def Ads(ctx, member : discord.Member):
-    await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING KICK INCOMING**')
-    await asyncio.sleep(60)
-    await member.kick()
+    await ctx.send('**NO ADVERTISEMENT ALLOWED | WARNING ACTION INCOMING**')
+    await asyncio.sleep(20)
+    await member.ban()
     await ctx.send('**Press F to pay respect**')
 
 
@@ -1560,7 +1560,6 @@ async def divide(ctx, *nums):
     await ctx.send(f'{operation} = {eval(operation)}')
 
 
-# Math Module End ########
 
 #Removed / Unused Section #
 
@@ -1750,8 +1749,8 @@ async def kw_error(ctx, error):
         raise error
 
 # ===================================================================================================================== #
-hug_gifs = ['https://c.tenor.com/nHkiUCkS04gAAAAC/anime-hug-hearts.gif']   # DO NOT TOUCH SOMETHING HERE ! #
-hug_names = ['Hugs you!']                                                  # DO NOT TOUCH SOMETHING HERE ! #
+hug_gifs = ['https://c.tenor.com/nHkiUCkS04gAAAAC/anime-hug-hearts.gif']   
+hug_names = ['Hugs you!']                                                  
 # ===================================================================================================================== #
 
 
@@ -1976,7 +1975,7 @@ async def DevAlpha(ctx):
     embed = discord.Embed(
             color= discord.Colour.dark_gold()
         )
-    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/8.3/DevVer.zip )', inline=False)
+    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/8.5/DevVer.zip )', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -2084,7 +2083,7 @@ async def clear_error(ctx, error):
 
 
 
-# Movesets PKMN # More Coming in Patch 8.5 #
+# Movesets PKMN # More Content Coming in Patch 8.x #
 
 @client.command()
 async def Abomasnow(ctx):
@@ -2300,11 +2299,6 @@ async def Giratina(ctx):
 # Movesets PKMN End #
 
 
-@client.command()
-async def dispatch_custom(ctx):
-    client.dispatch("custom_event has been started", ctx)
-
-
 # Slash #
 
 #@slash.slash(name="ping", guild_ids=guild_ids)
@@ -2348,6 +2342,11 @@ async def _version(ctx):
 
 # Client Event Section #
 #========================================================================================================== #
+
+@client.command()
+async def dispatch_custom(ctx):
+    client.dispatch("custom_event has been started", ctx)
+
 
 @client.event
 async def on_custom_event(ctx):
