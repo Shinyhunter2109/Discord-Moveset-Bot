@@ -795,21 +795,30 @@ async def unbanhelp(ctx):
 
 # ================================================================================= #
 
-@client.command()
-@commands.cooldown(1, 180, commands.BucketType.user)
+@client.command(pass_context=True)
 async def spotify(ctx, user: discord.Member = None):
-    user = user or ctx.author  
-    spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
-    if spot is None:
-        await ctx.send(f"{user.name} is not listening to Spotify")
-        return
-    embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
-    embed.add_field(name="Song", value=spot.title)
-    embed.add_field(name="Artist", value=spot.artist)
-    embed.add_field(name="Album", value=spot.album)
-    embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
-    embed.set_thumbnail(url=spot.album_cover_url)
-    await ctx.send(embed=embed)
+    if user == None:
+        user = ctx.author
+        pass
+    if user.activities:
+        for activity in user.activities:
+            if str(activity).lower() == "spotify":
+                embed = discord.Embed(
+                    title=f"{user.name}'s Spotify",
+                    description="Listening to {}".format(activity.title),
+                    color=activity.colour)
+                duration = str(activity.duration)
+                finalduration = duration[3:7]
+                embed.set_thumbnail(url=activity.album_cover_url)
+                embed.add_field(name="Artist", value=activity.artist)
+                embed.add_field(name="Album", value=activity.album)
+                embed.add_field(name="Song Duration", value=finalduration)
+                embed.set_footer(text="Song started at {}".format(activity.created_at.strftime("%H:%M.%p")))
+                embed.url = (f"https://open.spotify.com/embed/track/{activity.track_id}")
+                await ctx.send(embed=embed)
+                return
+    await ctx.send("User is not doing anything")
+    return
 
 
 @spotify.error
