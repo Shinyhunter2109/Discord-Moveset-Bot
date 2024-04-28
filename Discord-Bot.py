@@ -65,8 +65,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-client = commands.Bot(command_prefix = '!', intents = intents)
-discord.Intents().all() intents.members = True
+client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
 guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible) #
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
@@ -74,7 +73,6 @@ slash = SlashCommand(client, sync_commands=True)
 client.remove_command('help')
 status = cycle(['Pokémon Scarlet', 'Pokémon Violet']) # Standard Games can be edited if needed #
 ROLE = 'Member' # Standard Role can be edited when needed ! #
-
 
 def setprefix():
     with open("prefix.txt") as f: #  (can be changed but totally optional)
