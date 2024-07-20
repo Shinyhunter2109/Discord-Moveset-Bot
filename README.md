@@ -51,13 +51,13 @@
 
 ## Below you can see which Bot & Python Version is supported and still get Updates !
 
+
 | Version | Supported / Updates|
 | ------- | ------------------ |
 | 8.x     | :white_check_mark: |
 | 8.0     | :white_check_mark: |
 | 7.6     | :x:                |
 | 7.5     | :x:                |
-
 
 
 | Python  | Supported / tested |
@@ -80,8 +80,9 @@
 | Win 11  | :white_check_mark: |
 | Win 10  | :white_check_mark: |
 
+============================================================================
 
-## [ Note: Mac OS Support is still in Beta ] ##
+## Note: Mac OS Support is still in Beta
 
 
 | MAC OS  | Supported / tested |
@@ -91,7 +92,19 @@
 | 12.7.5  | :white_check_mark: |
 | 11.7.10 | :white_check_mark: |
 
-Updates are not that frequently delivered due to Mac's different Versions !
+## Updates are not that frequently delivered due to Mac's different Versions !
+
+
+============================================================================
+
+
+| Linux   | Supported / tested |
+| ------- | ------------------ |
+| 6.10    | :white_check_mark: |
+
+## Normal Update Shedule like Windows !
+
+============================================================================
 
 
 ## Errors
