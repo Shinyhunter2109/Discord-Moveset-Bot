@@ -162,7 +162,7 @@ DevBuild = DevBuild = 8.2
 NDevB = NDevB = 8.2
 PMP = PMP = 'TOP SECRET'
 DevUpload = DevUpload = 'Shinyhunter'
-DevDate = DevDate = '2nd June'
+DevDate = DevDate = 'N/A'
 BDSP = BDSP = 1.3
 SV = SV = 3.0
 
@@ -234,7 +234,7 @@ winter = winter = '3rd December'
 
 
 Season_1 = Season_1 = 'Launches on Sep 2nd 2024'
-Season_2 = Season_2 = '2025'
+Season_2 = Season_2 = 'Fall 2025'
 Season_3 = Season_3 = 'N/A'
 Season_4 = Season_4 = 'N/A'
 
@@ -791,34 +791,34 @@ async def unbanhelp(ctx):
 
 # ================================================================================= #
 
-# Currently no clue why Spotify is not responding seems to be a Discord Issue #
+# Spotify CMD is currently disabled due some bugs #
 
 # ================================================================================= #
 
-@client.command()
-@commands.cooldown(1, 180, commands.BucketType.user)
-async def spotify(ctx, user: discord.Member = None):
-    user = user or ctx.author  
-    spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
-    if spot is None:
-        await ctx.send(f"{user.name} is not listening to Spotify")
-        return
-    embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
-    embed.add_field(name="Song", value=spot.title)
-    embed.add_field(name="Artist", value=spot.artist)
-    embed.add_field(name="Album", value=spot.album)
-    embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
-    embed.set_thumbnail(url=spot.album_cover_url)
-    await ctx.send(embed=embed)
+#@client.command()
+#@commands.cooldown(1, 180, commands.BucketType.user)
+#async def spotify(ctx, user: discord.Member = None):
+    #user = user or ctx.author  
+    #spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
+    #if spot is None:
+        #await ctx.send(f"{user.name} is not listening to Spotify")
+        #return
+    #embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
+    #embed.add_field(name="Song", value=spot.title)
+    #embed.add_field(name="Artist", value=spot.artist)
+    #embed.add_field(name="Album", value=spot.album)
+    #embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
+    #embed.set_thumbnail(url=spot.album_cover_url)
+    #await ctx.send(embed=embed)
 
 
-@spotify.error
-async def spotify_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
+#@spotify.error
+#async def spotify_error(ctx, error):
+    #if isinstance(error, commands.CommandOnCooldown):
+        #msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        #await ctx.send(msg)
+    #else:
+        #raise error
 
 
 
