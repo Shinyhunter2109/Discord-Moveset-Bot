@@ -80,7 +80,7 @@
 | Win 11  | :white_check_mark: |
 | Win 10  | :white_check_mark: |
 
-===========================================================================
+
 
 ## Note: Mac OS Support is still in Beta
 
@@ -95,7 +95,7 @@
 ## Updates are not that frequently delivered due to Mac's different Versions !
 
 
-===========================================================================
+
 
 
 | Linux   | Supported / tested |
@@ -104,7 +104,7 @@
 
 ## Normal Update Shedule like Windows !
 
-===========================================================================
+
 
 
 ## Errors
