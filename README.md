@@ -91,7 +91,7 @@
 | 12.7.5  | :white_check_mark: |
 | 11.7.10 | :white_check_mark: |
 
-# Updates are not that frequently delivered due to Mac's different Versions ! #
+Updates are not that frequently delivered due to Mac's different Versions !
 
 
 ## Errors
