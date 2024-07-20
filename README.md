@@ -6,7 +6,6 @@
 - Minigames (Coinflip, Slap, 8Ball, Blackjack, Dice, Rock-Paper-Scissors) ✔️
 - Spotify Integration ✔️
 - Github Support (Beta) ✔️
-- Twitch Support (Alpha) ✔️
 - Backup Feature (Alpha) ✔️
 - List Feature ✔️
 - Wondertrade/Linktrade Countdown ✔️
@@ -74,16 +73,12 @@
 | ------- | ------------------ |
 | 8.1.0   | :white_check_mark: |
 | 7.1.2   | :x:                |
-| 7.0.4   | :x:                |
-| 6.5.5   | :x:                |
 
 
 |Windows  | Supported / tested |
 | ------- | ------------------ |
 | Win 11  | :white_check_mark: |
 | Win 10  | :white_check_mark: | 
-| Win 8.1 | :x:                |
-| Win 8   | :x:                |
 
 
 
