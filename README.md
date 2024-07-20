@@ -81,6 +81,9 @@
 | Win 10  | :white_check_mark: |
 
 
+## [ Note: Mac OS Support is still in Beta ] ##
+
+
 | MAC OS  | Supported / tested |
 | ------- | ------------------ |
 | 14.5    | :white_check_mark: |
