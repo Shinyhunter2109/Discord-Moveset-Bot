@@ -75,11 +75,18 @@
 | 7.1.2   | :x:                |
 
 
-|Windows  | Supported / tested |
+| Windows | Supported / tested |
 | ------- | ------------------ |
 | Win 11  | :white_check_mark: |
-| Win 10  | :white_check_mark: | 
+| Win 10  | :white_check_mark: |
 
+
+| MAC OS  | Supported / tested |
+| ------- | ------------------ |
+| 14.5    | :white_check_mark: |
+| 13.6.7  | :white_check_mark: |
+| 12.7.5  | :white_check_mark: |
+| 11.7.10 | :white_check_mark: |
 
 
 ## Errors
