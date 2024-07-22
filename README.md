@@ -21,13 +21,14 @@
 
 ## Setup for Own Usage:
 
-- Install the latest Python Version [Make sure you enable PIP Connection otherwise it won´t work]
 
-- Download the latest Version of the Bot and extract it to the Desktop
+- Install one of the recommended Python Versions [Make sure you enable PIP Connection otherwise it won´t work]
 
-- After extracting the Bot to your Desktop, go to the "Getting Started" Folder
+- Download the latest Version of the Program and extract it to the Desktop
 
-- Run the start.bat File [It will install all the needed Requirements] [Works aswell on Linux]
+- After extracting the Program to your Desktop, go to the "Getting Started" Folder
+
+- Run the start.bat File [It will install all the needed Requirements] [Works aswell on Linux & MacOS]
 
 - After that download & Install Visual Studio Code from here: https://code.visualstudio.com/
 
@@ -41,13 +42,17 @@
 
 - If you done everything correctly you should see a Connection Message in the Console when u start the Program!
 
+
 ## Updates
+
 
 - Python Version 3.11 is tested and not supported with the Program. Please refer to older versions till we have Support for the latest Version.
 
 - Latest Versions 3.12 & 3.13 (Pre release) have not been tested with the Program so atm no Support given means Try it out at your own risk !
 
+
 ## Supported Versions
+
 
 ## Below you can see which Bot & Python Version is supported and still get Updates !
 
@@ -92,24 +97,20 @@
 | 12.7.5  | :white_check_mark: |
 | 11.7.10 | :white_check_mark: |
 
+
 ## Updates are not that frequently delivered due to Mac's different Versions !
-
-
-
 
 
 | Linux   | Supported / tested |
 | ------- | ------------------ |
 | 6.10    | :white_check_mark: |
 
-## Normal Update Shedule like Windows !
-
-
-
 
 ## Errors
 
+
 When u see that something is not working or not working correctly please open a Issue on the Repo !
+
 
 ## Status Bar for this Project:
 
