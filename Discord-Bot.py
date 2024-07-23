@@ -120,8 +120,8 @@ Classic = Classic = 'This is a Legacy Command and it exists since the Bot was cr
 
 # =============================================================================== #
 
-Downtime = Downtime = 2
-DownDate = DownDate = '01/05/24'
+Downtime = Downtime = 8
+DownDate = DownDate = '01/09/24'
 Version = Version = 8.0
 LogVer = LogVer = 2.8
 Extension = Extension = 'Loaded'
@@ -131,19 +131,22 @@ CSS = CSS = 8000
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
 OS12 =OS12 = 'Windows 12'
+MCOS = MCOS = 'Mac_OS'
+Linux_OS = Linux_OS = 'Linux'
 Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 Server_Status5 = Server_Status5 = 'No Connection to Host'
 TWWA = TWWA = 'Live'
-TWWB = TWWB = 'N/A'
+TWWB = TWWB = 'Live'
 CataCB = CataCB = 'Live'
-CataC = CataC = 'SoonTM'
+CataC = CataC = 'Live'
 CataCV = CataCV = 4.0
-DFV = DFV = '10.2.6'
+DFV = DFV = '10.2.7'
+TWWV = TWWV = '11.0'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
-LogUP = LogUP = 'Finished'
+LogUP = LogUP = 'done'
 newdat = newdat = 8.0
 OWN = OWN = 10.0
 data = ("🎉")
@@ -227,14 +230,14 @@ AbraItem = AbraItem = 'N/A'
 # ====================== Bot Update Shedule ================================= #
 spring = spring = '21th January'
 summer = summer = '11th July'               # ATM Random Releases
-fall = fall = '2nd September'
-winter = winter = '3rd December'
+fall = fall = 'N/A'
+winter = winter = 'N/A'
 
 # ================================ Seasons ================================== #
 
 
-Season_1 = Season_1 = 'Launches on Sep 2nd 2024'
-Season_2 = Season_2 = 'Fall 2025'
+Season_1 = Season_1 = 'N/A'
+Season_2 = Season_2 = 'N/A'
 Season_3 = Season_3 = 'N/A'
 Season_4 = Season_4 = 'N/A'
 
