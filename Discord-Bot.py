@@ -57,7 +57,7 @@ from discord_slash.model import ButtonStyle
 
 
 
-TOKEN = 'INSERT YOUR TOKEN HERE...' # Bot Token goes here ! #
+TOKEN = 'INSERT YOUR TOKEN HERE...' #   <---- Bot Token goes here ! #
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -67,12 +67,12 @@ logger.addHandler(handler)
 
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
-guild_ids = [0000000000000] # Your Guild ID goes here (multiple guilds possible) #
+guild_ids = [0000000000000] #  <-------  Your Guild ID goes here (multiple guilds possible) #
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
 slash = SlashCommand(client, sync_commands=True)
 client.remove_command('help')
 status = cycle(['Pokémon Scarlet', 'Pokémon Violet']) # Standard Games can be edited if needed #
-ROLE = 'Member' # Standard Role can be edited when needed ! #
+ROLE = 'Member' # Standard Role can be edited if needed ! #
 
 def setprefix():
     with open("prefix.txt") as f: #  (can be changed but totally optional)
@@ -117,6 +117,7 @@ Added2Item = Added2Item = 'This Command has been recently added!'
 NewItem = NewItem = 'This Command is new!'
 RemovedInPatch = RemovedInPatch = 'This gets removed in the next Patch!'
 Classic = Classic = 'This is a Legacy Command and it exists since the Bot was created'
+NewItemCategory = NewItemCategory = 'This Section has been newly added to the Program'
 
 # =============================================================================== #
 
@@ -138,7 +139,7 @@ Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 Server_Status5 = Server_Status5 = 'No Connection to Host'
-TWWA = TWWA = 'Live'
+TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
 CataCB = CataCB = 'Live'
 CataC = CataC = 'Live'
@@ -159,7 +160,7 @@ counter = data.count(item)
 PR = PR = '8.0'
 NPR = NPR = '8.1.0'
 SDowntime = SDowntime = 9
-PRDate = PRDate = '2nd September'
+PRDate = PRDate = 'N/A'
 PRUploader = PRUploader = 'ShinyhunterTV'
 DevBuild = DevBuild = 8.2
 NDevB = NDevB = 8.2
@@ -228,8 +229,8 @@ AbraItem = AbraItem = 'N/A'
 
 
 # ====================== Bot Update Shedule ================================= #
-spring = spring = '21th January'
-summer = summer = '11th July'               # ATM Random Releases
+spring = spring = 'N/A'
+summer = summer = 'N/A'              
 fall = fall = 'N/A'
 winter = winter = 'N/A'
 
@@ -2303,41 +2304,41 @@ async def Giratina(ctx):
 
 # Slash #
 
-#@slash.slash(name="ping", guild_ids=guild_ids)
+@slash.slash(name="ping", guild_ids=guild_ids)
 async def _ping(ctx):
     await ctx.send("Pong!")
 
 
-#@slash.slash(name="slash", guild_ids=guild_ids)
+@slash.slash(name="slash", guild_ids=guild_ids)
 async def _slash(ctx):
     await ctx.send("**Slash Commands are now officially Supported!**")
 
 
-#@slash.slash(name="emotes", guild_ids=guild_ids)
+@slash.slash(name="emotes", guild_ids=guild_ids)
 async def _emotes(ctx):
     await ctx.send("**We now have some new cool Emotes from my Twitch Channel | Check it out !**")
 
 
-#@slash.slash(name="subicons", guild_ids=guild_ids)
+@slash.slash(name="subicons", guild_ids=guild_ids)
 async def _subicons(ctx):
     await ctx.send("**We now have some new cool Subicons on my Twitch Channel | Check it out if u want !**")
 
 
-#@slash.slash(name="pokedex", guild_ids=guild_ids)
+@slash.slash(name="pokedex", guild_ids=guild_ids)
 async def _pokedex(ctx):
     await ctx.send(f'**There are over 800 Pokemon on the Pokédex !**')
     await asyncio.sleep(5)
     await ctx.send(f'**You can search for any Pokémon by typing /Pokemon [Pokémonname] | When  Bot is Online you will get the Results if not wait till its back Online**')
 
 
-#@slash.slash(name="tbi", guild_ids=guild_ids)
+@slash.slash(name="tbi", guild_ids=guild_ids)
 async def _tradebotinfo(ctx):
     await ctx.send('**The Link-Trade-Bot is exclusive on my Discord and Twitch Channel | If you want to use it leave a Follow on Twitch and Join on the Discord Server to get Permissions**')
     await asyncio.sleep(5)
     await ctx.send('**The Trading Bot on Twitch wont be able to handle Custom Requests**')
 
 
-#@slash.slash(name="version", guild_ids=guild_ids)
+@slash.slash(name="version", guild_ids=guild_ids)
 async def _version(ctx):
     await ctx.send(f'The Latest Version is: **{Version}**')
 
