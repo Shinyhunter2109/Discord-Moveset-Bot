@@ -1273,7 +1273,7 @@ async def ga_error(ctx, error):
         await ctx.send('**You dont have the right Permissions to execute this command.**')
 
 
-password = '000000000' # insert numeric password here !
+password = '0000000' # insert numeric password here !
 
 @client.command()
 @has_permissions(manage_roles=True, ban_members=True)
@@ -1326,7 +1326,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '1111111' # insert numeric password here !
+password = '0000000' # insert numeric password here !
 
 
 @client.command()
@@ -1341,7 +1341,7 @@ async def kick(ctx, member : discord.Member, *,password_check=None):
     await member.kick()
 
 
-password = '2222222'  # insert numeric password here !
+password = '0000000'  # insert numeric password here !
 
 
 @client.command()
