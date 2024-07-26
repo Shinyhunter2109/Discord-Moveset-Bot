@@ -108,6 +108,7 @@ async def on_ready():
     print(f'This Modular is only made for {OS10} & {OS11}')
     print(f'Log_Update: {LogUP}')
     print(f'Bot Version: {UV}')
+    print(f'Build Version: {Build_Ver_OS}')
 
 
 
@@ -122,6 +123,7 @@ NewItemCategory = NewItemCategory = 'This Section has been newly added to the Pr
 
 # =============================================================================== #
 
+Build_Ver_OS = Build_Ver_OS = '8.0.5'
 Downtime = Downtime = 8
 DownDate = DownDate = '01/09/24'
 Version = Version = 8.0
