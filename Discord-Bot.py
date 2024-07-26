@@ -57,7 +57,7 @@ from discord_slash.model import ButtonStyle
 
 
 
-TOKEN = 'INSERT YOUR TOKEN HERE...' #   <---- Bot Token goes here ! #
+TOKEN = 'INSERT YOUR TOKEN HERE...' #   <---- Your Bot Token goes here ! #
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -75,7 +75,7 @@ status = cycle(['Pokémon Scarlet', 'Pokémon Violet']) # Standard Games can be 
 ROLE = 'Member' # Standard Role can be edited if needed ! #
 
 def setprefix():
-    with open("prefix.txt") as f: #  (can be changed but totally optional)
+    with open("prefix.txt") as f: #  (optional)
         return "\n".join(f.readlines())
 
 
@@ -112,6 +112,7 @@ async def on_ready():
 
 
 # ====================== ITEM STORAGE VARIABLES ============================== #
+
 RemovedFromBot = RemovedFromBot = 'This Command has been Removed!'
 Added2Item = Added2Item = 'This Command has been recently added!'
 NewItem = NewItem = 'This Command is new!'
@@ -139,6 +140,7 @@ Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 Server_Status5 = Server_Status5 = 'No Connection to Host'
+Support_End = Support_End = 'The Support Circle for the Program has ended'
 TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
 CataCB = CataCB = 'Live'
@@ -1271,7 +1273,7 @@ async def ga_error(ctx, error):
         await ctx.send('**You dont have the right Permissions to execute this command.**')
 
 
-password = '3732703425'
+password = '000000000' # insert numeric password here !
 
 @client.command()
 @has_permissions(manage_roles=True, ban_members=True)
@@ -1324,7 +1326,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '642751'
+password = '1111111' # insert numeric password here !
 
 
 @client.command()
@@ -1339,7 +1341,7 @@ async def kick(ctx, member : discord.Member, *,password_check=None):
     await member.kick()
 
 
-password = '7391732'
+password = '2222222'  # insert numeric password here !
 
 
 @client.command()
@@ -2086,7 +2088,7 @@ async def clear_error(ctx, error):
 
 
 
-# Movesets PKMN # More Content Coming in Patch 8.x #
+# Movesets PKMN # More Content Coming in Patch 8.5 #
 
 @client.command()
 async def Abomasnow(ctx):
@@ -2302,7 +2304,9 @@ async def Giratina(ctx):
 # Movesets PKMN End #
 
 
-# Slash #
+# Slash Commands #
+
+# Please not this will only work with Version 3.0.3 #
 
 @slash.slash(name="ping", guild_ids=guild_ids)
 async def _ping(ctx):
