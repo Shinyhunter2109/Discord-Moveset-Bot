@@ -2306,7 +2306,7 @@ async def Giratina(ctx):
 
 # Slash Commands #
 
-# Please not this will only work with Version 3.0.3 #
+# Please note this will only work with Version 3.0.3 #
 
 @slash.slash(name="ping", guild_ids=guild_ids)
 async def _ping(ctx):
