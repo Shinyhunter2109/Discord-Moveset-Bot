@@ -264,8 +264,10 @@ Nintendo_Switch_Network = Nintendo_Switch_Network = 'Server Online'
 CFW_Server_Status = CFW_Server_Status = f'{PMP}'
 Steam_Server_Status = Steam_Server_Status = 'Online'
 Battle_Net_Status = Battle_Net_Status = 'Online'
+EA_Status = EA_Status = 'Online'
+EOS_Status = EOS_Status = 'Online'
 
-# ======================================================== Serrver Status Switch ========================================#
+# ======================================================== Server Status Switch ========================================#
 
 BNS_1 = BNS_1 = 'ON'
 BNS_2 = BNS_2 = 'OFF'
@@ -273,6 +275,8 @@ STS_1 = STS_1 = 'ON'
 STS_2 = STS_2 = 'OFF'
 EAS_1 = EAS_1 = 'ON'
 EAS_2 = EAS_2 = 'OFF'
+EOS_1 = EOS_1 = 'ON'
+EOS_2 = EOS_2 = 'OFF'
 
 # ======================== VALUES ========================================== # # Most of this will be used later #
 NBV = NBV = 8.0
