@@ -141,7 +141,7 @@ Server_Status = Server_Status = 'Online'
 Server_Status2 = Server_Status2 = 'Offline'
 Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
-Server_Status5 = Server_Status5 = 'No Connection to Host'
+Server_Status5 = Server_Status5 = 'Connection lost'
 Support_End = Support_End = 'The Support Circle for the Program has ended'
 TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
@@ -233,10 +233,10 @@ AbraItem = AbraItem = 'N/A'
 
 
 # ====================== Bot Update Shedule ================================= #
-spring = spring = 'N/A'
-summer = summer = 'N/A'              
-fall = fall = 'N/A'
-winter = winter = 'N/A'
+spring = spring = '04/18/24'
+summer = summer = '08/31/24'              
+fall = fall = '10/15/24'
+winter = winter = '12/06/24'
 
 # ================================ Seasons ================================== #
 
