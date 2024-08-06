@@ -62,7 +62,6 @@
 | 8.x     | :white_check_mark: |
 | 8.0     | :white_check_mark: |
 | 7.6     | :x:                |
-| 7.5     | :x:                |
 
 
 | Python  | Supported / tested |
