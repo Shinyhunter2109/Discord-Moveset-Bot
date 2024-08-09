@@ -123,13 +123,13 @@ NewItemCategory = NewItemCategory = 'This Section has been newly added to the Pr
 
 # =============================================================================== #
 
-Build_Ver_OS = Build_Ver_OS = '8.0.5'
-Downtime = Downtime = 8
-DownDate = DownDate = '01/09/24'
-Version = Version = 8.0
-LogVer = LogVer = 2.8
+Build_Ver_OS = Build_Ver_OS = '8.5.0'
+Downtime = Downtime = 'N/A'
+DownDate = DownDate = 'N/A'
+Version = Version = 8.5
+LogVer = LogVer = 3.5
 Extension = Extension = 'Loaded'
-ExtVer = ExtVer = 2.9
+ExtVer = ExtVer = 4.0
 CMM = CMM = 'Online'
 CSS = CSS = 8000
 OS10 = OS10 = 'Windows 10'
@@ -145,29 +145,30 @@ Server_Status5 = Server_Status5 = 'Connection lost'
 Support_End = Support_End = 'The Support Circle for the Program has ended'
 TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
+NSW2 = NSW2 = 'Nintendo Switch 2 Placeholder'
 CataCB = CataCB = 'Live'
 CataC = CataC = 'Live'
 CataCV = CataCV = 4.0
 DFV = DFV = '10.2.7'
-TWWV = TWWV = '11.0'
+TWWV = TWWV = '11.0.2'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
-LogUP = LogUP = 'done'
-newdat = newdat = 8.0
-OWN = OWN = 10.0
+LogUP = LogUP = 'Log succesfully updated'
+newdat = newdat = 8.5
+OWN = OWN = 10.5
 data = ("🎉")
 item = ("🎉")
-Build = Build = 8.0
-NewVer = NewVer = 8.0
+Build = Build = 8.5
+NewVer = NewVer = 8.5
 NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
-PR = PR = '8.0'
-NPR = NPR = '8.1.0'
-SDowntime = SDowntime = 9
+PR = PR = '8.5.0'
+NPR = NPR = '8.5.2'
+SDowntime = SDowntime = 'N/A'
 PRDate = PRDate = 'N/A'
 PRUploader = PRUploader = 'ShinyhunterTV'
 DevBuild = DevBuild = 8.2
-NDevB = NDevB = 8.2
+NDevB = NDevB = 8.5
 PMP = PMP = 'TOP SECRET'
 DevUpload = DevUpload = 'Shinyhunter'
 DevDate = DevDate = 'N/A'
@@ -279,20 +280,20 @@ EOS_1 = EOS_1 = 'ON'
 EOS_2 = EOS_2 = 'OFF'
 
 # ======================== VALUES ========================================== # # Most of this will be used later #
-NBV = NBV = 8.0
-OBV = OBV = 7.6
-ODV = ODV = 8.1
-NDV = NDV = 8.2
-NEV = NEV = 3.7
-OEV = OEV = 3.5
-OUE = OUE = 2.5
-NUE = NUE = 2.3
-OSV = OSV = 2.7
-NSV = NSV = 2.9
-OTV = OTV = 3.6
-NTV = NTV = 3.8
-EXT = EXT = 2.8
-OEXT = OEXT = 2.6
+NBV = NBV = 8.5
+OBV = OBV = 8.5
+ODV = ODV = 8.5
+NDV = NDV = 8.5
+NEV = NEV = 4.0
+OEV = OEV = 3.9
+OUE = OUE = 3.0
+NUE = NUE = 3.2
+OSV = OSV = 2.9
+NSV = NSV = 3.5
+OTV = OTV = 3.8
+NTV = NTV = 4.0
+EXT = EXT = 3.5
+OEXT = OEXT = 3.0
 UV = UV = NBV
 RV = RV = OBV
 # ============================================================================ #
