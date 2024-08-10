@@ -32,11 +32,11 @@
 
 - After that download & Install Visual Studio Code from here: https://code.visualstudio.com/
 
-- (Optional) Download & install the FFmpeg on the Official Website. [ONLY NEEDED if you want to play music on your Server]
+- (Optional) Download & install the FFmpeg from their Official Website. [ONLY NEEDED if you want to play music on your Server]
 
 - Open the Discord-Bot.py in Visual Studio Code
 
-- Fill in your Discord Bot Token you can get it from here: https://discordapp.com/developers
+- Fill in your Discord Bot Token you can get it from here: [https://discordapp.com/developers]
 
 - Edit the Token and the User Role and any other Information that is needed in the File and save it and overwrite the existing File.
 
@@ -54,7 +54,7 @@
 ## Supported Versions
 
 
-## Below you can see which Bot & Python Version is supported and still get Updates !
+## Below you can see which Bot & Python Version is supported and which Program version still gets Updates !
 
 
 | Version | Supported / Updates|
