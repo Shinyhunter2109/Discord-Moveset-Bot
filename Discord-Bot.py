@@ -105,7 +105,7 @@ async def on_ready():
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
-    print(f'This Modular is only made for {OS10} & {OS11}')
+    print(f'This Program is designed for {OS10} {OS11} {MCOS} & {Linux_OS}')
     print(f'Log_Update: {LogUP}')
     print(f'Bot Version: {UV}')
     print(f'Build Version: {Build_Ver_OS}')
@@ -429,7 +429,7 @@ async def uptime(ctx):
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
-    await ctx.send(f'**{days}d, {hours}h, {minutes}m, {seconds}s**')
+    await ctx.send(f'**Uptime for the program:** {days}d, {hours}h, {minutes}m, {seconds}s')
 
 
 @uptime.error
@@ -451,8 +451,8 @@ async def BVersion(ctx):
 
 @client.command()
 async def BugFix(ctx):
-    us = us = 'Shinyhunter2109'
-    await ctx.send(f'**Found a Bug?** | Contact **{us}** directly via @ or DM ! | **Thank You**')
+    us = us = '@Shinyhunter2109'
+    await ctx.send(f'**Found a Bug?** | Contact **{us}** directly via DM ! | **Thank You**')
 
 
 @client.command()
@@ -462,7 +462,7 @@ async def SeasonUpdate(ctx):
 
 @client.command()
 async def SeasonInfo(ctx):
-    await ctx.send(f'The First Season {Season_1}')
+    await ctx.send(f'The First Season starts on: **{Season_1}**')
 
 
 # ================================================= Economy Section Start ============================================================== #
