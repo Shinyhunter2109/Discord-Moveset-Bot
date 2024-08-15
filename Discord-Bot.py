@@ -131,7 +131,7 @@ LogVer = LogVer = 3.5
 Extension = Extension = 'Loaded'
 ExtVer = ExtVer = 4.0
 CMM = CMM = 'Online'
-CSS = CSS = 8000
+CSS = CSS = 12000
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
 OS12 =OS12 = 'Windows 12'
@@ -146,6 +146,7 @@ Support_End = Support_End = 'The Support Circle for the Program has ended'
 TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
 NSW2 = NSW2 = 'Nintendo Switch 2 Placeholder'
+DL = DL = 'Secret Game'
 CataCB = CataCB = 'Live'
 CataC = CataC = 'Live'
 CataCV = CataCV = 4.0
@@ -159,7 +160,7 @@ data = ("🎉")
 item = ("🎉")
 Build = Build = 8.5
 NewVer = NewVer = 8.5
-NDate = NDate = 'N/A'
+NDate = NDate = '9/21/24'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
 PR = PR = '8.5.0'
@@ -234,15 +235,15 @@ AbraItem = AbraItem = 'N/A'
 
 
 # ====================== Bot Update Shedule ================================= #
-spring = spring = '04/18/24'
-summer = summer = '08/31/24'              
+spring = spring = 'N/A'
+summer = summer = 'N/A'              
 fall = fall = '10/15/24'
 winter = winter = '12/06/24'
 
 # ================================ Seasons ================================== #
 
 
-Season_1 = Season_1 = 'N/A'
+Season_1 = Season_1 = '09/21/24'
 Season_2 = Season_2 = 'N/A'
 Season_3 = Season_3 = 'N/A'
 Season_4 = Season_4 = 'N/A'
@@ -253,6 +254,7 @@ SeasonError = SeasonError = 'Something went wrong'
 Season_Start = Season_Start = 1
 SeasonClose = SeasonClose = 0
 S_enable = S_enable = 'Season has started'
+S_disable = S_disable = 'Season has ended'
 
 Season_1 = Season_1 = S_enable
 Season_2 = Season_2 = SeasonClose
