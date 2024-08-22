@@ -879,36 +879,40 @@ async def server_stat_error(ctx, error):
         raise error
 
 
-@client.command(name="meme")
-async def meme(ctx, subred="memes"):
-    msg = await ctx.send('Loading ... ')
+#@client.command(name="meme")
+#async def meme(ctx, subred="memes"):
+    #msg = await ctx.send('Loading ... ')
 
-    reddit = praw.Reddit(client_id='clientid',
-                                client_secret='clientsecret',
-                                username='username',
-                                password='password',
-                                user_agent='useragent')
+    #reddit = praw.Reddit(client_id='clientid',
+                                #client_secret='clientsecret',
+                                #username='username',
+                                #password='password',
+                                #user_agent='useragent')
 
-    subreddit = await reddit.subreddit(subred)
-    all_subs = []
-    top = subreddit.top(limit=250) # bot will choose between the top 250 memes
+    #subreddit = await reddit.subreddit(subred)
+    #all_subs = []
+    #top = subreddit.top(limit=250) # bot will choose between the top 250 memes
 
-    async for submission in top:
-        all_subs.append(submission)
+    #async for submission in top:
+        #all_subs.append(submission)
 
-    random_sub = random.choice(all_subs)
+    #random_sub = random.choice(all_subs)
 
-    name = random_sub.title
-    url = random_sub.url
+    #name = random_sub.title
+    #url = random_sub.url
 
-    embed = Embed(title=f'__{name}__', colour=discord.Colour.random(), timestamp=ctx.message.created_at, url=url)
+    #embed = Embed(title=f'__{name}__', colour=discord.Colour.random(), timestamp=ctx.message.created_at, url=url)
 
-    embed.set_image(url=url)
-    embed.set_author(name=ctx.message.author, icon_url=ctx.author.avatar_url)
-    embed.set_footer(text='Here is your meme!')
-    await ctx.send(embed=embed)
-    await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') 
-    return
+    #embed.set_image(url=url)
+    #embed.set_author(name=ctx.message.author, icon_url=ctx.author.avatar_url)
+    #embed.set_footer(text='Here is your meme!')
+    #await ctx.send(embed=embed)
+    #await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') 
+    #return
+
+@client.command()
+async def meme(ctx):
+    await ctx.send(f'**{RemovedFromBot}**')
 
 
 @client.command()
@@ -1291,7 +1295,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '0000000' # insert numeric password here !
+password = '12345' # insert numeric password here !
 
 
 @client.command()
