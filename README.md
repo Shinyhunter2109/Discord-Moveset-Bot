@@ -75,8 +75,8 @@
 
 |DevAlpha | Supported / tested |
 | ------- | ------------------ |
-| 8.1.0   | :white_check_mark: |
-| 7.1.2   | :x:                |
+| 8.5.2   | :white_check_mark: |
+| 8.1.0   | :x:                |
 
 
 | Windows | Supported / tested |
