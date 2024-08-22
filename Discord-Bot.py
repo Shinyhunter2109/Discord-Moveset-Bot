@@ -123,8 +123,8 @@ NewItemCategory = NewItemCategory = 'This Section has been newly added to the Pr
 
 # =============================================================================== #
 
-Build_Ver_OS = Build_Ver_OS = '8.5.0'
-Downtime = Downtime = 'N/A'
+Build_Ver_OS = Build_Ver_OS = '8.5.1'
+Downtime = Downtime = 8
 DownDate = DownDate = 'N/A'
 Version = Version = 8.5
 LogVer = LogVer = 3.5
@@ -146,7 +146,7 @@ Support_End = Support_End = 'The Support Circle for the Program has ended'
 TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
 NSW2 = NSW2 = 'Nintendo Switch 2 Placeholder'
-DL = DL = 'Secret Game'
+DL = DL = 'Deadlock'
 CataCB = CataCB = 'Live'
 CataC = CataC = 'Live'
 CataCV = CataCV = 4.0
@@ -167,19 +167,20 @@ PR = PR = '8.5.0'
 NPR = NPR = '8.5.2'
 SDowntime = SDowntime = 'N/A'
 PRDate = PRDate = 'N/A'
-PRUploader = PRUploader = 'ShinyhunterTV'
+PRUploader = PRUploader = 'Shinyhunter2109'
 DevBuild = DevBuild = 8.2
 NDevB = NDevB = 8.5
 PMP = PMP = 'TOP SECRET'
-DevUpload = DevUpload = 'Shinyhunter'
+SoonTM = SoonTM = 'N/A'
+DevUpload = DevUpload = '@Shinyhunter2109'
 DevDate = DevDate = 'N/A'
 BDSP = BDSP = 1.3
 SV = SV = 3.0
 
 # ======================== Pokemon Move Preset =============================== #
 
-Name = Name = f'{PMP}'
-Item = Item = f'{PMP}'
+Name = Name = f'{SoonTM}'
+Item = Item = f'{SoonTM}'
 IVs = IVs = '31|31|31|31|31|31'
 EVs = EVs = '252|252|8'
 
@@ -261,7 +262,7 @@ Season_2 = Season_2 = SeasonClose
 
 # ============================ Network Information =================================================================== #
 
-IsConsoleBanned = IsConsoleBanned = f'{PMP}'
+IsConsoleBanned = IsConsoleBanned = f'{SoonTM}'
 Nintendo_Network_3ds = Nintendo_Network_3ds = 'Server Offline'
 Nintendo_Switch_Network = Nintendo_Switch_Network = 'Server Online'
 CFW_Server_Status = CFW_Server_Status = f'{PMP}'
@@ -804,55 +805,10 @@ async def unbanhelp(ctx):
     embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
-# ================================================================================= #
-
-# Spotify CMD is currently disabled due some bugs #
-
-# ================================================================================= #
-
-#@client.command()
-#@commands.cooldown(1, 180, commands.BucketType.user)
-#async def spotify(ctx, user: discord.Member = None):
-    #user = user or ctx.author  
-    #spot = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
-    #if spot is None:
-        #await ctx.send(f"{user.name} is not listening to Spotify")
-        #return
-    #embed = discord.Embed(title=f"{user.name}'s Spotify", color=spot.color)
-    #embed.add_field(name="Song", value=spot.title)
-    #embed.add_field(name="Artist", value=spot.artist)
-    #embed.add_field(name="Album", value=spot.album)
-    #embed.add_field(name="Track Link", value=f"[{spot.title}](https://open.spotify.com/track/{spot.track_id})")
-    #embed.set_thumbnail(url=spot.album_cover_url)
-    #await ctx.send(embed=embed)
-
-
-#@spotify.error
-#async def spotify_error(ctx, error):
-    #if isinstance(error, commands.CommandOnCooldown):
-        #msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        #await ctx.send(msg)
-    #else:
-        #raise error
-
-
 
 @client.command()
-@commands.cooldown(1, 90, commands.BucketType.user)
-async def emoji(ctx, emoji: discord.PartialEmoji = None):
-    if not emoji:
-        await ctx.send('**You need to provide an emoji!**')
-    else:
-        await ctx.send(emoji.url)
-
-
-@emoji.error
-async def emo_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
-        await ctx.send(msg)
-    else:
-        raise error
+async def spotify(ctx):
+    await ctx.send(f'**Spotify is currently not available | Try again later !**')
 
 
 @client.command()
