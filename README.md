@@ -60,7 +60,7 @@
 | Version | Supported / Updates|
 | ------- | ------------------ |
 | 8.x     | :white_check_mark: |
-| 8.0     | :white_check_mark: |
+| 8.0     | :x:                |
 | 7.6     | :x:                |
 
 
