@@ -5,7 +5,7 @@
 - Music Feature ✔️
 - Minigames (Coinflip, Slap, 8Ball, Blackjack, Dice, Rock-Paper-Scissors) ✔️
 - Spotify Integration ✔️
-- Github Support (Beta) ✔️
+- Github Support ✔️
 - Backup Feature (Alpha) ✔️
 - List Feature ✔️
 - Wondertrade/Linktrade Countdown ✔️
