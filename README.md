@@ -51,6 +51,11 @@
 - Latest Versions 3.12 & 3.13 (Pre release) have not been tested with the Program so atm no Support given means Try it out at your own risk !
 
 
+## Notes
+
+- Some Implementations have been made and tested with AI (ChatGPT).
+
+
 ## Supported Versions
 
 
@@ -86,7 +91,7 @@
 
 
 
-## Note: Mac OS Support is still in Beta
+## Note: Mac OS Support is still in Alpha
 
 
 | MAC OS  | Supported / tested |
