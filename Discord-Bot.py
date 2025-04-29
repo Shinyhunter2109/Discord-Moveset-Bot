@@ -4,6 +4,8 @@ import asyncio
 import json
 import re
 import aiofiles
+import io
+import zipfile
 import secrets
 import async_timeout
 import threading
@@ -11,6 +13,8 @@ import warnings
 import logging
 import sys
 import time
+import requests
+import re
 import math
 import keyword
 import calendar
@@ -20,11 +24,12 @@ import typing
 import traceback
 import youtube_dl
 import os
+import requests
 import praw
 import interactions
+from datetime import datetime, timedelta
 from googletrans import Translator
 from discord.embeds import Embed
-from datetime import datetime
 from discord.ext.commands import BadArgument
 from discord.ext.commands.cooldowns import BucketType
 from discord.ext.commands import has_permissions, MissingPermissions
@@ -43,7 +48,7 @@ from youtube_dl import YoutubeDL
 from subprocess import run
 from dataclasses import dataclass
 from os import name, system
-from discord import Spotify
+from dotenv import load_dotenv
 from discord import Status
 from itertools import cycle
 from datetime import date
@@ -58,6 +63,12 @@ from discord_slash.model import ButtonStyle
 
 
 TOKEN = 'INSERT YOUR TOKEN HERE...' #   <---- Your Bot Token goes here ! #
+if not TOKEN:
+    raise ValueError("❌ No Bot Token found!")
+
+load_dotenv()
+CLEAR_PASSWORD = os.getenv("CLEAR_PASSWORD")
+BAN_PASSWORD = os.getenv("BAN_PASSWORD")
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -65,22 +76,37 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
+intents = discord.Intents.all()
+intents.presences = True
+intents.members = True
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
 guild_ids = [0000000000000] #  <-------  Your Guild ID goes here (multiple guilds possible) #
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
 slash = SlashCommand(client, sync_commands=True)
 client.remove_command('help')
-status = cycle(['Pokémon Scarlet', 'Pokémon Violet']) # Standard Games can be edited if needed #
+status = cycle([
+    discord.Game("Community Party 🎉"),
+    discord.Game("Listening to Spotify 🎧"),
+    discord.Game("with !help"),
+    ])
+
+@tasks.loop(seconds=90)
+async def change_status():
+    await client.change_presence(activity=next(status))
+
 ROLE = 'Member' # Standard Role can be edited if needed ! #
 
 def setprefix():
     with open("prefix.txt") as f: #  (optional)
         return "\n".join(f.readlines())
+    
+
 
 
 @client.event
 async def on_ready():
+    check_giveaways.start()
     for guild in client.guilds:
         client.warnings[guild.id] = {}
         
@@ -105,10 +131,38 @@ async def on_ready():
     prefix = setprefix()
     change_status.start()
     print('Welcome back: ' + client.user.name + '\n')
-    print(f'This Program is designed for {OS10} {OS11} {MCOS} & {Linux_OS}')
-    print(f'Log_Update: {LogUP}')
-    print(f'Bot Version: {UV}')
+    print(f'This Program is designed for {OS11} {MCOS} & {Linux_OS}')
+    print(f'Bot Version: {__version__}')
     print(f'Build Version: {Build_Ver_OS}')
+
+
+__version__ = "8.1.2" # Current Version of the Program #
+
+
+def check_for_update():
+    api_url = "https://api.github.com/repos/Shinyhunter2109/Discord-Moveset-Bot/releases/latest"
+    
+    try:
+        response = requests.get(api_url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+
+        
+        latest_version = data["tag_name"].lstrip("v")
+        release_url = data.get("html_url", "https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases")
+
+        
+        if latest_version != __version__:
+            print(f"\U0001F4E2 Update available! New Version: v{latest_version} (current: v{__version__})")
+            print("See below:", release_url)
+        else:
+            print(f"✅ You are using the latest Version (v{__version__})")
+
+    except Exception as e:
+        print(f"❌ Error during Update check: {e}")
+
+
+check_for_update()
 
 
 
@@ -123,18 +177,17 @@ NewItemCategory = NewItemCategory = 'This Section has been newly added to the Pr
 
 # =============================================================================== #
 
-Build_Ver_OS = Build_Ver_OS = '8.5.1'
-Downtime = Downtime = 8
+Build_Ver_OS = Build_Ver_OS = '8.5.2'
+Downtime = Downtime = 'N/A'
 DownDate = DownDate = 'N/A'
 Version = Version = 8.5
-LogVer = LogVer = 3.5
+LogVer = LogVer = 3.6
 Extension = Extension = 'Loaded'
-ExtVer = ExtVer = 4.0
+ExtVer = ExtVer = 4.1
 CMM = CMM = 'Online'
-CSS = CSS = 12000
+CSS = CSS = 13000
 OS10 = OS10 = 'Windows 10'
 OS11 = OS11 = 'Windows 11'
-OS12 =OS12 = 'Windows 12'
 MCOS = MCOS = 'Mac_OS'
 Linux_OS = Linux_OS = 'Linux'
 Server_Status = Server_Status = 'Online'
@@ -143,9 +196,10 @@ Server_Status3 = Server_Status3 = 'Maintenance'
 Server_Status4 = Server_Status4 = 'Closed'
 Server_Status5 = Server_Status5 = 'Connection lost'
 Support_End = Support_End = 'The Support Circle for the Program has ended'
+PUR = PUR = 1.1
 TWWA = TWWA = 'Offline'
 TWWB = TWWB = 'Live'
-NSW2 = NSW2 = 'Nintendo Switch 2 Placeholder'
+NSW2 = NSW2 = 'Nintendo Switch 2'
 DL = DL = 'Deadlock'
 CataCB = CataCB = 'Live'
 CataC = CataC = 'Live'
@@ -153,99 +207,34 @@ CataCV = CataCV = 4.0
 DFV = DFV = '10.2.7'
 TWWV = TWWV = '11.0.2'
 BOwner = BOwner = 'twitch.tv/shinyhunter2109'
-LogUP = LogUP = 'Log succesfully updated'
 newdat = newdat = 8.5
-OWN = OWN = 10.5
+OWN = OWN = 11.0
 data = ("🎉")
 item = ("🎉")
-Build = Build = 8.5
-NewVer = NewVer = 8.5
-NDate = NDate = '9/21/24'
+Build = Build = 8.1
+NewVer = NewVer = 8.1
+NDate = NDate = 'N/A'
 Uploader = Uploader = 'Shinyhunter2109'
 counter = data.count(item)
-PR = PR = '8.5.0'
+PR = PR = '8.5.1'
 NPR = NPR = '8.5.2'
 SDowntime = SDowntime = 'N/A'
 PRDate = PRDate = 'N/A'
-PRUploader = PRUploader = 'Shinyhunter2109'
+PRUploader = PRUploader = 'ShinyhunterTV'
 DevBuild = DevBuild = 8.2
 NDevB = NDevB = 8.5
 PMP = PMP = 'TOP SECRET'
-SoonTM = SoonTM = 'N/A'
-DevUpload = DevUpload = '@Shinyhunter2109'
+DevUpload = DevUpload = 'Shinyhunter'
 DevDate = DevDate = 'N/A'
 BDSP = BDSP = 1.3
+PLA = PLA = 1.1
 SV = SV = 3.0
 
-# ======================== Pokemon Move Preset =============================== #
-
-Name = Name = f'{SoonTM}'
-Item = Item = f'{SoonTM}'
-IVs = IVs = '31|31|31|31|31|31'
-EVs = EVs = '252|252|8'
-
-# ============================ Console Region Information ================================================= #
-
-ConRegion1 = ConRegion1 = 'Europe'
-ConRegion2 = ConRegion2 = 'US'
-ConRegion3 = ConRegion3 = 'Japanese'
-ConRegion4 = ConRegion4 = 'Asia'
-
-# ========================  Pokemon Items / Pokeballs ========================== #
-
-Ball1 = Ball1 = 'Poke Ball'
-Ball2 = Ball2 = 'Great Ball'
-Ball3 = Ball3 = 'Hyper Ball'
-Ball4 = Ball4 = 'Timer Ball'
-Ball5 = Ball5 = 'Dusk Ball'
-Ball6 = Ball6 = 'Friend Ball'
-Ball7 = Ball7 = 'Master Ball'
-Ball8 = Ball8 = 'Heal Ball'
-Ball9 = Ball9 = 'Repeat Ball'
-Ball10 = Ball10 = 'Cherrish Ball'
-
-# ============================== Abilities & Stuff ========================================================= #
-
-Ability2 = Ability2 = 'Hidden'
-Ability1 = Ability1 = 'Normal'
-Ability = Ability = f'{Ability1}'
-PokeBall = PokeBall = f'{Ball5}'
-OrgTrain = OrgTrain = 'Shinyhunter'
-Nature = Nature = f'{PMP}'
-Moves = Moves = f'{PMP}'
-Origin = Origin = f'{PMP}'
-DSRegion = DSRegion = f'{PMP}'
-ConsoleReg = ConsoleReg =f'{ConRegion1}'
-
-# =================== Abomasnow Moveset ============================================= #
-
-Abomasnow_EVS = Abomasnow_EVS = '92 HP / 252 SpA / 164 Spe'
-AbomasnowAbil = AbomasnowAbil = 'Soundproof'
-AbomasnowNat = AbomasnowNat = 'Mild'
-AbomasnowMoves = AbomasnowMoves = 'Blizzard  Giga Drain  Focus Blast  Ice Shard'
-AbomasnowItem = AbomasnowItem = 'Abomasite'
-AbomasnowLevel = AbomasnowLevel = '100'
-
-# =============================================================== #
-
-Abra_EVS = Abra_EVS = 'N/A'
-AbraAbil = AbraAbil = 'N/A'
-AbraNat = AbraNat = 'N/A'               # TBD
-AbraMoves = AbraMoves = 'N/A'
-AbraItem = AbraItem = 'N/A'
 
 
-# ====================== Bot Update Shedule ================================= #
-spring = spring = 'N/A'
-summer = summer = 'N/A'              
-fall = fall = '10/15/24'
-winter = winter = '12/06/24'
 
-# ================================ Seasons ================================== #
-
-
-Season_1 = Season_1 = '09/21/24'
-Season_2 = Season_2 = 'N/A'
+Season_1 = Season_1 = '09/21/2024'
+Season_2 = Season_2 = '12/31/2025'
 Season_3 = Season_3 = 'N/A'
 Season_4 = Season_4 = 'N/A'
 
@@ -262,7 +251,8 @@ Season_2 = Season_2 = SeasonClose
 
 # ============================ Network Information =================================================================== #
 
-IsConsoleBanned = IsConsoleBanned = f'{SoonTM}'
+IsConsoleBanned = IsConsoleBanned = f'{PMP}'
+IsSwitchBanned = IsSwitchBanned = f'{PMP}'
 Nintendo_Network_3ds = Nintendo_Network_3ds = 'Server Offline'
 Nintendo_Switch_Network = Nintendo_Switch_Network = 'Server Online'
 CFW_Server_Status = CFW_Server_Status = f'{PMP}'
@@ -270,6 +260,7 @@ Steam_Server_Status = Steam_Server_Status = 'Online'
 Battle_Net_Status = Battle_Net_Status = 'Online'
 EA_Status = EA_Status = 'Online'
 EOS_Status = EOS_Status = 'Online'
+ZOS_Status = ZOS_Status = 'Online'
 
 # ======================================================== Server Status Switch ========================================#
 
@@ -445,27 +436,68 @@ async def uptime_error(ctx, error):
 
 
 @client.command()
-async def BVersion(ctx):
-    if OBV < NBV:
-        await ctx.send(f'**Please download the latest Version from Github**')
-    else:
-        await ctx.send(f'**You are on the Latest Version**')
-
-
-@client.command()
 async def BugFix(ctx):
     us = us = '@Shinyhunter2109'
     await ctx.send(f'**Found a Bug?** | Contact **{us}** directly via DM ! | **Thank You**')
 
 
-@client.command()
-async def SeasonUpdate(ctx):
-    await ctx.send(f'New Season Patches will come on these Dates: **{spring}** | **{summer}** | **{fall}** | **{winter}**')
-
 
 @client.command()
 async def SeasonInfo(ctx):
     await ctx.send(f'The First Season starts on: **{Season_1}**')
+
+
+#####################################      Update Progress   #######################################################
+
+GITHUB_REPO = "Shinyhunter2109/Discord-Moveset-Bot"
+
+@client.command()
+@commands.is_owner()
+async def updatebot(ctx):
+    """Downloads the latest Version of the Program (only for Bot-Owners)."""
+    await ctx.send("🔍 Checking for Updates...")
+
+    releases_url = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
+    try:
+        response = requests.get(releases_url, timeout=10)
+        response.raise_for_status()
+        release = response.json()
+        latest_version = release["tag_name"].lstrip("v")
+
+        if latest_version == __version__:
+            await ctx.send(f"✅ You are on the latest Version (v{__version__}).")
+            return
+
+        download_url = release["zipball_url"]
+        await ctx.send(f"⬇️ Update available: v{latest_version} → Downloading...")
+
+        zip_response = requests.get(download_url)
+        zip_response.raise_for_status()
+
+        with zipfile.ZipFile(io.BytesIO(zip_response.content)) as zip_file:
+            extract_path = "update_temp"
+            zip_file.extractall(extract_path)
+
+            
+            for root, dirs, files in os.walk(extract_path):
+                for file in files:
+                    if file == "Discord-Bot.py":  
+                        full_path = os.path.join(root, file)
+                        os.replace(full_path, "Discord-Bot.py")  
+                        await ctx.send("✅ Update installed.")
+                        break
+
+        
+        import shutil
+        shutil.rmtree(extract_path)
+
+        await ctx.send("🔁 Restarting...")
+
+        
+        os.execv(sys.executable, [sys.executable] + sys.argv)
+
+    except Exception as e:
+        await ctx.send(f"❌ Update failed: {e}")
 
 
 # ================================================= Economy Section Start ============================================================== #
@@ -805,10 +837,45 @@ async def unbanhelp(ctx):
     embed.add_field(name='.unban', value='unbans a specific user that got banned recently', inline=False)
     await ctx.send(author, embed=embed)
 
+@client.command()
+async def spotify(ctx, member: discord.Member = None):
+    member = member or ctx.author  # Wenn kein Member angegeben ist, nutze den Command-Author
+
+    for activity in member.activities:
+        if isinstance(activity, discord.Spotify):
+            embed = discord.Embed(
+                title=f"{member.display_name} is listening to Spotify 🎧",
+                description=f"**{activity.title}** von **{activity.artist}**",
+                color=0x1DB954  # Spotify-Grün
+            )
+            embed.set_thumbnail(url=activity.album_cover_url)
+            embed.add_field(name="Album", value=activity.album, inline=True)
+            embed.add_field(name="Dauer", value=f"{activity.duration.seconds//60}:{activity.duration.seconds%60:02d}", inline=True)
+            embed.add_field(name="Link", value=f"[Song öffnen](https://open.spotify.com/track/{activity.track_id})", inline=False)
+            await ctx.send(embed=embed)
+            return
+
+    await ctx.send(f"**{member.display_name}** is not listening to Spotify")
+
+
+
 
 @client.command()
-async def spotify(ctx):
-    await ctx.send(f'**Spotify is currently not available | Try again later !**')
+@commands.cooldown(1, 90, commands.BucketType.user)
+async def emoji(ctx, emoji: discord.PartialEmoji = None):
+    if not emoji:
+        await ctx.send('**You need to provide an emoji!**')
+    else:
+        await ctx.send(emoji.url)
+
+
+@emoji.error
+async def emo_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = '**This command is ratelimited, please try again in {:.2f}s**'.format(error.retry_after)
+        await ctx.send(msg)
+    else:
+        raise error
 
 
 @client.command()
@@ -818,7 +885,7 @@ async def CheckVersion(ctx):
         embed = discord.Embed(
             color= discord.Colour.dark_teal()
         )
-        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/8.0/Discord-Moveset-Bot.zip )', inline=False)
+        embed.add_field(name='Latest Release Build' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/8.5/Discord-Moveset-Bot.zip )', inline=False)
         await ctx.send(embed=embed)
     else:
         await ctx.send(f'**You are on the Latest Version**')
@@ -860,7 +927,7 @@ async def SecurityVer(ctx):
 async def OSVer(ctx):
     OSVer = OSVer = 'Win 11'
     OSNum = OSNum = '23H2'
-    OSBNum = OSBNum = '22631.3447'
+    OSBNum = OSBNum = '22631.4037'
     await ctx.send(f'The Bot is currently running on **{OSVer}** with Build Number: **{OSNum}** and Build ID : **{OSBNum}**')
 
 
@@ -879,40 +946,36 @@ async def server_stat_error(ctx, error):
         raise error
 
 
-#@client.command(name="meme")
-#async def meme(ctx, subred="memes"):
-    #msg = await ctx.send('Loading ... ')
+@client.command(name="meme")
+async def meme(ctx, subred="memes"):
+    msg = await ctx.send('Loading ... ')
 
-    #reddit = praw.Reddit(client_id='clientid',
-                                #client_secret='clientsecret',
-                                #username='username',
-                                #password='password',
-                                #user_agent='useragent')
+    reddit = praw.Reddit(client_id='clientid',
+                                client_secret='clientsecret',
+                                username='username',
+                                password='password',
+                                user_agent='useragent')
 
-    #subreddit = await reddit.subreddit(subred)
-    #all_subs = []
-    #top = subreddit.top(limit=250) # bot will choose between the top 250 memes
+    subreddit = await reddit.subreddit(subred)
+    all_subs = []
+    top = subreddit.top(limit=250) # bot will choose between the top 250 memes
 
-    #async for submission in top:
-        #all_subs.append(submission)
+    async for submission in top:
+        all_subs.append(submission)
 
-    #random_sub = random.choice(all_subs)
+    random_sub = random.choice(all_subs)
 
-    #name = random_sub.title
-    #url = random_sub.url
+    name = random_sub.title
+    url = random_sub.url
 
-    #embed = Embed(title=f'__{name}__', colour=discord.Colour.random(), timestamp=ctx.message.created_at, url=url)
+    embed = Embed(title=f'__{name}__', colour=discord.Colour.random(), timestamp=ctx.message.created_at, url=url)
 
-    #embed.set_image(url=url)
-    #embed.set_author(name=ctx.message.author, icon_url=ctx.author.avatar_url)
-    #embed.set_footer(text='Here is your meme!')
-    #await ctx.send(embed=embed)
-    #await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') 
-    #return
-
-@client.command()
-async def meme(ctx):
-    await ctx.send(f'**{RemovedFromBot}**')
+    embed.set_image(url=url)
+    embed.set_author(name=ctx.message.author, icon_url=ctx.author.avatar_url)
+    embed.set_footer(text='Here is your meme!')
+    await ctx.send(embed=embed)
+    await msg.edit(content=f'<https://reddit.com/r/{subreddit}/> :white_check_mark:') 
+    return
 
 
 @client.command()
@@ -1196,44 +1259,85 @@ async def Ads(ctx, member : discord.Member):
 time_regex = re.compile(r"(?:(\d{1,5})(h|s|m|d))+?")
 time_dict = {"h": 3600, "s": 1, "m": 60, "d": 86400}
 
-
 def convert(argument):
-  args = argument.lower()
-  matches = re.findall(time_regex, args)
-  time = 0
-  for key, value in matches:
-    try:
-      time += time_dict[value] * float(key)
-    except:
-      raise BadArgument
-  return round(time)
+    args = argument.lower()
+    matches = re.findall(time_regex, args)
+    time = 0
+    for key, value in matches:
+        try:
+            time += time_dict[value] * float(key)
+        except:
+            raise commands.BadArgument
+    return round(time)
 
 
+GIVEAWAY_FILE = "giveaways.json"
+
+def load_giveaways():
+    if not os.path.exists(GIVEAWAY_FILE):
+        return []
+    with open(GIVEAWAY_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def save_giveaways(data):
+    with open(GIVEAWAY_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, default=str)
+
+# ----------------- Giveaway Command ------------------- #
 @client.command()
 @commands.has_permissions(manage_messages=True)
-async def giveaway(ctx, time: str, *, prize: str):
-    time = convert(time)
+async def giveaway(ctx, time_str: str, *, prize: str):
+    time = convert(time_str)
+    end_time = datetime.utcnow() + timedelta(seconds=time)
 
-    embed = discord.Embed(title=prize,
-                          description=f"Hosted by - {ctx.author.mention}\nReact with :tada: to enter!\nTime Remaining: **{time}** seconds",
-                          color=ctx.guild.me.top_role.color)
-
-    msg = await ctx.channel.send(content=":tada: **GIVEAWAY** :tada:", embed=embed)
+    embed = discord.Embed(
+        title=prize,
+        description=f"Hosted by {ctx.author.mention}\nReact with 🎉 to enter!\nEnds <t:{int(end_time.timestamp())}:R>",
+        color=discord.Color.green()
+    )
+    msg = await ctx.send("🎉 **GIVEAWAY** 🎉", embed=embed)
     await msg.add_reaction("🎉")
 
-    await asyncio.sleep(3)
-    await asyncio.sleep(int(time))
+    giveaways = load_giveaways()
+    giveaways.append({
+        "message_id": msg.id,
+        "channel_id": ctx.channel.id,
+        "prize": prize,
+        "host_id": ctx.author.id,
+        "end_time": end_time.isoformat()
+    })
+    save_giveaways(giveaways)
 
-    new_msg = await ctx.channel.fetch_message(msg.id)
+    await ctx.send(f"✅ Giveaway gestartet für **{prize}** (Dauer: {time_str})")
 
-    user_list = [user for user in await new_msg.reactions[0].users().flatten() if
-                 user != client.user]
+# ----------------- Giveaway Checker Task ------------------- #
+@tasks.loop(seconds=60)
+async def check_giveaways():
+    giveaways = load_giveaways()
+    updated = []
 
-    if len(user_list) == 0:
-        await ctx.send("No one reacted.")
-    else:
-        winner = random.choice(user_list)
-        await ctx.send(f"**{winner.mention} You have won the {prize}!**")
+    for g in giveaways:
+        end_time = datetime.fromisoformat(g["end_time"])
+        if datetime.utcnow() >= end_time:
+            try:
+                channel = client.get_channel(g["channel_id"])
+                message = await channel.fetch_message(g["message_id"])
+                reaction = discord.utils.get(message.reactions, emoji="🎉")
+                users = await reaction.users().flatten()
+                users = [u for u in users if not u.bot]
+
+                if users:
+                    winner = random.choice(users)
+                    await channel.send(f"🎉 **Glückwunsch {winner.mention}!** Du hast **{g['prize']}** gewonnen!")
+                else:
+                    await channel.send(f"⚠️ Keine Teilnehmer beim Giveaway für **{g['prize']}**.")
+
+            except Exception as e:
+                print(f"Fehler bei Giveaway {g['prize']}: {e}")
+        else:
+            updated.append(g)
+
+    save_giveaways(updated)
 
 
 @giveaway.error
@@ -1295,7 +1399,7 @@ async def change_status():
     await client.change_presence(activity=discord.Game(next(status)))
 
 
-password = '12345' # insert numeric password here !
+password = '0000000' # insert numeric password here !
 
 
 @client.command()
@@ -1314,15 +1418,19 @@ password = '0000000'  # insert numeric password here !
 
 
 @client.command()
-async def ban(ctx, member : discord.Member, *, password_check=None):
-    if password_check and password_check == password:
+@commands.is_owner()
+async def ban(ctx, member : discord.Member, *, password: str):
+    if password != BAN_PASSWORD:
+        await ctx.send("❌ Wrong Password")
+        return
+    if BAN_PASSWORD == password:
         await ctx.message.channel.purge(limit=1)
-        await ctx.send('Password correct!')
-    elif not password_check:
-        await ctx.send('Please enter the password!')
+        await ctx.send('**Password correct!**')
+        await member.ban()
+    elif not BAN_PASSWORD:
+        await ctx.send('**Please enter the password!**')
     else:
-        await ctx.send('You got the password wrong.')
-    await member.ban()
+        await ctx.send('**You got the password wrong.**')
 
 
 @client.command()
@@ -1621,66 +1729,66 @@ async def Application_Form(ctx):
     await ctx.popup(modal)
 
 
-#@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
-#@commands.has_permissions(administrator=True)
-#async def catchthephoenix(ctx, member: discord.Member=None):
-    #points = {ctx.author: 0, member: 0}
-    #random_time = random.randrange(30)
+@client.command(aliases=["ctp", "capturethephoenix"]) # still buggy but fix will be implemented soon !
+@commands.has_permissions(administrator=True)
+async def catchthephoenix(ctx, member: discord.Member=None):
+    points = {ctx.author: 0, member: 0}
+    random_time = random.randrange(30)
 
-    #game = False
-    #if member is None:
-        #await ctx.send("...")
-    #elif member == client.user:
-        #await ctx.send("...")
-    #elif member.client:
-        #await ctx.send("...")
-    #else:
-        #game = True
+    game = False
+    if member is None:
+        await ctx.send("...")
+    elif member == client.user:
+        await ctx.send("...")
+    elif member.client:
+        await ctx.send("...")
+    else:
+        game = True
 
-    #await ctx.send(...)
-    #while True:
-        #try:
-            #await asyncio.sleep(random_time)
-            #await ctx.send(...)
-            #message = await client.wait_for(
-                #"message",
-                #check=lambda m: m.author.id == ctx.author.id,
-                #timout=45.0
-            #)
-        #except asyncio.TimeoutError:
-            #game = False
-            #...
-        #if not message.content.lower() == "catch":
-            #continue
-        #if message.author.id == member.id:
-            #...
-        #elif message.author.id == ctx.author.id:
-            #...
-
-
-#@catchthephoenix.error
-#async def ctp_error(ctx, error):
-    #if isinstance(error, commands.MissingPermissions):
-        #msg = '**You dont have the right permissions to execute this command.**'
-        #await ctx.send(msg)
-    #else:
-        #raise error
+    await ctx.send("The phoenix has been caught!")
+    while True:
+        try:
+            await asyncio.sleep(random_time)
+            await ctx.send(...)
+            message = await client.wait_for(
+                "message",
+                check=lambda m: m.author.id == ctx.author.id,
+                timeout=45.0
+            )
+        except asyncio.TimeoutError:
+            game = False
+            await ctx.send("The game has ended due to inactivity.")
+        if not message.content.lower() == "catch":
+            continue
+        if message.author.id == member.id:
+            await ctx.send(f"{member.mention} caught the phoenix!")
+        elif message.author.id == ctx.author.id:
+            ...
 
 
-#@client.command()
-#async def lcp(ctx):
-    #voice_channel = ctx.author.channel
-    #channel = None
-    #if voice_channel != None:
-        #channel = voice_channel.name
-        #vc = await voice_channel.connect()
-        #vc.play(discord.FFmpegPCMAudio(executable="C:/FFMPEG/ffmpeg.exe", source="<file directory goes here>"))
-        #await ctx.send("Connected to " + channel)
-        #while vc.is_playing():
-            #await asyncio.sleep(.1)
-        #await vc.disconnect()
-    #else:
-        #await ctx.send(str(ctx.author.name) + "is not in a channel.")
+@catchthephoenix.error
+async def ctp_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        msg = '**You dont have the right permissions to execute this command.**'
+        await ctx.send(msg)
+    else:
+        raise error
+
+
+@client.command()
+async def lcp(ctx):
+    voice_channel = ctx.author.voice.channel
+    channel = None
+    if voice_channel != None:
+        channel = voice_channel.name
+        vc = await voice_channel.connect()
+        vc.play(discord.FFmpegPCMAudio(executable="C:/FFMPEG/ffmpeg.exe", source="C:/path/to/your/audiofile.mp3"))
+        await ctx.send("Connected to " + channel)
+        while vc.is_playing():
+            await asyncio.sleep(.1)
+        await vc.disconnect()
+    else:
+        await ctx.send(str(ctx.author.name) + " is not in a channel.")
 
 # Removed Section End #
 
@@ -1914,56 +2022,6 @@ async def Sub_error(ctx, error):
 
 @client.command()
 @commands.has_permissions(administrator=True)
-async def Update(ctx):
-    await ctx.send(f'**Checking for Updates...**')
-    await asyncio.sleep(10)
-    await ctx.send(f'Latest Build: Build: **{Build}** uploaded by **{Uploader}**')
-    await asyncio.sleep(10)
-    await ctx.send(f'Next Bot Version will be released with Version **{NewVer}**')
-    await asyncio.sleep(15)
-    embed = discord.Embed(
-            color= discord.Colour.dark_green()
-        )
-    embed.add_field(name='Latest Bot Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/Discord-Moveset-Bot/releases/download/8.0/Discord-Moveset-Bot.zip )', inline=False)
-    await ctx.send(embed=embed)
-
-
-@Update.error
-async def update_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        msg = '**You dont have the right permissions to execute this command.**'
-        await ctx.send(msg)
-    else:
-        raise error
-
-
-@client.command()
-@commands.has_permissions(administrator=True)
-async def DevAlpha(ctx):
-    await ctx.send(f'**Checking for Updates...**')
-    await asyncio.sleep(15)
-    await ctx.send(f'**Latest Build found: Build: **{DevBuild}** uploaded by **{DevUpload}**')
-    await asyncio.sleep(10)
-    await ctx.send(f'Next Bot Version will be released with Version **{NDevB}**')
-    await asyncio.sleep(15)
-    embed = discord.Embed(
-            color= discord.Colour.dark_gold()
-        )
-    embed.add_field(name='Latest Development Version' ,value='[Click here to download]( https://github.com/Shinyhunter2109/DevAlphaVersion/releases/download/8.5/DevVer.zip )', inline=False)
-    await ctx.send(embed=embed)
-
-
-@DevAlpha.error
-async def devver_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        msg = '**WARNING USE THIS VERSION AT YOUR OWN RISK !.**'
-        await ctx.send(msg)
-    else:
-        raise error
-
-
-@client.command()
-@commands.has_permissions(administrator=True)
 async def PreRelease(ctx):
     await ctx.send(f'**Checking for Pre-Release Updates...**')
     await asyncio.sleep(10)
@@ -2015,12 +2073,6 @@ async def pokedex(ctx):
     await ctx.send(f'There are over 1000 Pokemon on the Pokedex!')
 
 
-#helpdict = {
- # 'command0': ['description', 'usage', 'aliases'],
-  #'command1': ['description', 'usage', 'aliases'],
-#}
-
-
 @client.command()
 async def translate(ctx, lang, *, thing):
     translator = Translator()
@@ -2040,11 +2092,18 @@ async def _8Ball(ctx, *, question):
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
 
 
-@client.command()
-@commands.has_permissions(manage_channels=True)
-async def clear(ctx, amount=100):
-    await ctx.channel.purge(limit=amount)
-    await ctx.send(f'Channel Clear Successfully done!')
+async def clear(ctx, amount: int, password: str):
+    """Deletes Messages from the .env File."""
+    if password != CLEAR_PASSWORD:
+        await ctx.send("❌ Wrong Password")
+        return
+
+    if amount <= 0 or amount > 200:
+        await ctx.send("⚠️ Please enter a number")
+        return
+
+    deleted = await ctx.channel.purge(limit=amount + 1)
+    await ctx.send(f"🧹 {len(deleted) - 1} Message(s) deleted.", delete_after=5)
 
 
 @clear.error
@@ -2054,219 +2113,6 @@ async def clear_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
-
-
-
-# Movesets PKMN # More Content Coming in Patch 8.5 #
-
-@client.command()
-async def Abomasnow(ctx):
-    await ctx.send(f'Ability: {AbomasnowAbil} Level: {AbomasnowLevel}  EVs: {Abomasnow_EVS}  Nature: {AbomasnowNat}  Moves: {AbomasnowMoves}  Item: {AbomasnowItem} IVS: {IVs}')
-    await ctx.send(f'https://www.pokewiki.de/images/f/ff/Pok%C3%A9monsprite_460_Schillernd_XY.gif')
-
-
-@client.command()
-async def Abra(ctx):
-    await ctx.send(f'Ability: Magic Guard  EVS: 236 Spa / 76 SpD / 196 Spe  Nature: Timid  Level: 5    Moves: Psychic  Dazzling Gleam  Hidden Power Fighting  Protect  Item: Focus Sash')
-    await ctx.send(f'https://www.pokewiki.de/images/3/3a/Pok%C3%A9monsprite_063_Schillernd_XY.gif')
-
-
-@client.command()
-async def Absol(ctx):
-    await ctx.send(f'Ability: Justified  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Adamant  Moves: Swords Dance  Knock Off  Sucker Punch  Superpower  Item: Life Orb')
-    await ctx.send(f'https://www.pokewiki.de/images/c/c8/Pok%C3%A9monsprite_359_Schillernd_XY.gif')
-
-
-@client.command()
-async def Accelgor(ctx):
-    await ctx.send(f'Ability: Sticky Hold  EVS: 4 Def / 252 SpA / 252 Spe  Nature: Timid  Moves: Bug Buzz  Focus Blast  Energy Ball  Spikes  Item: Choice Specs')
-    await ctx.send(f'https://www.pokewiki.de/images/9/9d/Pok%C3%A9monsprite_617_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aegislash(ctx):
-    await ctx.send(f'Ability: Stance Change  EVS: 252 HP / 252 SpA / 4 SpD  Nature: Quit  Moves: Shadow Ball  Flash Cannon  Shadow Sneak  Kings Shield  Item: Leftovers')
-    await ctx.send(f'https://www.pokewiki.de/images/6/67/Pok%C3%A9monsprite_681_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aerodactyl(ctx):
-    await ctx.send(f'Ability: Unnerve  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Stone Edge  Earthquake  Pursuit  Roost  Item: Aerodactylite')
-    await ctx.send(f'https://www.pokewiki.de/images/a/a0/Pok%C3%A9monsprite_142_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aggron(ctx):
-    await ctx.send(f'Ability: Sturdy  EVS: 252 HP / 4 Def / 252 SpD  Nature: Careful  Moves: Stealth Rock  Heavy Slam  Earthquake  Toxic  Item: Aggronite')
-    await ctx.send(f'https://www.pokewiki.de/images/7/79/Pok%C3%A9monsprite_306_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aipom(ctx):
-    await ctx.send(f'Ability: Skill Link  EVS: 76 HP / 116 Atk / 76 Def / 236 Spe  Nature: Jolly  Level: 5    Moves: Fury Swipes  Knock Off  Brick Break  Fake Out  Item: Life Orb')
-    await ctx.send(f'https://www.pokewiki.de/images/c/ce/Pok%C3%A9monsprite_190_Schillernd_XY.gif')
-
-
-@client.command()
-async def Alakazam(ctx):
-    await ctx.send(f'Ability: Magic Guard  EVS: 4 Def / 252 SpA / 252 Spe  Nature: Timid  Moves: Psychic  Focus Blast  Recover  Shadow Ball  Item: Alakazite')
-    await ctx.send(f'https://www.pokewiki.de/images/f/f2/Pok%C3%A9monsprite_065_Schillernd_XY.gif')
-
-
-@client.command()
-async def Alomomola(ctx):
-    await ctx.send(f'Ability: Regenerator  EVS: 40 HP / 252 Def / 216 SpD  Nature: Bold  Moves: Wish  Protect  Toxic  Scald  Item: Leftovers')
-    await ctx.send(f'https://www.pokewiki.de/images/2/21/Pok%C3%A9monsprite_594_Schillernd_XY.gif')
-
-
-@client.command()
-async def Altaria(ctx):
-    await ctx.send(f'Ability: Natural Cure  EVS: 72 HP / 252 Atk / 184 Spe  Nature: Adamant  Moves: Dragon Dance  Return  Refresh  Roost  Item: Altarianite')
-    await ctx.send(f'https://www.pokewiki.de/images/a/a5/Pok%C3%A9monsprite_334_Schillernd_XY.gif')
-
-
-@client.command()
-async def Amaura(ctx):
-    await ctx.send(f'Ability: Snow Warning  EVS: 60 HP / 220 SpA / 228 Spe  Nature: Modest  Level: 5    Moves: Blizzard  Earth Power  Thunderbolt  Ancient  Item: Choice Scarf')
-    await ctx.send(f'https://www.pokewiki.de/images/e/e8/Pok%C3%A9monsprite_698_Schillernd_XY.gif')
-
-
-@client.command()
-async def Ambipom(ctx):
-    await ctx.send(f'Ability: Technican  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Fake Out  Return  Low Kick  U-turn  Item: Life Orb')
-    await ctx.send(f'https://www.pokewiki.de/images/1/13/Pok%C3%A9monsprite_424_Schillernd_XY.gif')
-
-
-@client.command()
-async def Amoonguss(ctx):
-    await ctx.send(f'Ability: Regenerator  EVS: 252 HP / 176 Def / 80 SpD  Nature: Bold  Moves: Spore  Giga Drain  Hidden Power Fire  Clear Smog  Item: Rocky Helmet')
-    await ctx.send(f'https://www.pokewiki.de/images/6/64/Pok%C3%A9monsprite_591_Schillernd_XY.gif')
-
-
-@client.command()
-async def Ampharos(ctx):
-    await ctx.send(f'Ability: Static  EVS: 4 HP / 252 SpA / 252 Spe  Nature: Modest  Moves: Volt Switch  Dragon Pulse  Focus Blast  Thunderbolt  Item: Ampharosite')
-    await ctx.send(f'https://www.pokewiki.de/images/0/0a/Pok%C3%A9monsprite_181_Schillernd_XY.gif')
-
-
-@client.command()
-async def Anorith(ctx):
-    await ctx.send(f'Ability: Battle Armor  EVS: 236 Atk / 36 Def / 236 Spe  Nature: Jolly  Level: 5  Moves: Stealth Rock  Rapid Spin  Knock Off  Rock Blast  Item: Berry Juice')
-    await ctx.send(f'https://www.pokewiki.de/images/3/39/Pok%C3%A9monsprite_347_Schillernd_XY.gif')
-
-
-@client.command()
-async def Araquanid(ctx):
-    await ctx.send(f'Ability: Water Bubble  EVS: 96 HP / 220 Atk / 192 Spe  Nature: Adamant  Moves: Liquidation  Spider Web  Toxic  Rest  Item: Splash Plate')
-    await ctx.send(f'https://www.pokewiki.de/images/6/66/Pok%C3%A9monsprite_752_Schillernd_SoMo.gif')
-
-
-@client.command()
-async def Arbok(ctx):
-    await ctx.send(f'Ability: Intimidate  EVS: 252 Atk / 4 SpD / 252 Spe  Nature: Adamant  Moves: Coil  Gunk Shot  Earthquake  Sucker Punch  item: Black Sludge')
-    await ctx.send(f'https://www.pokewiki.de/images/7/78/Pok%C3%A9monsprite_024_Schillernd_XY.gif')
-
-
-@client.command()
-async def Arcanine(ctx):
-    await ctx.send(f'Ability: Flash Fire  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Flare Blitz  Wild Charge  Extreme Speed  Morning Sun  Item: Life Orb')
-    await ctx.send(f'https://www.pokewiki.de/images/7/72/Pok%C3%A9monsprite_059_Schillernd_XY.gif')
-
-
-@client.command()
-async def Arceus(ctx):
-    await ctx.send(f'Ability: Multitype  EVS: 240 HP / 252 Atk / 16 Spe  Nature: Adamant  Moves: Swords Dance  Extreme Speed  Shadow Claw  Recover  Item: Chople Berry')
-    await ctx.send(f'https://www.pokewiki.de/images/9/94/Pok%C3%A9monsprite_493_Schillernd_XY.gif')
-
-
-@client.command()
-async def Archen(ctx):
-    await ctx.send(f'Ability: Defeatist  EVS: 76 HP / 180 Atk / 196 Spe  Nature: Jolly  Level: 5  Moves: Acrobatics  Rock Slide  Heat Wave  Hidden Power Grass Item: Berry Juice')
-    await ctx.send(f'https://www.pokewiki.de/images/e/e6/Pok%C3%A9monsprite_566_Schillernd_XY.gif')
-
-
-@client.command()
-async def Archeops(ctx):
-    await ctx.send(f'Ability: Defeatist  EVS: 252 Atk / 252 Spe / 0 HP / 0 Def / 0 SpD  Nature: Naive  Moves: Head Smash  Stealth Rock  Endeavor  Taunt  Item: Focus Sash')
-    await ctx.send(f'https://www.pokewiki.de/images/e/e0/Pok%C3%A9monsprite_567_Schillernd_XY.gif')
-
-
-@client.command()
-async def Ariados(ctx):
-    await ctx.send(f'Ability: Swarm  EVS: 252 Atk / 4 Def / 252 Spe  Nature: Jolly  Moves: Sticky Web  Toxic Spikes  Megahorn  Toxic Thread  Item: Focus Sash')
-    await ctx.send(f'https://www.pokewiki.de/images/7/75/Pok%C3%A9monsprite_168_Schillernd_XY.gif')
-
-
-@client.command()
-async def Armaldo(ctx):
-    await ctx.send(f'Ability: Battle Armor  EVS: 252 HP / 92 Atk / 164 Spe  Nature: Adamant  Moves: Rapid Spin  Stone Edge  Knock Off  Earthquake  Item: Leftovers')
-    await ctx.send(f'https://www.pokewiki.de/images/7/74/Pok%C3%A9monsprite_348_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aromatisse(ctx):
-    await ctx.send(f'Ability: Aroma Veil  EVS: 248 HP / 252 SpA / 8 SpD  Nature: Quit  Moves: Trick Room  Nasty Plot  Moonblast  Psychic  Item: Fairium Z')
-    await ctx.send(f'https://www.pokewiki.de/images/a/a1/Pok%C3%A9monsprite_683_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aron(ctx):
-    await ctx.send(f'Ability: Rock Head  EVS: 196 Atk / 116 SpD / 196 Spe  Nature: Jolly  Level: 5  Moves: Rock Polish  Head Smash  Heavy Slam  Earthquake  Item: Eviolite')
-    await ctx.send(f'https://www.pokewiki.de/images/7/7a/Pok%C3%A9monsprite_304_Schillernd_XY.gif')
-
-
-@client.command()
-async def Articuno(ctx):
-    await ctx.send(f'Ability: Pressure  EVS: 252 SpA / 4 SpD / 252 Spe  Nature: Timid  Moves: Substitute  Roost  Freeze-Dry  Hurricane  Item: Leftovers')
-    await ctx.send(f'https://www.pokewiki.de/images/a/a9/Pok%C3%A9monsprite_144_Schillernd_XY.gif')
-
-
-@client.command()
-async def Audino(ctx):
-    await ctx.send(f'Ability: Regenerator  EVS: 252 HP / 4 Def / 252 SpD  Nature: Calm  Moves: Wish  Protect  Heal Bell  Knock Off  Item: Audinite')
-    await ctx.send(f'https://www.pokewiki.de/images/a/a4/Pok%C3%A9monsprite_531_Schillernd_XY.gif')
-
-
-@client.command()
-async def Aurorus(ctx):
-    await ctx.send(f'Ability: Snow Warning  EVS: 252 SpA / 4 SpD / 252 Spe  Nature: Modest  Moves: Blizzard  Freeze-Dry  Earth Power  Hidden Power Rock  Item: Choice Specs')
-    await ctx.send(f'https://www.pokewiki.de/images/0/01/Pok%C3%A9monsprite_699_Schillernd_XY.gif')
-
-
-@client.command()
-async def Avalugg(ctx):
-    await ctx.send(f'Ability: Sturdy  EVS: 252 HP / 88 Atk / 168 Def  Nature: Impish  Moves: Avalanche  Recover  Rapid Spin  Earthquake  Item: Rocky Helmet')
-    await ctx.send(f'https://www.pokewiki.de/images/a/a5/Pok%C3%A9monsprite_713_Schillernd_XY.gif')
-
-
-@client.command()
-async def Axew(ctx):
-    await ctx.send(f'Ability: Mold Breaker  EVS: 68 HP / 220 Atk / 220 Spe  Nature: Jolly  Moves: Dragon Dance  Outrage  Superpower  Iron Tail  Item: Eviolite')
-    await ctx.send(f'https://www.pokewiki.de/images/a/af/Pok%C3%A9monsprite_610_Schillernd_XY.gif')
-
-
-@client.command()
-async def Azelf(ctx):
-    await ctx.send(f'Ability: Levitate  EVS: 252 Atk / 4 SpA / 252 Spe  Nature: Jolly  Moves: Stealth Rock  Explosion  Taunt  Knock Off  Item: Focus Sash')
-    await ctx.send(f'https://www.pokewiki.de/images/c/c8/Pok%C3%A9monsprite_482_Schillernd_XY.gif')
-
-
-@client.command()
-async def Azumarill(ctx):
-    await ctx.send(f'Ability: Huge Power  EVS: 252 Atk / 4 HP / 252 Spe  Nature: Adamant  Moves: Belly Drum  Aqua Jet  Play Rough  Knock Off  Item: Sitrus Berry')
-    await ctx.send(f'https://www.pokewiki.de/images/5/59/Pok%C3%A9monsprite_184_Schillernd_XY.gif')
-
-
-@client.command()
-async def Azurill(ctx):
-    await ctx.send(f'Ability: Huge Power  EVS: 196 HP / 196 Atk / 116 Def  Nature: Brave  Level: 5  Moves: Double-Edge  Waterfall  Return  Knock Off  Item: Life Orb')
-    await ctx.send(f'https://www.pokewiki.de/images/6/63/Pok%C3%A9monsprite_298_Schillernd_XY.gif')
-
-
-@client.command()
-async def Giratina(ctx):
-    await ctx.send(f'Ability: Pressure  EVS: 248 HP / 12 SpD/ 248 Def  Nature: Impish  Level: 100  Moves: Will-O-Wisp  Rest Sleep Talk Dragon Claw  Item: Leftovers')
-    await ctx.send(f'https://www.pokewiki.de/images/a/ac/Pok%C3%A9monsprite_487_Schillernd_XY.gif')
 
 
 
