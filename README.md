@@ -116,10 +116,3 @@ Updates are not that frequently delivered due to Mac's different Versions !
 When u see that something is not working or not working correctly please open a Issue on the Repo !
 
 
-## Status Bar for this Project:
-
-
-
-
-[![CodeQL](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/codeql-analysis.yml) [![Greetings](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml/badge.svg?branch=master)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/greetings.yml)  [![Python package](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/Shinyhunter2109/Discord-Moveset-Bot/actions/workflows/python-package.yml)
-
