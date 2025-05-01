@@ -48,7 +48,7 @@
 
 - Python Version 3.11 is tested and not supported with the Program. Please refer to older versions till we have Support for this Version.
 
-- Latest Versions 3.12 & 3.13 (Pre release) have not been tested with the Program so atm no Support given means Try it out at your own risk !
+- Latest Versions 3.12 & 3.13 have been tested with the Program and there is no Support given (Bot will crash).
 
 
 ## Notes
