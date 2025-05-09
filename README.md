@@ -3,10 +3,11 @@
 ## Features:
 
 - Music Feature ✔️
+- Maintenance Mode ✔️
 - Minigames (Coinflip, Slap, 8Ball, Blackjack, Dice, Rock-Paper-Scissors) ✔️
 - Spotify Integration ✔️
 - Github Support ✔️
-- Backup Feature (Alpha) ✔️
+- Auto-Restart Feature ✔️
 - List Feature ✔️
 - Wondertrade/Linktrade Countdown ✔️
 - Auto-Role/Command Creating Feature ✔️
@@ -26,19 +27,15 @@
 
 - Download the latest Version of the Program and extract it to the Desktop
 
-- After extracting the Program to your Desktop, go to the "Getting Started" Folder
+- After extracting the Program to your Desktop, go to the "Installer" Folder
 
-- Run the start.bat File [It will install all the needed Requirements] [Works aswell on Linux & MacOS]
+- Run the install.bat File [It will install all the needed Requirements] [Works aswell on Linux & MacOS]
 
-- After that download & Install Visual Studio Code from here: https://code.visualstudio.com/
-
-- (Optional) Download & install the FFmpeg from their Official Website. [ONLY NEEDED if you want to play music on your Server]
-
-- Open the Discord-Bot.py in Visual Studio Code
+- - After that open and enter your Bot Credentials from the next Step into the .env File.
 
 - Fill in your Discord Bot Token you can get it from here: [https://discordapp.com/developers]
 
-- Edit the Token and the User Role and any other Information that is needed in the File and save it and overwrite the existing File.
+- (Optional) Download & install the FFmpeg from their Official Website. [ONLY NEEDED if you want to play music on your Server]
 
 - If you done everything correctly you should see a Connection Message in the Console when u start the Program!
 
