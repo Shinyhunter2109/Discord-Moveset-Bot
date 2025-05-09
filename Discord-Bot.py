@@ -4,33 +4,42 @@ import asyncio
 import json
 import re
 import aiofiles
-import io
-import zipfile
 import secrets
+import praw
 import async_timeout
-import threading
 import warnings
+import zipfile
 import logging
 import sys
+import io
+import subprocess
 import time
-import requests
-import re
 import math
 import keyword
 import calendar
+import shutil
+import requests
 import venv
+import aiohttp
+import json
 import webbrowser
 import typing
 import traceback
 import youtube_dl
 import os
-import requests
-import praw
-import interactions
+from discord import interactions
+from discord import Member
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from discord import Activity, ActivityType
+from discord.ui import View, Button
+from PIL import Image, ImageOps
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 from googletrans import Translator
-from discord.embeds import Embed
 from discord.ext.commands import BadArgument
+from discord.embeds import Embed
 from discord.ext.commands.cooldowns import BucketType
 from discord.ext.commands import has_permissions, MissingPermissions
 from github import Github
@@ -44,31 +53,29 @@ from discord import StageChannel
 from discord import Webhook
 from discord import Intents
 from discord import Streaming
+from bs4 import BeautifulSoup
 from youtube_dl import YoutubeDL
 from subprocess import run
 from dataclasses import dataclass
 from os import name, system
-from dotenv import load_dotenv
+from discord import Spotify
 from discord import Status
 from itertools import cycle
 from datetime import date
-from discord_slash import SlashCommand, SlashContext
-from discord_slash.context import MenuContext
-from discord_slash.model import ContextMenuType
-from discord_slash.model import SlashCommandOptionType
-from discord_slash.model import ChoiceData
-from discord_slash.utils.manage_components import create_select, create_select_option, create_actionrow, create_button
-from discord_slash.model import ButtonStyle
+import requests
+import threading
 
 
-
-TOKEN = 'INSERT YOUR TOKEN HERE...' #   <---- Your Bot Token goes here ! #
-if not TOKEN:
-    raise ValueError("❌ No Bot Token found!")
 
 load_dotenv()
 CLEAR_PASSWORD = os.getenv("CLEAR_PASSWORD")
 BAN_PASSWORD = os.getenv("BAN_PASSWORD")
+ROLE = os.getenv("ROLE_NAME", "Member")
+
+TOKEN = os.getenv("DISCORD_TOKEN")
+if not TOKEN:
+    raise ValueError("❌ No Bot Token found!")
+
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -81,9 +88,8 @@ intents.presences = True
 intents.members = True
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 client.launch_time = datetime.utcnow()
-guild_ids = [0000000000000] #  <-------  Your Guild ID goes here (multiple guilds possible) #
+guild_ids = list(map(int, os.getenv("GUILD_IDS", "").split(",")))
 client.warnings = {} # guild_id : {member_id: [count, [(admin_id, reason)]]}
-slash = SlashCommand(client, sync_commands=True)
 client.remove_command('help')
 status = cycle([
     discord.Game("Community Party 🎉"),
@@ -95,23 +101,27 @@ status = cycle([
 async def change_status():
     await client.change_presence(activity=next(status))
 
-ROLE = 'Member' # Standard Role can be edited if needed ! #
+
+async def set_maintenance_presence():
+    await client.change_presence(activity=discord.Game("⚙️ Under Maintenance"))
+
 
 def setprefix():
     with open("prefix.txt") as f: #  (optional)
         return "\n".join(f.readlines())
     
-
+console = Console()
 
 
 @client.event
 async def on_ready():
+    load_maintenance_status()
     check_giveaways.start()
     for guild in client.guilds:
         client.warnings[guild.id] = {}
-        
-    async with aiofiles.open(f"{guild.id}.txt", mode="a") as temp:
-        pass
+
+        async with aiofiles.open(f"{guild.id}.txt", mode="a") as temp:
+            pass
 
         async with aiofiles.open(f"{guild.id}.txt", mode="r") as file:
             lines = await file.readlines()
@@ -125,18 +135,24 @@ async def on_ready():
                 try:
                     client.warnings[guild.id][member_id][0] += 1
                     client.warnings[guild.id][member_id][1].append((admin_id, reason))
-
                 except KeyError:
                     client.warnings[guild.id][member_id] = [1, [(admin_id, reason)]]
-    prefix = setprefix()
-    change_status.start()
+
+    if maintenance_mode:
+        await set_maintenance_presence()
+    else:
+        change_status.start()
+
     print('Welcome back: ' + client.user.name + '\n')
-    print(f'This Program is designed for {OS11} {MCOS} & {Linux_OS}')
-    print(f'Bot Version: {__version__}')
-    print(f'Build Version: {Build_Ver_OS}')
+    print(f'{__cv__}')
+    print(f'Current Version: {__version__}')
+    print(f'Copyright : {__copyright__}')
+    print(f"Maintenance mode: {'ON' if maintenance_mode else 'OFF'}")
 
 
-__version__ = "8.1.2" # Current Version of the Program #
+__version__ = "8.2.0" # Current Version of the Program #
+__copyright__ = "Copyright (c) 2025 Shinyhunter.TV"
+__cv__ = "Client Version"
 
 
 def check_for_update():
@@ -294,18 +310,24 @@ RV = RV = OBV
 
 
 class JoinDistance:
-    def __init__(self, joined, created):
+    def __init__(self, joined: datetime, created: datetime):
         self.joined = joined
         self.created = created
 
     @classmethod
-    async def convert(cls, ctx, argument):
-        member = await commands.MemberConverter().convert(ctx, argument)
+    async def convert(cls, ctx: commands.Context, argument: str) -> "JoinDistance":
+        member: Member = await commands.MemberConverter().convert(ctx, argument)
+        if member.joined_at is None or member.created_at is None:
+            raise commands.BadArgument("Member has no join or creation date.")
         return cls(member.joined_at, member.created_at)
 
     @property
     def delta(self):
         return self.joined - self.created
+
+    def __str__(self):
+        days = self.delta.days
+        return f"{days} days ago"
 
 
 @client.command()
@@ -368,6 +390,88 @@ async def server_icon():
         await server1.edit(icon=icon)
         print("Server Icon changed.")
         await asyncio.sleep(90)
+
+
+maintenance_mode = False
+maintenance_start_time = None
+
+def load_maintenance_status():
+    global maintenance_mode, maintenance_start_time
+    try:
+        with open("maintenance_status.json", "r") as f:
+            data = json.load(f)
+            maintenance_mode = data.get("maintenance_mode", False)
+            if maintenance_mode and data.get("maintenance_start_time"):
+                maintenance_start_time = datetime.fromisoformat(data["maintenance_start_time"])
+    except FileNotFoundError:
+        
+        pass
+
+
+def save_maintenance_status():
+    global maintenance_mode, maintenance_start_time
+    data = {
+        "maintenance_mode": maintenance_mode,
+        "maintenance_start_time": maintenance_start_time.isoformat() if maintenance_start_time else None
+    }
+    with open("maintenance_status.json", "w") as f:
+        json.dump(data, f)
+
+
+
+@client.command()
+async def maintenance(ctx, status: str):
+    global maintenance_mode, maintenance_start_time
+
+    if ctx.author.id != 247419258189905921:
+        await ctx.send("**You do not have permission to use this command.**")
+        return
+
+    if status.lower() == "on":
+        maintenance_mode = True
+        maintenance_start_time = datetime.now()
+        save_maintenance_status()
+
+        change_status.stop()
+        await set_maintenance_presence()
+
+        channel = discord.utils.get(ctx.guild.text_channels, name="announcements")
+        if channel:
+            await channel.send("**Bot is now under maintenance. Please be patient.**")
+        await ctx.send("**Maintenance mode is now ON.**")
+
+    elif status.lower() == "off":
+        if maintenance_mode:
+            maintenance_mode = False
+
+            if maintenance_start_time:
+                duration = datetime.now() - maintenance_start_time
+                hours = duration.seconds // 3600
+                minutes = (duration.seconds // 60) % 60
+                seconds = duration.seconds % 60
+                await ctx.send(f"**Maintenance mode was active for {hours}h {minutes}m {seconds}s.**")
+                maintenance_start_time = None
+
+            save_maintenance_status()
+            change_status.start()
+
+            file_path = r"C:\Users\User\Documents\Discord-Moveset-Bot\changelog.txt"
+
+            try:
+                with open(file_path, "r") as file:
+                    changelog_content = file.read()
+            except FileNotFoundError:
+                changelog_content = "**No changelog available.**"
+
+            channel = discord.utils.get(ctx.guild.text_channels, name="announcements")
+            if channel:
+                await channel.send("**Bot is back online. Maintenance is over.**")
+                await channel.send(f"**Changelog for maintenance:**\n{changelog_content}")
+            await ctx.send("**Maintenance mode is now OFF.**")
+        else:
+            await ctx.send("**Maintenance mode is not active.**")
+    else:
+        await ctx.send("**Usage: !maintenance <on/off>**")
 
 
 @client.command()
@@ -2113,53 +2217,15 @@ async def clear_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
+    
 
+@client.command()
+@commands.is_owner()
+async def restart(ctx):
+    await ctx.send("🔁 Bot will be restarted shortly...")
+    await client.close()
+    os.execv(sys.executable, ['python'] + sys.argv)
 
-
-# Movesets PKMN End #
-
-
-# Slash Commands #
-
-# Please note this will only work with Version 3.0.3 #
-
-@slash.slash(name="ping", guild_ids=guild_ids)
-async def _ping(ctx):
-    await ctx.send("Pong!")
-
-
-@slash.slash(name="slash", guild_ids=guild_ids)
-async def _slash(ctx):
-    await ctx.send("**Slash Commands are now officially Supported!**")
-
-
-@slash.slash(name="emotes", guild_ids=guild_ids)
-async def _emotes(ctx):
-    await ctx.send("**We now have some new cool Emotes from my Twitch Channel | Check it out !**")
-
-
-@slash.slash(name="subicons", guild_ids=guild_ids)
-async def _subicons(ctx):
-    await ctx.send("**We now have some new cool Subicons on my Twitch Channel | Check it out if u want !**")
-
-
-@slash.slash(name="pokedex", guild_ids=guild_ids)
-async def _pokedex(ctx):
-    await ctx.send(f'**There are over 800 Pokemon on the Pokédex !**')
-    await asyncio.sleep(5)
-    await ctx.send(f'**You can search for any Pokémon by typing /Pokemon [Pokémonname] | When  Bot is Online you will get the Results if not wait till its back Online**')
-
-
-@slash.slash(name="tbi", guild_ids=guild_ids)
-async def _tradebotinfo(ctx):
-    await ctx.send('**The Link-Trade-Bot is exclusive on my Discord and Twitch Channel | If you want to use it leave a Follow on Twitch and Join on the Discord Server to get Permissions**')
-    await asyncio.sleep(5)
-    await ctx.send('**The Trading Bot on Twitch wont be able to handle Custom Requests**')
-
-
-@slash.slash(name="version", guild_ids=guild_ids)
-async def _version(ctx):
-    await ctx.send(f'The Latest Version is: **{Version}**')
 
 
 # Client Event Section #
@@ -2293,15 +2359,106 @@ async def on_error(event, *args, kwargs):
     print ('an error has occurred..!')
 
 
+
+WELCOME_CHANNEL_ID = int(os.getenv("WELCOME_CHANNEL_ID"))
+
 @client.event
 async def on_member_join(member):
+    embed = discord.Embed(
+        colour=0x1abc9c, 
+        description=f"Welcome {member.name} to {member.guild.name}!"
+    )
+    embed.set_thumbnail(url=member.avatar.url)
+    embed.set_author(name=member.name, icon_url=member.avatar.url)
+    embed.timestamp = datetime.utcnow()
+
+    channel = member.guild.get_channel(WELCOME_CHANNEL_ID)
+    if channel:
+        await channel.send(embed=embed)
+
     role = get(member.guild.roles, name=ROLE)
-    await member.add_roles(role)
+    if role:
+        await member.add_roles(role)
+
     print(f'{member} was given {role}')
+    print(f'New Cool Member arrived in a nice Environment')
 
 
 @client.event
 async def on_member_remove(member):
     print(f'{member} has left the server.')
 
-client.run(TOKEN)
+def terminal_update_assets_bar(total_steps):
+    for i in range(total_steps + 1):
+        percent = (i / total_steps) * 100
+        bar = '█' * i + '-' * (total_steps - i)
+        sys.stdout.write(f"\r🔄 Updating Assets: |{bar}| {percent:.0f}%")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("\n✅ Assets updated.")
+
+
+def terminal_version_check_bar(total_steps):
+    for i in range(total_steps + 1):
+        percent = (i / total_steps) * 100
+        bar = '█' * i + '-' * (total_steps - i)
+        sys.stdout.write(f"\r🔄 checking current version: |{bar}| {percent:.0f}%")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("\n✅ Version check complete.")
+
+
+def terminal_connection_bar(total_steps):
+    for i in range(total_steps + 1):
+        percent = (i / total_steps) * 100
+        bar = '█' * i + '-' * (total_steps - i)
+        sys.stdout.write(f"\r🔄 Initialize Connection: |{bar}| {percent:.0f}%")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("\n✅ Connection established.")
+
+
+def terminal_progress_bar(total_steps):
+    for i in range(total_steps + 1):
+        percent = (i / total_steps) * 100
+        bar = '█' * i + '-' * (total_steps - i)
+        sys.stdout.write(f"\r🔄 Loading Modules: |{bar}| {percent:.0f}%")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("\n✅ Bot is ready.")
+
+
+def terminal_messages_bar(total_steps):
+    for i in range(total_steps + 1):
+        percent = (i / total_steps) * 100
+        bar = '█' * i + '-' * (total_steps - i)
+        sys.stdout.write(f"\r🔄 Collecting Messages: |{bar}| {percent:.0f}%")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("\n✅ Messages collected.")
+
+
+def terminal_news_bar(total_steps):
+    for i in range(total_steps + 1):
+        percent = (i / total_steps) * 100
+        bar = '█' * i + '-' * (total_steps - i)
+        sys.stdout.write(f"\r🔄 Collecting News Pages: |{bar}| {percent:.0f}%")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("\n✅ Search complete.")
+
+
+terminal_messages_bar(50)
+terminal_version_check_bar(50)
+terminal_update_assets_bar(50)
+terminal_news_bar(50)
+terminal_progress_bar(50)
+terminal_connection_bar(50)
+
+if __name__ == "__main__":
+    try:
+        client.run(TOKEN)
+    except Exception as e:
+        print(f"⚠️ Error occoured: {e}. Restart in 5 Seconds...")
+        time.sleep(5)
+        os.execv(sys.executable, ['python'] + sys.argv)
