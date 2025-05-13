@@ -75,12 +75,6 @@
 | 3.9     | :white_check_mark: |
 
 
-|DevAlpha | Supported / tested |
-| ------- | ------------------ |
-| 8.5.2   | :white_check_mark: |
-| 8.1.0   | :x:                |
-
-
 | Windows | Supported / tested |
 | ------- | ------------------ |
 | Win 11  | :white_check_mark: |
