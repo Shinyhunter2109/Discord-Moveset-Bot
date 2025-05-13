@@ -1942,6 +1942,7 @@ hug_names = ['Hugs you!']
 
 @client.command()
 async def hug(ctx):
+    raise commands.DisabledCommand("This Command has been disabled.")
     embed = discord.Embed (
         colour=(discord.Colour.red()),
         description = f"{ctx.author.mention} {(random.choice(hug_names))}"
@@ -1997,6 +1998,7 @@ async def prime_error(ctx, error):
 @client.command()
 @commands.cooldown(1, 1000, commands.BucketType.user)
 async def timer(ctx):
+    raise commands.DisabledCommand("This Command has been disabled.")
     await ctx.send(f'Starting Countdown in less than 10 seconds')
     await asyncio.sleep(10)
     await ctx.send(f'Starting Countdown now...')
@@ -2108,6 +2110,7 @@ async def rps_error(ctx, error):
 @client.command()
 @commands.cooldown(1, 120, commands.BucketType.user)
 async def Sub(ctx):
+    raise commands.DisabledCommand("This Command has been disabled.")
     embed = discord.Embed(
             color= discord.Colour.dark_magenta()
         )
@@ -2127,6 +2130,7 @@ async def Sub_error(ctx, error):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def PreRelease(ctx):
+    raise commands.DisabledCommand("This Command has been disabled.")
     await ctx.send(f'**Checking for Pre-Release Updates...**')
     await asyncio.sleep(10)
     await ctx.send(f'**Pre Release Version found: Build: **{PR}** uploaded by **{PRUploader}**')
