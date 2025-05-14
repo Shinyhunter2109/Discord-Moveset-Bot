@@ -61,9 +61,9 @@
 
 | Version | Supported / Updates|
 | ------- | ------------------ |
-| 8.2.x   | :white_check_mark: |
+| 8.2     | :white_check_mark: |
+| 8.1     | :x:                |
 | 8.0     | :x:                |
-| 7.6     | :x:                |
 
 
 | Python  | Supported / tested |
