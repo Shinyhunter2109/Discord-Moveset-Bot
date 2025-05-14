@@ -71,6 +71,9 @@ load_dotenv()
 CLEAR_PASSWORD = os.getenv("CLEAR_PASSWORD")
 BAN_PASSWORD = os.getenv("BAN_PASSWORD")
 ROLE = os.getenv("ROLE_NAME", "Member")
+KICK_PASSWORD = os.getenv("KICK_PASSWORD")
+OFFLINE_PASSWORD = os.getenv("OFFLINE_PASSWORD")
+
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 if not TOKEN:
