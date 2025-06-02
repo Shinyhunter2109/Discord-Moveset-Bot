@@ -153,7 +153,7 @@ async def on_ready():
     print(f"Maintenance mode: {'ON' if maintenance_mode else 'OFF'}")
 
 
-__version__ = "8.2.0" # Current Version of the Program #
+__version__ = "8.2.1" # Current Version of the Program #
 __copyright__ = "Copyright (c) 2025 Shinyhunter.TV"
 __cv__ = "Client Version"
 
